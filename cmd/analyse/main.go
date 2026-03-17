@@ -13,6 +13,8 @@ import (
 func main() {
 	input := flag.String("input", "data/dm1.json", "Fichier JSON du classement")
 	calendrier := flag.String("calendrier", "data/calendrier.json", "Fichier JSON du calendrier")
+	top := flag.Int("top", 1, "Nombre de places hautes à cibler (ex: 2 = top 2 promotion)")
+	bottom := flag.Int("bottom", 0, "Nombre de places basses à cibler (ex: 2 = relégation)")
 	flag.Parse()
 
 	c, err := standings.Load(*input)
@@ -47,18 +49,46 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("\n--- Projections championnat (%dM simulations, départage : confrontation directe puis différentiel) ---\n\n",
-		standings.NSimulations/1_000_000)
+	// Construction des positions cibles
+	n := len(c.Teams)
+	var targetPositions []int
+	if *bottom > 0 {
+		for i := n - *bottom + 1; i <= n; i++ {
+			targetPositions = append(targetPositions, i)
+		}
+	} else {
+		for i := 1; i <= *top; i++ {
+			targetPositions = append(targetPositions, i)
+		}
+	}
 
-	projections := standings.SimulateChampionship(c.Teams, cal.AllMatches())
+	var scenLabel string
+	switch {
+	case *bottom > 0:
+		scenLabel = fmt.Sprintf("Scénarios relégation (bottom %d)", *bottom)
+	case *top == 1:
+		scenLabel = "Scénarios 1er place"
+	default:
+		scenLabel = fmt.Sprintf("Scénarios top %d", *top)
+	}
 
-	fmt.Printf("  %-50s  %3s  %3s  %-38s  %s\n", "Équipe", "Pts", "Max", "Scénarios 1er place", "%")
+	fmt.Printf("\n--- Projections (%s, %dM simulations, départage : confrontation directe puis différentiel) ---\n\n",
+		scenLabel, standings.NSimulations/1_000_000)
+
+	projections := standings.SimulateChampionship(c.Teams, cal.AllMatches(), targetPositions)
+
+	fmt.Printf("  %-50s  %3s  %3s  %-38s  %s\n", "Équipe", "Pts", "Max", scenLabel, "%")
 	fmt.Printf("  %s\n", repeatStr("-", 107))
 
 	for _, p := range projections {
-		scenStr := formatCount(p.EstimatedScenarios) + " / " + formatCount(p.TotalScenarios)
+		var scenStr string
+		if p.TotalScenarios < 0 {
+			scenStr = "(trop de scénarios à dénombrer)"
+		} else {
+			scenStr = formatCount(p.EstimatedScenarios) + " / " + formatCount(p.TotalScenarios)
+		}
 		suffix := ""
-		if p.EstimatedScenarios == 0 {
+		if p.WinPct == 0 {
 			suffix = "  éliminé"
 		}
 		fmt.Printf("  %-50s  %3d  %3d  %-38s  %5.1f%%%s\n",

@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"regexp"
 	"runtime"
+	"slices"
 	"sync"
 )
 
@@ -19,13 +20,13 @@ func normalizeTeamName(name string) string {
 	return teamSuffixRe.ReplaceAllString(name, "")
 }
 
-// ProjectionResult contient la projection championnat pour une équipe.
+// ProjectionResult contient la projection pour une équipe selon les positions cibles.
 type ProjectionResult struct {
 	Team               Team
 	MaxPts             int
-	EstimatedScenarios int64   // estimé par Monte Carlo × 2^N
-	TotalScenarios     int64   // 2^N (N = matchs restants)
-	WinPct             float64 // pourcentage de scénarios gagnants
+	EstimatedScenarios int64   // estimé par Monte Carlo × 2^N (-1 si 2^N dépasse int64)
+	TotalScenarios     int64   // 2^N (-1 si overflow)
+	WinPct             float64 // pourcentage de scénarios dans les positions cibles
 }
 
 // simTeam est l'état mutable d'une équipe pendant une simulation.
@@ -39,8 +40,8 @@ type simTeam struct {
 // homeWinScores[0] = score domicile, homeWinScores[1] = score visiteur si domicile gagne.
 // awayWinScores[0] = score domicile, awayWinScores[1] = score visiteur si visiteur gagne.
 type pendingMatch struct {
-	homeIdx      int
-	awayIdx      int
+	homeIdx       int
+	awayIdx       int
 	homeWinScores [2]int
 	awayWinScores [2]int
 }
@@ -101,9 +102,17 @@ func buildPendingMatch(homeIdx, awayIdx int, home, away Team) pendingMatch {
 }
 
 // SimulateChampionship lance NSimulations simulations Monte Carlo et retourne
-// la projection championnat pour chaque équipe du classement.
-func SimulateChampionship(teams []Team, allMatches []Match) []ProjectionResult {
+// la projection pour chaque équipe selon les positions cibles (1-indexé, ex. [1] ou [1,2] ou [11,12]).
+func SimulateChampionship(teams []Team, allMatches []Match, targetPositions []int) []ProjectionResult {
 	n := len(teams)
+
+	// Lookup rapide des positions cibles
+	var posSet [13]bool
+	for _, p := range targetPositions {
+		if p >= 1 && p <= 12 {
+			posSet[p] = true
+		}
+	}
 
 	// Index nom normalisé → indice équipe
 	nameIdx := make(map[string]int, n)
@@ -149,7 +158,13 @@ func SimulateChampionship(teams []Team, allMatches []Match) []ProjectionResult {
 		pending = append(pending, buildPendingMatch(hi, ai, teams[hi], teams[ai]))
 	}
 
-	totalScenarios := int64(1) << len(pending) // 2^N
+	// 2^N — guard anti-overflow (int64 max ~= 2^63)
+	var totalScenarios int64
+	if len(pending) < 63 {
+		totalScenarios = int64(1) << len(pending)
+	} else {
+		totalScenarios = -1
+	}
 
 	// Points maximum atteignables par équipe
 	maxPts := make([]int, n)
@@ -201,8 +216,12 @@ func SimulateChampionship(teams []Team, allMatches []Match) []ProjectionResult {
 					}
 				}
 
-				winner := findChampion(states, h2hPlayed, simH2H, n)
-				local[winner]++
+				ranks := rankTeams(states, h2hPlayed, simH2H, n)
+				for i := range n {
+					if posSet[ranks[i]] {
+						local[i]++
+					}
+				}
 			}
 
 			mu.Lock()
@@ -218,7 +237,12 @@ func SimulateChampionship(teams []Team, allMatches []Match) []ProjectionResult {
 	results := make([]ProjectionResult, n)
 	for i, t := range teams {
 		winPct := float64(winCounts[i]) / float64(NSimulations)
-		estimated := int64(math.Round(winPct * float64(totalScenarios)))
+		var estimated int64
+		if totalScenarios > 0 {
+			estimated = int64(math.Round(winPct * float64(totalScenarios)))
+		} else {
+			estimated = -1
+		}
 		results[i] = ProjectionResult{
 			Team:               t,
 			MaxPts:             maxPts[i],
@@ -230,66 +254,65 @@ func SimulateChampionship(teams []Team, allMatches []Match) []ProjectionResult {
 	return results
 }
 
-// findChampion détermine le vainqueur d'une simulation avec les règles de départage :
-// 1. Points totaux  2. Confrontation directe  3. Différentiel (BP - BC)
-func findChampion(states [12]simTeam, played, sim [12][12]int, n int) int {
-	// Maximum de points
-	maxPts := 0
+// rankTeams calcule le classement final (1 = premier) pour chaque équipe,
+// en appliquant les règles de départage : confrontation directe puis différentiel.
+func rankTeams(states [12]simTeam, played, sim [12][12]int, n int) [12]int {
+	var ranks [12]int
+	remaining := make([]int, n)
 	for i := range n {
-		if states[i].pts > maxPts {
-			maxPts = states[i].pts
-		}
+		remaining[i] = i
 	}
 
-	// Équipes à égalité
-	var tied [12]int
-	tiedN := 0
-	for i := range n {
-		if states[i].pts == maxPts {
-			tied[tiedN] = i
-			tiedN++
-		}
-	}
-	if tiedN == 1 {
-		return tied[0]
-	}
-
-	// Départage 1 : confrontation directe parmi les équipes à égalité
-	bestH2H := -1
-	var leaders [12]int
-	leadN := 0
-	for ti := range tiedN {
-		i := tied[ti]
-		h2hPts := 0
-		for tj := range tiedN {
-			j := tied[tj]
-			if i != j {
-				h2hPts += played[i][j] + sim[i][j]
+	rankFrom := 1
+	for len(remaining) > 0 {
+		// Maximum de points parmi les équipes restantes
+		maxPts := states[remaining[0]].pts
+		for _, i := range remaining[1:] {
+			if states[i].pts > maxPts {
+				maxPts = states[i].pts
 			}
 		}
-		if h2hPts > bestH2H {
-			bestH2H = h2hPts
-			leaders[0] = i
-			leadN = 1
-		} else if h2hPts == bestH2H {
-			leaders[leadN] = i
-			leadN++
-		}
-	}
-	if leadN == 1 {
-		return leaders[0]
-	}
 
-	// Départage 2 : différentiel global (BP - BC)
-	bestDiff := states[leaders[0]].bp - states[leaders[0]].bc
-	champion := leaders[0]
-	for li := 1; li < leadN; li++ {
-		i := leaders[li]
-		diff := states[i].bp - states[i].bc
-		if diff > bestDiff {
-			bestDiff = diff
-			champion = i
+		// Séparer le groupe à égalité du reste
+		var tied, rest []int
+		for _, i := range remaining {
+			if states[i].pts == maxPts {
+				tied = append(tied, i)
+			} else {
+				rest = append(rest, i)
+			}
+		}
+
+		// Trier le groupe à égalité par les règles de départage
+		sortTiedGroup(tied, states, played, sim)
+		for j, i := range tied {
+			ranks[i] = rankFrom + j
+		}
+		rankFrom += len(tied)
+		remaining = rest
+	}
+	return ranks
+}
+
+// sortTiedGroup trie en place un groupe d'équipes à égalité de points :
+// 1. Confrontation directe parmi le groupe (desc)  2. Différentiel global BP-BC (desc)
+func sortTiedGroup(group []int, states [12]simTeam, played, sim [12][12]int) {
+	if len(group) <= 1 {
+		return
+	}
+	// Pré-calculer les points H2H de chaque équipe dans le groupe (indexé par team index)
+	var h2h [12]int
+	for _, i := range group {
+		for _, j := range group {
+			if i != j {
+				h2h[i] += played[i][j] + sim[i][j]
+			}
 		}
 	}
-	return champion
+	slices.SortStableFunc(group, func(a, b int) int {
+		if h2h[a] != h2h[b] {
+			return h2h[b] - h2h[a] // plus de pts H2H = mieux classé
+		}
+		return (states[b].bp - states[b].bc) - (states[a].bp - states[a].bc)
+	})
 }
