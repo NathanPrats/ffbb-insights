@@ -12,6 +12,10 @@ import (
 // NSimulations est le nombre de simulations Monte Carlo.
 const NSimulations = 10_000_000
 
+// MaxTeams est la taille maximale des tableaux de simulation.
+// Couvre toutes les compétitions FFBB (les poules dépassent rarement 20 équipes).
+const MaxTeams = 20
+
 var teamSuffixRe = regexp.MustCompile(` - \d+$`)
 
 // normalizeTeamName supprime le suffixe " - N" présent dans le classement
@@ -107,9 +111,9 @@ func SimulateChampionship(teams []Team, allMatches []Match, targetPositions []in
 	n := len(teams)
 
 	// Lookup rapide des positions cibles
-	var posSet [13]bool
+	var posSet [MaxTeams + 1]bool
 	for _, p := range targetPositions {
-		if p >= 1 && p <= 12 {
+		if p >= 1 && p <= MaxTeams {
 			posSet[p] = true
 		}
 	}
@@ -121,13 +125,13 @@ func SimulateChampionship(teams []Team, allMatches []Match, targetPositions []in
 	}
 
 	// États de base
-	var baseStates [12]simTeam
+	var baseStates [MaxTeams]simTeam
 	for i, t := range teams {
 		baseStates[i] = simTeam{pts: t.Pts, bp: t.BP, bc: t.BC}
 	}
 
 	// H2H des matchs déjà joués : h2hPlayed[i][j] = pts gagnés par i dans ses matchs vs j
-	var h2hPlayed [12][12]int
+	var h2hPlayed [MaxTeams][MaxTeams]int
 	for _, m := range allMatches {
 		if !m.Joue || m.ScoreDom == nil || m.ScoreVis == nil {
 			continue
@@ -192,7 +196,7 @@ func SimulateChampionship(teams []Team, allMatches []Match, targetPositions []in
 
 			for range simsPerWorker {
 				states := baseStates
-				var simH2H [12][12]int
+				var simH2H [MaxTeams][MaxTeams]int
 
 				for _, m := range pending {
 					if rng.Intn(2) == 0 {
@@ -256,8 +260,8 @@ func SimulateChampionship(teams []Team, allMatches []Match, targetPositions []in
 
 // rankTeams calcule le classement final (1 = premier) pour chaque équipe,
 // en appliquant les règles de départage : confrontation directe puis différentiel.
-func rankTeams(states [12]simTeam, played, sim [12][12]int, n int) [12]int {
-	var ranks [12]int
+func rankTeams(states [MaxTeams]simTeam, played, sim [MaxTeams][MaxTeams]int, n int) [MaxTeams]int {
+	var ranks [MaxTeams]int
 	remaining := make([]int, n)
 	for i := range n {
 		remaining[i] = i
@@ -296,12 +300,12 @@ func rankTeams(states [12]simTeam, played, sim [12][12]int, n int) [12]int {
 
 // sortTiedGroup trie en place un groupe d'équipes à égalité de points :
 // 1. Confrontation directe parmi le groupe (desc)  2. Différentiel global BP-BC (desc)
-func sortTiedGroup(group []int, states [12]simTeam, played, sim [12][12]int) {
+func sortTiedGroup(group []int, states [MaxTeams]simTeam, played, sim [MaxTeams][MaxTeams]int) {
 	if len(group) <= 1 {
 		return
 	}
 	// Pré-calculer les points H2H de chaque équipe dans le groupe (indexé par team index)
-	var h2h [12]int
+	var h2h [MaxTeams]int
 	for _, i := range group {
 		for _, j := range group {
 			if i != j {

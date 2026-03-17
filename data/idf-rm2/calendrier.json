@@ -1,0 +1,1288 @@
+{
+  "phase": "200000002872433",
+  "poule": "200000003017522",
+  "scraped_at": "2026-03-17",
+  "journees": [
+    {
+      "date": "2025-09-20",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 73,
+          "score_vis": 57,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "BC ERMONT",
+          "score_dom": 85,
+          "score_vis": 75,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 72,
+          "score_vis": 64,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-21",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 80,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 62,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 77,
+          "score_vis": 45,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-27",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 72,
+          "score_vis": 63,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 55,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 52,
+          "score_vis": 59,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-28",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 73,
+          "score_vis": 77,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 85,
+          "score_vis": 68,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 76,
+          "score_vis": 84,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-04",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 64,
+          "score_vis": 88,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "BC ERMONT",
+          "score_dom": 77,
+          "score_vis": 55,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 63,
+          "score_vis": 64,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-05",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 68,
+          "score_vis": 75,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 54,
+          "score_vis": 47,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 83,
+          "score_vis": 64,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-11",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 74,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 67,
+          "score_vis": 82,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 70,
+          "score_vis": 57,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-12",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 73,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 67,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 69,
+          "score_vis": 79,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-08",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 96,
+          "score_vis": 86,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 89,
+          "score_vis": 79,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 70,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 68,
+          "score_vis": 60,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-09",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 70,
+          "score_vis": 77,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "BC ERMONT",
+          "score_dom": 68,
+          "score_vis": 59,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-15",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 62,
+          "score_vis": 84,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 71,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 65,
+          "score_vis": 88,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 78,
+          "score_vis": 88,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-16",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 65,
+          "score_vis": 51,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 80,
+          "score_vis": 78,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-22",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 75,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 50,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 62,
+          "score_vis": 69,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-23",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 57,
+          "score_vis": 68,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 91,
+          "score_vis": 94,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 70,
+          "score_vis": 79,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-29",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 57,
+          "score_vis": 50,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 103,
+          "score_vis": 88,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 99,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-30",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 72,
+          "score_vis": 93,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 47,
+          "score_vis": 56,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "BC ERMONT",
+          "score_dom": 83,
+          "score_vis": 77,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-06",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 82,
+          "score_vis": 65,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 96,
+          "score_vis": 102,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 59,
+          "score_vis": 81,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 74,
+          "score_vis": 68,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-07",
+      "matchs": [
+        {
+          "heure": "16:00",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 58,
+          "score_vis": 62,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 62,
+          "score_vis": 63,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-13",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 90,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 69,
+          "score_vis": 56,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "BC ERMONT",
+          "score_dom": 83,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-14",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 80,
+          "score_vis": 63,
+          "joue": true
+        },
+        {
+          "heure": "13:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 94,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 66,
+          "score_vis": 74,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-17",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 77,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 72,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 62,
+          "score_vis": 68,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 39,
+          "score_vis": 67,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-18",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 71,
+          "score_vis": 85,
+          "joue": true
+        },
+        {
+          "heure": "16:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 104,
+          "score_vis": 102,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-24",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 66,
+          "score_vis": 65,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 86,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 84,
+          "score_vis": 70,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-25",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 78,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 63,
+          "score_vis": 75,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-31",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 85,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 91,
+          "score_vis": 79,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 66,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 69,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "16:00",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "BC ERMONT",
+          "score_dom": 64,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 71,
+          "score_vis": 74,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-07",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 79,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 85,
+          "score_vis": 60,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": 64,
+          "score_vis": 62,
+          "joue": true
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 70,
+          "score_vis": 51,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-08",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 72,
+          "score_vis": 68,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 63,
+          "score_vis": 74,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-14",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": 66,
+          "score_vis": 64,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "BC ERMONT",
+          "score_dom": 65,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": 91,
+          "score_vis": 81,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-15",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": 106,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "16:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": 63,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": 66,
+          "score_vis": 69,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-14",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": 74,
+          "score_vis": 64,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": 78,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": 73,
+          "score_vis": 67,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-15",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": 73,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": 94,
+          "score_vis": 90,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-21",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "BC ERMONT",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "BC ERMONT",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-29",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-04",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-05",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-11",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "AS SPORTIVE PIERREFITTE BASKET",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-12",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "ASBB NOISY BAILLY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "13:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "BC ERMONT",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ALERTE JUVISY BASKET",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "IE - CTC PAYS DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-18",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-09",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC OZOIR VAL D'EUROPE",
+          "visiteur": "PARIS BASKET 15",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "visiteur": "CERGY-PONTOISE BB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC ERMONT",
+          "visiteur": "ES VIRY CHATILLON BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BC MAUREPAS",
+          "visiteur": "COURBEVOIE SPORTS BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-10",
+      "matchs": [
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "PARIS BASKET 15",
+          "visiteur": "AS SPORTIVE PIERREFITTE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:45",
+          "domicile": "IE - CTC PAYS DE SEINE",
+          "visiteur": "BC ERMONT",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-24",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "COURBEVOIE SPORTS BASKET",
+          "visiteur": "IE - CTC OZOIR VAL D'EUROPE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "13:30",
+          "domicile": "CERGY-PONTOISE BB",
+          "visiteur": "ALERTE JUVISY BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ES VIRY CHATILLON BASKET",
+          "visiteur": "IE - CTC POLE BASKET 77-91 SUD CENTRE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ASBB NOISY BAILLY",
+          "visiteur": "BC MAUREPAS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    }
+  ]
+}

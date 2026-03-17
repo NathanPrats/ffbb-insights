@@ -1,0 +1,107 @@
+{
+  "competition": "dm3",
+  "ligue": "idf",
+  "comite": "0078",
+  "phase": "200000002873855",
+  "poule": "200000003020596",
+  "source_url": "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/dm3/classement?phase=200000002873855&poule=200000003020596",
+  "scraped_at": "2026-03-17",
+  "classement": [
+    {
+      "rang": 1,
+      "equipe": "AS PORCHEVILLE - 2",
+      "pts": 19,
+      "joues": 10,
+      "gagnes": 9,
+      "perdus": 1,
+      "nuls": 0,
+      "bp": 636,
+      "bc": 452,
+      "penalites": 0
+    },
+    {
+      "rang": 2,
+      "equipe": "EPONE MEZIERES BB",
+      "pts": 19,
+      "joues": 11,
+      "gagnes": 8,
+      "perdus": 3,
+      "nuls": 0,
+      "bp": 700,
+      "bc": 598,
+      "penalites": 0
+    },
+    {
+      "rang": 3,
+      "equipe": "MB GARGENVILLE - 2",
+      "pts": 18,
+      "joues": 10,
+      "gagnes": 8,
+      "perdus": 2,
+      "nuls": 0,
+      "bp": 683,
+      "bc": 509,
+      "penalites": 0
+    },
+    {
+      "rang": 4,
+      "equipe": "CS AUBERGENVILLE BASKET",
+      "pts": 18,
+      "joues": 12,
+      "gagnes": 6,
+      "perdus": 6,
+      "nuls": 0,
+      "bp": 779,
+      "bc": 710,
+      "penalites": 0
+    },
+    {
+      "rang": 5,
+      "equipe": "MAGNANVILLE BASKET BALL",
+      "pts": 17,
+      "joues": 12,
+      "gagnes": 5,
+      "perdus": 7,
+      "nuls": 0,
+      "bp": 697,
+      "bc": 744,
+      "penalites": 0
+    },
+    {
+      "rang": 6,
+      "equipe": "BC PORTE ILE DE FRANCE",
+      "pts": 15,
+      "joues": 11,
+      "gagnes": 4,
+      "perdus": 7,
+      "nuls": 0,
+      "bp": 713,
+      "bc": 840,
+      "penalites": 0
+    },
+    {
+      "rang": 7,
+      "equipe": "AS MANTAISE - 3",
+      "pts": 15,
+      "joues": 11,
+      "gagnes": 4,
+      "perdus": 7,
+      "nuls": 0,
+      "bp": 630,
+      "bc": 661,
+      "penalites": 0
+    },
+    {
+      "rang": 8,
+      "equipe": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+      "pts": 11,
+      "joues": 11,
+      "gagnes": 0,
+      "perdus": 11,
+      "nuls": 0,
+      "bp": 500,
+      "bc": 824,
+      "penalites": 0
+    }
+  ]
+}

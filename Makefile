@@ -9,7 +9,14 @@ OUTPUT     ?= data/dm1.json
 INPUT      ?= data/dm1.json
 CALENDRIER ?= data/calendrier.json
 
-.PHONY: classement calendrier dm1 build analyse test install help
+# Pipeline URL (ex: make pipeline URL="https://competitions.ffbb.com/.../classement?phase=X&poule=Y")
+URL        ?=
+
+.PHONY: pipeline classement calendrier dm1 build analyse test install help
+
+## Pipeline complet depuis une URL FFBB (scraping + analyse)
+pipeline: build
+	$(PYTHON) ffbb_pipeline.py --url "$(URL)" --analyse
 
 ## Scrape le classement avec les paramètres PHASE, POULE et OUTPUT
 classement:
@@ -43,16 +50,18 @@ install:
 help:
 	@echo ""
 	@echo "Usage:"
+	@echo "  make pipeline URL=\"https://competitions.ffbb.com/.../classement?phase=X&poule=Y\""
+	@echo "                                    # Pipeline complet : scraping + analyse (dossier auto)"
 	@echo "  make dm1                          # Scrape classement → data/dm1.json (valeurs par défaut)"
 	@echo "  make classement PHASE=xxx POULE=yyy OUTPUT=data/dm2.json"
 	@echo "  make calendrier                   # Scrape calendrier → data/calendrier.json"
-	@echo "  make calendrier PHASE=xxx POULE=yyy"
 	@echo "  make build                        # Compile le binaire Go"
 	@echo "  make analyse                      # Lance l'analyse sur data/dm1.json"
 	@echo "  make analyse INPUT=data/dm2.json  # Lance l'analyse sur un autre fichier"
 	@echo "  make test                         # Lance les tests unitaires"
 	@echo ""
 	@echo "Variables:"
+	@echo "  URL    = $(URL)"
 	@echo "  PHASE  = $(PHASE)"
 	@echo "  POULE  = $(POULE)"
 	@echo "  OUTPUT = $(OUTPUT)"

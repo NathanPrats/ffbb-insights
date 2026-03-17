@@ -1,10 +1,12 @@
 """
-Scraper pour le classement FFBB - Pré Régionale Masculine
-Cible : https://competitions.ffbb.com/...
-Stratégie : Parse le tableau HTML rendu côté serveur dans la page Next.js
+Scraper pour le classement FFBB.
+Stratégie : Parse le tableau HTML rendu côté serveur dans la page Next.js.
 
-Usage:
-    python3 scraper_classement.py --phase 200000002872715 --poule 200000003018348 [--output dm1.json]
+Usage avec URL complète (recommandé) :
+    python scraper_classement.py --url "https://competitions.ffbb.com/.../classement?phase=X&poule=Y"
+
+Usage avec IDs bruts (backward compat, DM1 IDF par défaut) :
+    python scraper_classement.py --phase 200000002872715 --poule 200000003018348 [--output dm1.json]
 """
 
 import re
@@ -12,15 +14,12 @@ import json
 import argparse
 from datetime import date
 
-from ffbb_rsc import fetch_raw_html, extract_rsc_chunks
+from ffbb_rsc import fetch_raw_html, extract_rsc_chunks, parse_ffbb_url
 
-BASE_URL = (
+# URL de base par défaut (backward compat — DM1 Pré Régionale Masculine IDF)
+_DEFAULT_BASE_URL = (
     "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm/classement"
 )
-
-
-def build_url(phase: str, poule: str) -> str:
-    return f"{BASE_URL}?phase={phase}&poule={poule}"
 
 
 def extract_standings_from_html(html: str) -> list[dict]:
@@ -156,13 +155,10 @@ def scrape_with_playwright(url: str) -> list[dict]:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url, wait_until="networkidle", timeout=30_000)
-
         page.wait_for_selector("table, [class*='classement'], [class*='standing']", timeout=15_000)
-
         rows = page.query_selector_all(
             "table tbody tr, [class*='classement'] [class*='row'], [class*='standing'] [class*='row']"
         )
-
         for i, row in enumerate(rows):
             cells = row.query_selector_all("td, [class*='cell']")
             texts = [c.inner_text().strip() for c in cells]
@@ -182,24 +178,24 @@ def scrape_with_playwright(url: str) -> list[dict]:
                     })
                 except (ValueError, IndexError):
                     continue
-
         browser.close()
     return standings
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Scrape le classement FFBB")
-    parser.add_argument("--phase",  required=True, help="ID de la phase (ex: 200000002872715)")
-    parser.add_argument("--poule",  required=True, help="ID de la poule  (ex: 200000003018348)")
-    parser.add_argument("--output", default="data/dm1.json", help="Fichier de sortie JSON (défaut: data/dm1.json)")
-    return parser.parse_args()
+def scrape_classement(url: str, output: str, meta: dict | None = None) -> None:
+    """
+    Scrape le classement FFBB depuis `url` et sauvegarde le résultat dans `output`.
 
+    `meta` est un dict optionnel avec les clés ligue/comite/competition/phase/poule
+    (typiquement issu de parse_ffbb_url). S'il est absent, les valeurs sont déduites de l'URL.
+    """
+    if meta is None:
+        try:
+            meta = parse_ffbb_url(url)
+        except ValueError:
+            meta = {}
 
-def main():
-    args = parse_args()
-    url = build_url(args.phase, args.poule)
-
-    print(f"Fetching page HTML... ({url})")
+    print(f"Fetching classement... ({url})")
     try:
         html = fetch_raw_html(url)
         print(f"HTML fetched ({len(html)} chars). Parsing HTML table...")
@@ -219,22 +215,53 @@ def main():
         )
 
     result = {
-        "competition": "Pré Régionale Masculine (PRM)",
-        "ligue": "Île-de-France",
-        "comite": "0078",
-        "phase": args.phase,
-        "poule": args.poule,
-        "source_url": url,
-        "scraped_at": date.today().isoformat(),
-        "classement": standings,
+        "competition": meta.get("competition", ""),
+        "ligue":       meta.get("ligue", ""),
+        "comite":      meta.get("comite", ""),
+        "phase":       meta.get("phase", ""),
+        "poule":       meta.get("poule", ""),
+        "source_url":  url,
+        "scraped_at":  date.today().isoformat(),
+        "classement":  standings,
     }
 
-    with open(args.output, "w", encoding="utf-8") as f:
+    with open(output, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    print(f"\nClassement sauvegardé dans {args.output} ({len(standings)} équipes).")
+    print(f"Classement sauvegardé dans {output} ({len(standings)} équipes).")
     for team in standings:
         print(f"  {team['rang']:2d}. {team['equipe']:<50} {team['pts']} pts")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Scrape le classement FFBB",
+        epilog="Utiliser --url OU --phase + --poule.",
+    )
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--url",   help="URL complète de la page classement FFBB")
+    group.add_argument("--phase", help="ID de la phase (ex: 200000002872715)")
+    parser.add_argument("--poule",    help="ID de la poule (requis avec --phase)")
+    parser.add_argument("--base-url", default=_DEFAULT_BASE_URL,
+                        help="URL de base utilisée avec --phase/--poule")
+    parser.add_argument("--output", default="data/dm1.json",
+                        help="Fichier de sortie JSON (défaut: data/dm1.json)")
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    if args.url:
+        meta = parse_ffbb_url(args.url)
+        url = meta["classement_url"]
+    else:
+        if not args.poule:
+            raise SystemExit("--poule est requis quand --phase est utilisé")
+        url = f"{args.base_url}?phase={args.phase}&poule={args.poule}"
+        meta = {"phase": args.phase, "poule": args.poule}
+
+    scrape_classement(url, args.output, meta)
 
 
 if __name__ == "__main__":

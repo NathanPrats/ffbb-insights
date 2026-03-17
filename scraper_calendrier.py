@@ -1,11 +1,14 @@
 """
-Scraper pour le calendrier FFBB - Pré Régionale Masculine
-Cible : https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm?phase=<id>&poule=<id>&jour=YYYY-MM-DD
-Stratégie : Les 132 rencontres de la saison sont dans un seul chunk RSC (chunk data de la page).
+Scraper pour le calendrier FFBB.
+Stratégie : Les rencontres de la saison sont dans un seul chunk RSC.
             Une seule requête suffit pour récupérer tout le calendrier.
 
-Usage:
-    python3 scraper_calendrier.py --phase 200000002872715 --poule 200000003018348 [--output data/calendrier.json]
+Usage avec URL complète (recommandé) :
+    python scraper_calendrier.py --url "https://competitions.ffbb.com/.../classement?phase=X&poule=Y"
+    (l'URL de classement suffit — l'URL du calendrier est dérivée automatiquement)
+
+Usage avec IDs bruts (backward compat, DM1 IDF par défaut) :
+    python scraper_calendrier.py --phase 200000002872715 --poule 200000003018348 [--output data/calendrier.json]
 """
 
 import re
@@ -13,16 +16,12 @@ import json
 import argparse
 from datetime import date, datetime
 
-from ffbb_rsc import fetch_raw_html, extract_rsc_chunks
+from ffbb_rsc import fetch_raw_html, extract_rsc_chunks, parse_ffbb_url
 
-BASE_URL = "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm"
-
-# Date arbitraire pour déclencher le rendu RSC complet de la saison
-SEED_DATE = "2026-01-10"
-
-
-def build_url(phase: str, poule: str, jour: str) -> str:
-    return f"{BASE_URL}?phase={phase}&poule={poule}&jour={jour}"
+# URL de base par défaut (backward compat — DM1 Pré Régionale Masculine IDF)
+_DEFAULT_BASE_URL = (
+    "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm"
+)
 
 
 def extract_rencontres_from_chunks(chunks: list[str]) -> list[dict]:
@@ -82,12 +81,11 @@ def group_by_date(rencontres_raw: list[dict]) -> list[dict]:
     ]
 
 
-def scrape_calendrier(phase: str, poule: str) -> list[dict]:
+def scrape_calendrier(url: str) -> list[dict]:
     """
-    Récupère tout le calendrier de la saison en une seule requête.
-    Le payload RSC d'une page calendrier quelconque contient les 132 rencontres.
+    Récupère tout le calendrier de la saison en une seule requête depuis `url`.
+    Le payload RSC contient toutes les rencontres de la saison.
     """
-    url = build_url(phase, poule, SEED_DATE)
     print(f"Fetching calendrier... ({url})")
     html = fetch_raw_html(url)
     chunks = extract_rsc_chunks(html)
@@ -103,31 +101,56 @@ def scrape_calendrier(phase: str, poule: str) -> list[dict]:
     return group_by_date(rencontres_raw)
 
 
+def scrape_calendrier_to_file(url: str, output: str, meta: dict | None = None) -> None:
+    """Scrape le calendrier depuis `url` et sauvegarde dans `output`."""
+    if meta is None:
+        meta = {}
+
+    journees = scrape_calendrier(url)
+
+    result = {
+        "phase":      meta.get("phase", ""),
+        "poule":      meta.get("poule", ""),
+        "scraped_at": date.today().isoformat(),
+        "journees":   journees,
+    }
+
+    with open(output, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+
+    total_matchs = sum(len(j["matchs"]) for j in journees)
+    print(f"Calendrier sauvegardé dans {output} ({len(journees)} journées, {total_matchs} matchs).")
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Scrape le calendrier FFBB")
-    parser.add_argument("--phase",  required=True, help="ID de la phase (ex: 200000002872715)")
-    parser.add_argument("--poule",  required=True, help="ID de la poule  (ex: 200000003018348)")
-    parser.add_argument("--output", default="data/calendrier.json", help="Fichier de sortie JSON (défaut: data/calendrier.json)")
+    parser = argparse.ArgumentParser(
+        description="Scrape le calendrier FFBB",
+        epilog="Utiliser --url (URL du classement) OU --phase + --poule.",
+    )
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--url",   help="URL de la page classement FFBB (l'URL du calendrier est dérivée automatiquement)")
+    group.add_argument("--phase", help="ID de la phase (ex: 200000002872715)")
+    parser.add_argument("--poule",    help="ID de la poule (requis avec --phase)")
+    parser.add_argument("--base-url", default=_DEFAULT_BASE_URL,
+                        help="URL de base utilisée avec --phase/--poule")
+    parser.add_argument("--output", default="data/calendrier.json",
+                        help="Fichier de sortie JSON (défaut: data/calendrier.json)")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    journees = scrape_calendrier(args.phase, args.poule)
+    if args.url:
+        meta = parse_ffbb_url(args.url)
+        cal_url = meta["calendrier_url"]
+    else:
+        if not args.poule:
+            raise SystemExit("--poule est requis quand --phase est utilisé")
+        cal_url = f"{args.base_url}?phase={args.phase}&poule={args.poule}&jour={date.today().isoformat()}"
+        meta = {"phase": args.phase, "poule": args.poule}
 
-    result = {
-        "phase": args.phase,
-        "poule": args.poule,
-        "scraped_at": date.today().isoformat(),
-        "journees": journees,
-    }
-
-    with open(args.output, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-
-    total_matchs = sum(len(j["matchs"]) for j in journees)
-    print(f"Calendrier sauvegardé dans {args.output} ({len(journees)} journées, {total_matchs} matchs).")
+    scrape_calendrier_to_file(cal_url, args.output, meta)
 
 
 if __name__ == "__main__":

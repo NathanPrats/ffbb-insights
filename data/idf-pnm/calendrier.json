@@ -1,0 +1,1962 @@
+{
+  "phase": "200000002872906",
+  "poule": "200000003018734",
+  "scraped_at": "2026-03-17",
+  "journees": [
+    {
+      "date": "2025-09-13",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 56,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 68,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 82,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 73,
+          "score_vis": 65,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 65,
+          "score_vis": 96,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-14",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "E ST LEU B",
+          "score_dom": 75,
+          "score_vis": 80,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-20",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 69,
+          "score_vis": 57,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 90,
+          "score_vis": 87,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 66,
+          "score_vis": 82,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 74,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 67,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-21",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 95,
+          "score_vis": 59,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-27",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 74,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 63,
+          "score_vis": 57,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 64,
+          "score_vis": 78,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 52,
+          "score_vis": 82,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 58,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "E ST LEU B",
+          "score_dom": 72,
+          "score_vis": 88,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-28",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 88,
+          "score_vis": 79,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-04",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 53,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 62,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 46,
+          "score_vis": 88,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 90,
+          "score_vis": 78,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 71,
+          "score_vis": 76,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 58,
+          "score_vis": 75,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-05",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 81,
+          "score_vis": 55,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-11",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 66,
+          "score_vis": 76,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 61,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 96,
+          "score_vis": 83,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 76,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 42,
+          "score_vis": 83,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 56,
+          "score_vis": 68,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-12",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 100,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-18",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 67,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 85,
+          "score_vis": 64,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 75,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 78,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 92,
+          "score_vis": 32,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 58,
+          "score_vis": 69,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-19",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 68,
+          "score_vis": 76,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-08",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 74,
+          "score_vis": 63,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 77,
+          "score_vis": 82,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 63,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 70,
+          "score_vis": 75,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 62,
+          "score_vis": 65,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 69,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-15",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 0,
+          "score_vis": 0,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 67,
+          "score_vis": 77,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 72,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 75,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 65,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-16",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 82,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 75,
+          "score_vis": 52,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-22",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 76,
+          "score_vis": 79,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 73,
+          "score_vis": 96,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 59,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "E ST LEU B",
+          "score_dom": 83,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 83,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 62,
+          "score_vis": 84,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-29",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 78,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 101,
+          "score_vis": 95,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 82,
+          "score_vis": 64,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 72,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 56,
+          "score_vis": 49,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-30",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 93,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 78,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-06",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 117,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 76,
+          "score_vis": 56,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 74,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "E ST LEU B",
+          "score_dom": 67,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 74,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 68,
+          "score_vis": 75,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-07",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 66,
+          "score_vis": 65,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-11",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 111,
+          "score_vis": 60,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-13",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 102,
+          "score_vis": 62,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 64,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 47,
+          "score_vis": 98,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 77,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 77,
+          "score_vis": 90,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 65,
+          "score_vis": 54,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 68,
+          "score_vis": 80,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-20",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 75,
+          "score_vis": 95,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-10",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 77,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 81,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 97,
+          "score_vis": 94,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 81,
+          "score_vis": 55,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 53,
+          "score_vis": 89,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 70,
+          "score_vis": 71,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 85,
+          "score_vis": 88,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-17",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "E ST LEU B",
+          "score_dom": 84,
+          "score_vis": 90,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 105,
+          "score_vis": 40,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 75,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 67,
+          "score_vis": 85,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 83,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 80,
+          "score_vis": 83,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-18",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 70,
+          "score_vis": 82,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-24",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 149,
+          "score_vis": 39,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "E ST LEU B",
+          "score_dom": 62,
+          "score_vis": 83,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-31",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 62,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 85,
+          "score_vis": 79,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 87,
+          "score_vis": 79,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 77,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 110,
+          "score_vis": 39,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 88,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "16:00",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "E ST LEU B",
+          "score_dom": 83,
+          "score_vis": 60,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-07",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 74,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": 75,
+          "score_vis": 77,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 77,
+          "score_vis": 91,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 49,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 83,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 71,
+          "score_vis": 124,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-08",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": 81,
+          "score_vis": 73,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-14",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": 76,
+          "score_vis": 80,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": 70,
+          "score_vis": 89,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 67,
+          "score_vis": 87,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 89,
+          "score_vis": 81,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "E ST LEU B",
+          "score_dom": 53,
+          "score_vis": 109,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 0,
+          "score_vis": 0,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-15",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": 88,
+          "score_vis": 68,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-21",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": 79,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 82,
+          "score_vis": 70,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 136,
+          "score_vis": 54,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": 62,
+          "score_vis": 91,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": 65,
+          "score_vis": 74,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-22",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 86,
+          "score_vis": 80,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-14",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": 110,
+          "score_vis": 42,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "USD CHARONNE",
+          "score_dom": 93,
+          "score_vis": 77,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": 67,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "E ST LEU B",
+          "score_dom": 61,
+          "score_vis": 86,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": 86,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": 79,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-15",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": 78,
+          "score_vis": 74,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-21",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "E ST LEU B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "E ST LEU B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "USD CHARONNE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-29",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-04",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:45",
+          "domicile": "E ST LEU B",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-05",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-11",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "E ST LEU B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-18",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-19",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-09",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "E ST LEU B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-16",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "USD CHARONNE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "21:00",
+          "domicile": "AUBERVILLIERS AVENIR BASKET BALL",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-24",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "GENNEVILLIERS BASKET CLUB",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-30",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "E ST LEU B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "MACCABI SARCELLES",
+          "visiteur": "USD CHARONNE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "ESC TRAPPES SQ YVELINES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-06-06",
+      "matchs": [
+        {
+          "heure": "17:00",
+          "domicile": "RUEIL ATHLETIC CLUB",
+          "visiteur": "BASKET PARIS 14",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "COULOMMIERS BRIE BASKET",
+          "visiteur": "US BASKET  DRANCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "visiteur": "MACCABI SARCELLES",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "USD CHARONNE",
+          "visiteur": "BC SARTROUVILLE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "ESPERANCE DE BOURG LA REINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-06-07",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "AS BON CONSEIL",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-06-13",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-06-20",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "SAINT CHARLES CHARENTON SAINT MAURICE",
+          "visiteur": "RUEIL ATHLETIC CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "ESPERANCE DE BOURG LA REINE",
+          "visiteur": "AS BON CONSEIL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BC SARTROUVILLE",
+          "visiteur": "COULOMMIERS BRIE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "BASKET PARIS 14",
+          "visiteur": "USD CHARONNE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "US BASKET  DRANCY",
+          "visiteur": "LE MEE SPORTS MELUN VAL DE SEINE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "E ST LEU B",
+          "visiteur": "GENNEVILLIERS BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ESC TRAPPES SQ YVELINES",
+          "visiteur": "AUBERVILLIERS AVENIR BASKET BALL",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    }
+  ]
+}

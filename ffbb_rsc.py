@@ -8,6 +8,8 @@ streamés dans le HTML des pages Next.js de competitions.ffbb.com.
 import re
 import json
 import requests
+from datetime import date
+from urllib.parse import urlparse, parse_qs
 
 HEADERS = {
     "User-Agent": (
@@ -48,3 +50,69 @@ def extract_rsc_chunks(html: str) -> list[str]:
         except (json.JSONDecodeError, IndexError):
             continue
     return chunks
+
+
+def parse_ffbb_url(url: str) -> dict:
+    """
+    Analyse une URL FFBB de classement et retourne tous les paramètres nécessaires
+    au pipeline (phase, poule, métadonnées, URLs dérivées).
+
+    Exemple d'entrée :
+        https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/dm3/classement
+        ?phase=200000002873855&poule=200000003020596
+
+    Retourne :
+        {
+            "phase":          "200000002873855",
+            "poule":          "200000003020596",
+            "ligue":          "idf",
+            "comite":         "0078",
+            "competition":    "dm3",
+            "slug":           "idf-dm3",
+            "classement_url": "https://.../classement?phase=...&poule=...",
+            "calendrier_url": "https://?phase=...&poule=...&jour=YYYY-MM-DD",
+        }
+    """
+    parsed = urlparse(url)
+    params = parse_qs(parsed.query)
+
+    if "phase" not in params or "poule" not in params:
+        raise ValueError(
+            f"URL FFBB invalide — paramètres phase/poule manquants : {url}\n"
+            "Format attendu : https://competitions.ffbb.com/ligues/<ligue>/comites/<comite>"
+            "/competitions/<competition>/classement?phase=<id>&poule=<id>"
+        )
+
+    segments = [s for s in parsed.path.split("/") if s]
+
+    def segment_after(key: str) -> str:
+        try:
+            idx = segments.index(key)
+            return segments[idx + 1] if idx + 1 < len(segments) else ""
+        except ValueError:
+            return ""
+
+    ligue = segment_after("ligues")
+    comite = segment_after("comites")
+    competition = segment_after("competitions")
+
+    # Chemin de base sans /classement
+    base_path = parsed.path
+    if base_path.endswith("/classement"):
+        base_path = base_path[: -len("/classement")]
+
+    base = f"{parsed.scheme}://{parsed.netloc}{base_path}"
+    query = f"phase={params['phase'][0]}&poule={params['poule'][0]}"
+
+    return {
+        "phase":          params["phase"][0],
+        "poule":          params["poule"][0],
+        "ligue":          ligue,
+        "comite":         comite,
+        "competition":    competition,
+        "slug":           f"{ligue}-{competition}".lower(),
+        "classement_url": f"{base}/classement?{query}",
+        # Le calendrier FFBB n'a pas de segment /calendrier — c'est la page racine
+        # de la compétition avec un paramètre &jour= (n'importe quelle date fonctionne)
+        "calendrier_url": f"{base}?{query}&jour={date.today().isoformat()}",
+    }
