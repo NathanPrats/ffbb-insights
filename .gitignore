@@ -1,1 +1,5 @@
 bin/analyse
+.venv/
+__pycache__/
+.claude/
+data/calendrier.json

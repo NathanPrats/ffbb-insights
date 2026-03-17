@@ -1,100 +1,102 @@
 """
 Scraper pour le classement FFBB - Pré Régionale Masculine
 Cible : https://competitions.ffbb.com/...
-Stratégie : Parse le payload React Server Components (RSC) streamé dans le HTML
+Stratégie : Parse le tableau HTML rendu côté serveur dans la page Next.js
 
 Usage:
-    python3 scraper.py --phase 200000002872715 --poule 200000003018348 [--output dm1.json]
+    python3 scraper_classement.py --phase 200000002872715 --poule 200000003018348 [--output dm1.json]
 """
 
 import re
 import json
 import argparse
-import requests
 from datetime import date
+
+from ffbb_rsc import fetch_raw_html, extract_rsc_chunks
 
 BASE_URL = (
     "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm/classement"
 )
 
+
 def build_url(phase: str, poule: str) -> str:
     return f"{BASE_URL}?phase={phase}&poule={poule}"
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/122.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8",
-}
 
-
-def fetch_raw_html(url: str) -> str:
-    response = requests.get(url, headers=HEADERS, timeout=15)
-    response.raise_for_status()
-    return response.text
-
-
-def extract_standings_from_rsc(html: str) -> list[dict]:
+def extract_standings_from_html(html: str) -> list[dict]:
     """
-    Le HTML contient des chunks RSC (React Server Components) sérialisés.
-    On cherche les blocs JSON qui contiennent les données de classement :
-    rang, équipe, points, victoires, défaites, etc.
+    Le classement est rendu directement dans le HTML en <tr> (SSR).
+    Chaque ligne d'équipe est un <tr class="h-[65px] bg-white" data-onboarding="...">.
+    Structure des colonnes :
+      td[0]  rang     (<span class="mr-[20px]">N</span>)
+      td[1]  equipe   (<div class="min-w-[228px]...">NOM</div>)
+      td[2]  pts      (texte du lien)
+      td[3]  joues / gagnes / perdus / nuls  (4 <div> imbriqués)
+      td[4-7] colonnes accessoires (non utilisées)
+      td[8]  deux valeurs (non utilisées)
+      td[9]  spacer
+      td[10] bp / bc / diff  (3 <div> imbriqués)
     """
+    def get_div_numbers(td_html: str) -> list[int]:
+        return [int(n) for n in re.findall(r'<div[^>]*>(\d+)</div>', td_html)]
+
     standings = []
-
-    # Les chunks RSC sont encodés sous forme de lignes : <numéro>:<contenu>
-    # On extrait tous les blobs JSON embarqués dans le HTML
-    json_blobs = re.findall(r'\["classement".*?\]|\{.*?"rang".*?\}', html, re.DOTALL)
-
-    # Approche plus ciblée : chercher les tableaux de classement dans le payload RSC
-    # Le pattern typique est un tableau d'objets avec les clés de stats basket
-    # On cherche les séquences contenant "pts", "victoires", "defaites" ou similaires
-    rsc_chunks = re.split(r'\n(?=\d+:)', html)
-
-    team_pattern = re.compile(
-        r'"(?:equipe|club|nom)":\s*"([^"]+)".*?"(?:pts|points)":\s*(\d+)',
-        re.DOTALL | re.IGNORECASE,
-    )
-
-    for chunk in rsc_chunks:
-        for match in team_pattern.finditer(chunk):
-            print(f"Found team pattern: {match.group(0)[:100]}")
-
-    # Stratégie principale : chercher un tableau JSON contenant les stats
-    # Les pages FFBB Next.js embarquent les données dans des balises <script>
-    # ou dans des commentaires RSC de la forme : <X>:[données JSON]
-    script_data = re.findall(
-        r'<script[^>]*>self\.__next_f\.push\(\[(.*?)\]\)</script>',
-        html,
+    row_re = re.compile(
+        r'<tr class="h-\[65px\] bg-white"[^>]*data-onboarding[^>]*>(.*?)</tr>',
         re.DOTALL,
     )
+    td_re = re.compile(r'<td[^>]*>(.*?)</td>', re.DOTALL)
 
-    for raw in script_data:
-        # Chaque push contient [index, "données"] ou [index, objetJSON]
-        try:
-            parsed = json.loads(f"[{raw}]")
-            if len(parsed) >= 2 and isinstance(parsed[1], str):
-                payload = parsed[1]
-                extract_from_rsc_payload(payload, standings)
-        except (json.JSONDecodeError, IndexError):
+    for row_m in row_re.finditer(html):
+        tds = [m.group(1) for m in td_re.finditer(row_m.group(1))]
+        if len(tds) < 11:
             continue
+
+        rang_m = re.search(r'<span[^>]*>(\d+)</span>', tds[0])
+        equipe_m = re.search(r'<div class="min-w-\[228px\][^"]*">([^<]+)</div>', tds[1])
+        if not rang_m or not equipe_m:
+            continue
+
+        rang = int(rang_m.group(1))
+        equipe = equipe_m.group(1).strip()
+
+        pts_text = re.sub(r'<[^>]+>', '', tds[2]).strip()
+        if not pts_text.isdigit():
+            continue
+        pts = int(pts_text)
+
+        wl = get_div_numbers(tds[3])
+        if len(wl) < 4:
+            continue
+        joues, gagnes, perdus, nuls = wl[0], wl[1], wl[2], wl[3]
+
+        bpbc = get_div_numbers(tds[10])
+        if len(bpbc) < 2:
+            continue
+        bp, bc = bpbc[0], bpbc[1]
+
+        standings.append({
+            "rang": rang,
+            "equipe": equipe,
+            "pts": pts,
+            "joues": joues,
+            "gagnes": gagnes,
+            "perdus": perdus,
+            "nuls": nuls,
+            "bp": bp,
+            "bc": bc,
+            "penalites": 0,
+        })
 
     return standings
 
 
 def extract_from_rsc_payload(payload: str, standings: list) -> None:
-    """Cherche les données de classement dans un payload RSC texte."""
-    # Pattern pour les objets d'équipe avec stats basket
-    # Exemple de structure attendue dans le RSC stream
+    """Cherche les données de classement dans un payload RSC texte (conservé pour les tests unitaires)."""
     lines = payload.split("\n")
     for line in lines:
-        # Cherche les lignes qui ressemblent à du JSON d'équipe
         if any(k in line for k in ['"rang"', '"classement"', '"position"', '"pts"']):
             try:
-                # Extrait le JSON embarqué dans la ligne RSC (format : <id>:<json>)
                 json_part = re.sub(r'^\w+:', '', line.strip())
                 data = json.loads(json_part)
                 if isinstance(data, list):
@@ -155,7 +157,6 @@ def scrape_with_playwright(url: str) -> list[dict]:
         page = browser.new_page()
         page.goto(url, wait_until="networkidle", timeout=30_000)
 
-        # Attend que le tableau soit visible
         page.wait_for_selector("table, [class*='classement'], [class*='standing']", timeout=15_000)
 
         rows = page.query_selector_all(
@@ -186,27 +187,6 @@ def scrape_with_playwright(url: str) -> list[dict]:
     return standings
 
 
-def hardcoded_fallback() -> list[dict]:
-    """
-    Données extraites manuellement depuis la page au 2026-03-16.
-    Utilisé si le scraping dynamique échoue.
-    """
-    return [
-        {"rang": 1,  "equipe": "ENTENTE LE CHESNAY VERSAILLES 78 BASKET - 2", "pts": 29, "joues": 16, "gagnes": 13, "perdus": 3,  "nuls": 0, "bp": 1208, "bc": 1054, "penalites": 0},
-        {"rang": 2,  "equipe": "TUES GERMANOISE",                               "pts": 26, "joues": 15, "gagnes": 11, "perdus": 4,  "nuls": 0, "bp": 1051, "bc": 834,  "penalites": 0},
-        {"rang": 3,  "equipe": "POISSY BASKET ASSOCIATION - 2",                 "pts": 26, "joues": 16, "gagnes": 10, "perdus": 6,  "nuls": 0, "bp": 1197, "bc": 1141, "penalites": 0},
-        {"rang": 4,  "equipe": "AGS LES ESSARTS LE ROI",                        "pts": 25, "joues": 15, "gagnes": 10, "perdus": 5,  "nuls": 0, "bp": 1007, "bc": 903,  "penalites": 0},
-        {"rang": 5,  "equipe": "MB GARGENVILLE - 1",                            "pts": 25, "joues": 16, "gagnes": 9,  "perdus": 7,  "nuls": 0, "bp": 1163, "bc": 1109, "penalites": 0},
-        {"rang": 6,  "equipe": "ENTENTE MESNIL LE ROI ACHERES - 1",             "pts": 24, "joues": 16, "gagnes": 8,  "perdus": 8,  "nuls": 0, "bp": 1101, "bc": 1081, "penalites": 0},
-        {"rang": 7,  "equipe": "BC MAUREPAS - 2",                               "pts": 23, "joues": 15, "gagnes": 8,  "perdus": 7,  "nuls": 0, "bp": 1019, "bc": 981,  "penalites": 0},
-        {"rang": 8,  "equipe": "CHATOU CROISSY BASKET - 2",                     "pts": 23, "joues": 16, "gagnes": 7,  "perdus": 9,  "nuls": 0, "bp": 1162, "bc": 1145, "penalites": 0},
-        {"rang": 9,  "equipe": "US MARLY LE ROI - 2",                           "pts": 22, "joues": 16, "gagnes": 6,  "perdus": 10, "nuls": 0, "bp": 958,  "bc": 1063, "penalites": 0},
-        {"rang": 10, "equipe": "BC SARTROUVILLE - 2",                           "pts": 21, "joues": 15, "gagnes": 6,  "perdus": 9,  "nuls": 0, "bp": 1045, "bc": 991,  "penalites": 0},
-        {"rang": 11, "equipe": "JOUY BASKET CLUB",                              "pts": 20, "joues": 15, "gagnes": 5,  "perdus": 10, "nuls": 0, "bp": 980,  "bc": 1120, "penalites": 0},
-        {"rang": 12, "equipe": "LES MUREAUX BC",                                "pts": 14, "joues": 15, "gagnes": 0,  "perdus": 14, "nuls": 1, "bp": 664,  "bc": 1133, "penalites": 0},
-    ]
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Scrape le classement FFBB")
     parser.add_argument("--phase",  required=True, help="ID de la phase (ex: 200000002872715)")
@@ -222,19 +202,21 @@ def main():
     print(f"Fetching page HTML... ({url})")
     try:
         html = fetch_raw_html(url)
-        print(f"HTML fetched ({len(html)} chars). Parsing RSC payload...")
-        standings = extract_standings_from_rsc(html)
-    except requests.RequestException as e:
-        print(f"HTTP error: {e}")
+        print(f"HTML fetched ({len(html)} chars). Parsing HTML table...")
+        standings = extract_standings_from_html(html)
+    except Exception as e:
+        print(f"Erreur lors de la récupération de la page : {e}")
         standings = []
 
     if not standings:
-        print("RSC parsing yielded no results. Trying Playwright fallback...")
+        print("HTML parsing yielded no results. Trying Playwright fallback...")
         standings = scrape_with_playwright(url)
 
     if not standings:
-        print("Playwright fallback failed or not installed. Using hardcoded data from 2026-03-16.")
-        standings = hardcoded_fallback()
+        raise RuntimeError(
+            "Impossible de récupérer le classement : le parsing HTML et le fallback Playwright "
+            "n'ont retourné aucune donnée. Vérifier si la structure du site FFBB a changé."
+        )
 
     result = {
         "competition": "Pré Régionale Masculine (PRM)",
