@@ -18,40 +18,58 @@ from datetime import date, datetime
 
 from ffbb_rsc import fetch_raw_html, extract_rsc_chunks, parse_ffbb_url
 
+_SUFFIX_RE = re.compile(r' - \d+$')
+
+
+def _normalize(name: str) -> str:
+    """Supprime le suffixe ' - N' pour comparer noms classement et calendrier."""
+    return _SUFFIX_RE.sub("", name)
+
 # URL de base par défaut (backward compat — DM1 Pré Régionale Masculine IDF)
 _DEFAULT_BASE_URL = (
     "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/prm"
 )
 
 
-def extract_rencontres_from_chunks(chunks: list[str]) -> list[dict]:
+def _extract_json_array_at(chunk: str, bracket: int) -> list[dict] | None:
+    """Extrait un tableau JSON depuis la position `bracket` dans `chunk`."""
+    depth = 0
+    for i in range(bracket, len(chunk)):
+        if chunk[i] == '[':
+            depth += 1
+        elif chunk[i] == ']':
+            depth -= 1
+            if depth == 0:
+                try:
+                    return json.loads(chunk[bracket:i + 1])
+                except json.JSONDecodeError:
+                    return None
+    return None
+
+
+def extract_rencontres_from_chunks(chunks: list[str]) -> list[list[dict]]:
     """
-    Cherche le tableau JSON "rencontres" dans les chunks RSC.
-    Ce tableau contient toutes les rencontres de la saison.
-    Retourne la liste brute des objets rencontre.
+    Cherche TOUTES les occurrences du tableau JSON "rencontres" dans les chunks RSC.
+    Retourne une liste de tableaux (un par occurrence trouvée).
+
+    Plusieurs occurrences peuvent exister sur les compétitions multi-poules où
+    le RSC contient les données de plusieurs poules simultanément.
     """
+    all_arrays: list[list[dict]] = []
     for chunk in chunks:
-        idx = chunk.find('"rencontres":')
-        if idx == -1:
-            continue
-
-        bracket = chunk.find('[', idx)
-        if bracket == -1:
-            continue
-
-        depth = 0
-        for i in range(bracket, len(chunk)):
-            if chunk[i] == '[':
-                depth += 1
-            elif chunk[i] == ']':
-                depth -= 1
-                if depth == 0:
-                    try:
-                        return json.loads(chunk[bracket:i + 1])
-                    except json.JSONDecodeError:
-                        break
-
-    return []
+        start = 0
+        while True:
+            idx = chunk.find('"rencontres":', start)
+            if idx == -1:
+                break
+            bracket = chunk.find('[', idx)
+            if bracket == -1:
+                break
+            arr = _extract_json_array_at(chunk, bracket)
+            if arr is not None:
+                all_arrays.append(arr)
+            start = bracket + 1
+    return all_arrays
 
 
 def normalize_rencontre(raw: dict) -> dict:
@@ -81,32 +99,68 @@ def group_by_date(rencontres_raw: list[dict]) -> list[dict]:
     ]
 
 
-def scrape_calendrier(url: str) -> list[dict]:
+def scrape_calendrier(url: str, team_filter: set[str] | None = None) -> list[dict]:
     """
     Récupère tout le calendrier de la saison en une seule requête depuis `url`.
     Le payload RSC contient toutes les rencontres de la saison.
+
+    `team_filter` : ensemble de noms d'équipes normalisés (sans suffixe ' - N').
+    Si fourni, seules les rencontres dont les deux équipes sont dans ce filtre
+    sont conservées — nécessaire pour les compétitions multi-poules où le RSC
+    peut retourner les rencontres d'une autre poule par défaut.
     """
     print(f"Fetching calendrier... ({url})")
     html = fetch_raw_html(url)
     chunks = extract_rsc_chunks(html)
 
-    rencontres_raw = extract_rencontres_from_chunks(chunks)
-    if not rencontres_raw:
+    all_arrays = extract_rencontres_from_chunks(chunks)
+    if not all_arrays:
         raise RuntimeError(
             "Impossible d'extraire les rencontres depuis le payload RSC. "
             "Vérifier si la structure du site FFBB a changé."
         )
 
-    print(f"{len(rencontres_raw)} rencontres trouvées.")
+    if team_filter:
+        # Parcourir tous les tableaux et garder celui avec le plus de matchs
+        # correspondant aux équipes du classement (compétitions multi-poules :
+        # le RSC peut contenir les données de toutes les poules de la phase).
+        best: list[dict] = []
+        for arr in all_arrays:
+            filtered = [
+                r for r in arr
+                if _normalize(r["idEngagementEquipe1"]["nom"]) in team_filter
+                and _normalize(r["idEngagementEquipe2"]["nom"]) in team_filter
+            ]
+            if len(filtered) > len(best):
+                best = filtered
+
+        if not best:
+            raise RuntimeError(
+                "Aucune rencontre RSC ne correspond aux équipes du classement. "
+                "L'URL du calendrier retourne peut-être des données d'une autre poule. "
+                "Vérifier l'URL ou la structure du site FFBB."
+            )
+
+        rencontres_raw = best
+        print(f"{len(all_arrays)} tableau(x) RSC → {len(rencontres_raw)} rencontres retenues pour cette poule.")
+    else:
+        rencontres_raw = all_arrays[0]
+        print(f"{len(rencontres_raw)} rencontres trouvées.")
+
     return group_by_date(rencontres_raw)
 
 
-def scrape_calendrier_to_file(url: str, output: str, meta: dict | None = None) -> None:
+def scrape_calendrier_to_file(
+    url: str,
+    output: str,
+    meta: dict | None = None,
+    team_filter: set[str] | None = None,
+) -> None:
     """Scrape le calendrier depuis `url` et sauvegarde dans `output`."""
     if meta is None:
         meta = {}
 
-    journees = scrape_calendrier(url)
+    journees = scrape_calendrier(url, team_filter)
 
     result = {
         "phase":      meta.get("phase", ""),

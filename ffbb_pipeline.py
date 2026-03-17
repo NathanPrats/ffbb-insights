@@ -15,6 +15,8 @@ Usage :
 """
 
 import argparse
+import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -22,6 +24,8 @@ from pathlib import Path
 from ffbb_rsc import parse_ffbb_url
 from scraper_classement import scrape_classement
 from scraper_calendrier import scrape_calendrier_to_file
+
+_SUFFIX_RE = re.compile(r' - \d+$')
 
 
 def _separator(label: str) -> None:
@@ -55,8 +59,13 @@ def run_pipeline(
     _separator("[1/2] Classement")
     scrape_classement(meta["classement_url"], str(classement_path), meta)
 
+    # Lire les équipes du classement pour filtrer le calendrier (multi-poules)
+    with open(classement_path, encoding="utf-8") as f:
+        cl = json.load(f)
+    team_filter = {_SUFFIX_RE.sub("", t["equipe"]) for t in cl["classement"]}
+
     _separator("[2/2] Calendrier")
-    scrape_calendrier_to_file(meta["calendrier_url"], str(calendrier_path), meta)
+    scrape_calendrier_to_file(meta["calendrier_url"], str(calendrier_path), meta, team_filter)
 
     print(f"\n✓ Données prêtes dans {out_dir}/")
 

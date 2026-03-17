@@ -112,7 +112,7 @@ def parse_ffbb_url(url: str) -> dict:
         "competition":    competition,
         "slug":           f"{ligue}-{competition}".lower(),
         "classement_url": f"{base}/classement?{query}",
-        # Le calendrier FFBB n'a pas de segment /calendrier — c'est la page racine
-        # de la compétition avec un paramètre &jour= (n'importe quelle date fonctionne)
+        # La page racine de la compétition avec ?jour= retourne les rencontres
+        # de toutes les poules dans le RSC. Le scraper filtre ensuite par équipes.
         "calendrier_url": f"{base}?{query}&jour={date.today().isoformat()}",
     }

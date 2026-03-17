@@ -1,0 +1,347 @@
+{
+  "phase": "200000002880055",
+  "poule": "200000003035093",
+  "scraped_at": "2026-03-17",
+  "journees": [
+    {
+      "date": "2026-01-10",
+      "matchs": [
+        {
+          "heure": "18:30",
+          "domicile": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "visiteur": "ST ROMAIN LE PUY A",
+          "score_dom": 81,
+          "score_vis": 84,
+          "joue": true
+        },
+        {
+          "heure": "19:00",
+          "domicile": "LE CENDRE BASKET",
+          "visiteur": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "score_dom": 85,
+          "score_vis": 60,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-11",
+      "matchs": [
+        {
+          "heure": "14:00",
+          "domicile": "CLUB SPORTIF PUY GUILLAUME",
+          "visiteur": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "score_dom": 74,
+          "score_vis": 80,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-17",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "visiteur": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "score_dom": 109,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-18",
+      "matchs": [
+        {
+          "heure": "14:00",
+          "domicile": "ST ROMAIN LE PUY A",
+          "visiteur": "LE CENDRE BASKET",
+          "score_dom": 95,
+          "score_vis": 55,
+          "joue": true
+        },
+        {
+          "heure": "17:00",
+          "domicile": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "visiteur": "CLUB SPORTIF PUY GUILLAUME",
+          "score_dom": 77,
+          "score_vis": 71,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-24",
+      "matchs": [
+        {
+          "heure": "19:00",
+          "domicile": "LE CENDRE BASKET",
+          "visiteur": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "score_dom": 80,
+          "score_vis": 74,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "visiteur": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "score_dom": 57,
+          "score_vis": 92,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-25",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "CLUB SPORTIF PUY GUILLAUME",
+          "visiteur": "ST ROMAIN LE PUY A",
+          "score_dom": 73,
+          "score_vis": 65,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-31",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "visiteur": "LE CENDRE BASKET",
+          "score_dom": 92,
+          "score_vis": 48,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ST ROMAIN LE PUY A",
+          "visiteur": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "score_dom": 90,
+          "score_vis": 60,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "visiteur": "CLUB SPORTIF PUY GUILLAUME",
+          "score_dom": 75,
+          "score_vis": 102,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-28",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "visiteur": "ST ROMAIN LE PUY A",
+          "score_dom": 66,
+          "score_vis": 69,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-01",
+      "matchs": [
+        {
+          "heure": "15:00",
+          "domicile": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "visiteur": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "score_dom": 79,
+          "score_vis": 76,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-07",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "visiteur": "CLUB SPORTIF PUY GUILLAUME",
+          "score_dom": 82,
+          "score_vis": 69,
+          "joue": true
+        },
+        {
+          "heure": "20:30",
+          "domicile": "ST ROMAIN LE PUY A",
+          "visiteur": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "score_dom": 105,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "21:00",
+          "domicile": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "visiteur": "LE CENDRE BASKET",
+          "score_dom": 54,
+          "score_vis": 47,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-14",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "CLUB SPORTIF PUY GUILLAUME",
+          "visiteur": "LE CENDRE BASKET",
+          "score_dom": 90,
+          "score_vis": 56,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-21",
+      "matchs": [
+        {
+          "heure": "19:00",
+          "domicile": "LE CENDRE BASKET",
+          "visiteur": "ST ROMAIN LE PUY A",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "matchs": [
+        {
+          "heure": "14:00",
+          "domicile": "CLUB SPORTIF PUY GUILLAUME",
+          "visiteur": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "16:00",
+          "domicile": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "visiteur": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "visiteur": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-29",
+      "matchs": [
+        {
+          "heure": "14:00",
+          "domicile": "ST ROMAIN LE PUY A",
+          "visiteur": "CLUB SPORTIF PUY GUILLAUME",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "visiteur": "LE CENDRE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-25",
+      "matchs": [
+        {
+          "heure": "19:00",
+          "domicile": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "visiteur": "ST ROMAIN LE PUY A",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "19:00",
+          "domicile": "LE CENDRE BASKET",
+          "visiteur": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-26",
+      "matchs": [
+        {
+          "heure": "13:30",
+          "domicile": "CLUB SPORTIF PUY GUILLAUME",
+          "visiteur": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-02",
+      "matchs": [
+        {
+          "heure": "19:00",
+          "domicile": "LE CENDRE BASKET",
+          "visiteur": "CLUB SPORTIF PUY GUILLAUME",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "19:30",
+          "domicile": "IE - CTC CLERMONT SUD GERGOVIE BASKET - BB COURNON D'AUVERGNE",
+          "visiteur": "IE - CTC NORD PUY DE DOME - MOZAC VOLVIC BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-03",
+      "matchs": [
+        {
+          "heure": "14:00",
+          "domicile": "ST ROMAIN LE PUY A",
+          "visiteur": "ST JEAN BONNEFONDS AVANT GARDE BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    }
+  ]
+}

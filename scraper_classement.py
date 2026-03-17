@@ -9,6 +9,7 @@ Usage avec IDs bruts (backward compat, DM1 IDF par défaut) :
     python scraper_classement.py --phase 200000002872715 --poule 200000003018348 [--output dm1.json]
 """
 
+import html as _html
 import re
 import json
 import argparse
@@ -57,7 +58,7 @@ def extract_standings_from_html(html: str) -> list[dict]:
             continue
 
         rang = int(rang_m.group(1))
-        equipe = equipe_m.group(1).strip()
+        equipe = _html.unescape(equipe_m.group(1).strip())
 
         pts_text = re.sub(r'<[^>]+>', '', tds[2]).strip()
         if not pts_text.isdigit():

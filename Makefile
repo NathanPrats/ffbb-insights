@@ -5,7 +5,7 @@ ANALYSE    := ./cmd/analyse
 # Valeurs par défaut (DM1 - Pré Régionale Masculine, Poule A)
 PHASE      ?= 200000002872715
 POULE      ?= 200000003018348
-OUTPUT     ?= data/dm1.json
+OUTPUT     ?= data/idf-dm3/dm1.json
 INPUT      ?= data/dm1.json
 CALENDRIER ?= data/calendrier.json
 
@@ -21,10 +21,6 @@ pipeline: build
 ## Scrape le classement avec les paramètres PHASE, POULE et OUTPUT
 classement:
 	$(PYTHON) scraper_classement.py --phase $(PHASE) --poule $(POULE) --output $(OUTPUT)
-
-## Raccourci pour générer data/dm1.json avec les valeurs par défaut
-dm1:
-	$(PYTHON) scraper_classement.py --phase $(PHASE) --poule $(POULE) --output data/dm1.json
 
 ## Scrape le calendrier complet de la saison
 calendrier:
