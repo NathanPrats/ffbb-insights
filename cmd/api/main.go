@@ -8,10 +8,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"ffbb-insights/internal/standings"
 )
+
+var suffixRe = regexp.MustCompile(` - \d+$`)
 
 var dataDir string
 
@@ -159,12 +162,17 @@ func handleSimulate(w http.ResponseWriter, r *http.Request) {
 	// Appliquer les overrides : transformer les matchs forcés en matchs joués
 	allMatches := applyOverrides(cal.AllMatches(), req.Overrides)
 
+	// Ajuster le classement de base avec les résultats forcés
+	// (SimulateChampionship initialise ses états depuis teams — sans ce correctif,
+	// le vainqueur forcé ne gagnerait pas ses +2 pts dans la simulation)
+	adjustedTeams := applyOverridesToTeams(cl.Teams, req.Overrides)
+
 	targets := req.TargetPositions
 	if len(targets) == 0 {
 		targets = []int{1}
 	}
 
-	results := standings.SimulateChampionship(cl.Teams, allMatches, targets)
+	results := standings.SimulateChampionship(adjustedTeams, allMatches, targets)
 	jsonOK(w, results)
 }
 
@@ -202,6 +210,51 @@ func buildTargets(n, top, bottom int) []int {
 		}
 	}
 	return targets
+}
+
+// applyOverridesToTeams retourne une copie du classement avec les pts/stats mis à jour
+// pour chaque match forcé. Sans ça, SimulateChampionship ignorerait les +2 pts du vainqueur.
+func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []standings.Team {
+	adjusted := make([]standings.Team, len(teams))
+	copy(adjusted, teams)
+
+	// Index nom normalisé → indice (même normalisation que projection.go)
+	nameToIdx := make(map[string]int, len(adjusted))
+	for i, t := range adjusted {
+		nameToIdx[normalize(suffixRe.ReplaceAllString(t.Equipe, ""))] = i
+	}
+
+	for _, o := range overrides {
+		domIdx, domOk := nameToIdx[normalize(o.Domicile)]
+		visIdx, visOk := nameToIdx[normalize(o.Visiteur)]
+		if !domOk || !visOk {
+			continue
+		}
+
+		// Scores fixes (identiques à applyOverrides)
+		domScore, visScore := 80, 70
+		if o.Winner == "visiteur" {
+			domScore, visScore = 70, 80
+		}
+
+		adjusted[domIdx].Joues++
+		adjusted[visIdx].Joues++
+		adjusted[domIdx].BP += domScore
+		adjusted[domIdx].BC += visScore
+		adjusted[visIdx].BP += visScore
+		adjusted[visIdx].BC += domScore
+
+		if o.Winner == "domicile" {
+			adjusted[domIdx].Pts += 2
+			adjusted[domIdx].Gagnes++
+			adjusted[visIdx].Perdus++
+		} else {
+			adjusted[visIdx].Pts += 2
+			adjusted[visIdx].Gagnes++
+			adjusted[domIdx].Perdus++
+		}
+	}
+	return adjusted
 }
 
 // applyOverrides marque les matchs forcés comme joués avec le vainqueur spécifié.

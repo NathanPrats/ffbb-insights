@@ -27,7 +27,7 @@ export default async function ProjectionsPage({ params }: Props) {
         >
           Classement
         </Link>
-        <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#000" }}>
+        <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#fff" }}>
           Projections
         </span>
         <Link
@@ -39,7 +39,11 @@ export default async function ProjectionsPage({ params }: Props) {
         </Link>
       </div>
 
-      <ProjectionsClient id={id} totalTeams={standings.classement.length} />
+      <ProjectionsClient
+        id={id}
+        totalTeams={standings.classement.length}
+        remainingMatches={standings.remaining_matches ?? []}
+      />
     </div>
   );
 }

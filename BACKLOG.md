@@ -2,7 +2,7 @@
 
 ## En cours
 
-- [ ] **F2 — Simulateur interactif** — toggle win/loss par match, recalcul live des probas
+- Rien pour l'instant — F2 terminé, choisir la prochaine feature
 
 ## Features interface (priorisées)
 
@@ -10,9 +10,10 @@
 |---|---------|----------|-------------|--------|
 | F3 | Classement intelligent (forme, calendrier restant, feux rouge/orange/vert) | 1 | — | ✅ fait |
 | F1 | Chemin vers la montée / maintien (Monte Carlo, version simple + détaillée) | 2 | F3 | ✅ fait |
-| F2 | Simulateur interactif (toggle win/loss, slider proba, classement live) | 3 | F1 | ⏳ suivant |
+| F2 | Simulateur interactif (toggle win/loss, recalcul live pts + probas) | 3 | F1 | ✅ fait |
 | F4 | Matchs décisifs ("ce match vaut 40% de maintien") | 4 | F1, F2 | — |
 | F5 | Scénarios clés automatiques (meilleur cas, pire cas, scénario réaliste) | 5 | F2, F4 | — |
+| F6 | Départage visible en cas d'égalité : groupement visuel + colonne diff dans le simulateur | 6 | F2 | — |
 
 ## Backlog technique
 

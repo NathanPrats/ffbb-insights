@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ProjectionResult } from "@/lib/api";
+import type { ProjectionResult, Match } from "@/lib/api";
+import { BasketballLoader } from "@/components/BasketballLoader";
 
 type Target = "top" | "bottom";
 
 type Props = {
   id: string;
   totalTeams: number;
+  remainingMatches: Match[];
 };
 
-export default function ProjectionsClient({ id, totalTeams }: Props) {
+export default function ProjectionsClient({ id, totalTeams, remainingMatches }: Props) {
   const [target, setTarget] = useState<Target>("top");
   const [n, setN] = useState(2);
   const [results, setResults] = useState<ProjectionResult[] | null>(null);
@@ -34,6 +36,35 @@ export default function ProjectionsClient({ id, totalTeams }: Props) {
   const inZone = results?.filter((r) => r.WinPct > 0) ?? [];
   const eliminated = results?.filter((r) => r.WinPct === 0) ?? [];
 
+  function maitreDeSonDestin(result: ProjectionResult): boolean {
+    if (target !== "top" || !results) return false;
+    if (result.WinPct === 0 || result.WinPct >= 99.9) return false;
+
+    const norm = (name: string) => name.replace(/ - \d+$/, "").toLowerCase().trim();
+    const teamName = norm(result.Team.equipe);
+
+    // Points perdus par chaque adversaire si T gagne tous ses matchs directs
+    const ptsLostByOpponent = new Map<string, number>();
+    for (const m of remainingMatches) {
+      const dom = norm(m.domicile);
+      const vis = norm(m.visiteur);
+      if (dom === teamName) {
+        ptsLostByOpponent.set(vis, (ptsLostByOpponent.get(vis) ?? 0) + 2);
+      } else if (vis === teamName) {
+        ptsLostByOpponent.set(dom, (ptsLostByOpponent.get(dom) ?? 0) + 2);
+      }
+    }
+
+    // Combien d'équipes peuvent encore finir avec plus de points que T.MaxPts ?
+    const teamsAbove = results.filter((r) => {
+      if (norm(r.Team.equipe) === teamName) return false;
+      const effectiveMax = r.MaxPts - (ptsLostByOpponent.get(norm(r.Team.equipe)) ?? 0);
+      return effectiveMax > result.MaxPts;
+    }).length;
+
+    return teamsAbove < n;
+  }
+
   return (
     <div>
       {/* Controls */}
@@ -50,7 +81,7 @@ export default function ProjectionsClient({ id, totalTeams }: Props) {
               className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors"
               style={
                 target === t
-                  ? { background: "var(--accent)", color: "#000" }
+                  ? { background: "var(--accent)", color: "#fff" }
                   : { color: "var(--muted)" }
               }
             >
@@ -73,7 +104,7 @@ export default function ProjectionsClient({ id, totalTeams }: Props) {
                 className="w-8 h-7 rounded text-sm font-mono font-medium transition-colors"
                 style={
                   n === v
-                    ? { background: "var(--accent)", color: "#000" }
+                    ? { background: "var(--accent)", color: "#fff" }
                     : { color: "var(--muted)" }
                 }
               >
@@ -86,9 +117,7 @@ export default function ProjectionsClient({ id, totalTeams }: Props) {
 
       {/* Results */}
       {loading ? (
-        <div className="text-sm py-16 text-center" style={{ color: "var(--muted)" }}>
-          Calcul en cours…
-        </div>
+        <BasketballLoader label="Calcul en cours…" />
       ) : results === null ? (
         <div className="text-sm py-16 text-center" style={{ color: "var(--muted)" }}>
           Erreur lors du chargement.
@@ -103,6 +132,8 @@ export default function ProjectionsClient({ id, totalTeams }: Props) {
                 target={target}
                 isLast={i === inZone.length - 1 && eliminated.length === 0}
                 showDivider={i < inZone.length - 1 || eliminated.length > 0}
+                maitre={maitreDeSonDestin(r)}
+                derniereChance={r.TotalScenarios > 0 && r.EstimatedScenarios === 1}
               />
             ))}
 
@@ -142,12 +173,16 @@ function ResultRow({
   target,
   showDivider,
   dimmed = false,
+  maitre = false,
+  derniereChance = false,
 }: {
   result: ProjectionResult;
   target: Target;
   isLast: boolean;
   showDivider: boolean;
   dimmed?: boolean;
+  maitre?: boolean;
+  derniereChance?: boolean;
 }) {
   const pct = result.WinPct;
   const maxPts = result.MaxPts;
@@ -189,22 +224,40 @@ function ResultRow({
           </div>
         </div>
 
-        {/* % */}
-        <div className="text-right w-16 shrink-0">
-          {pct === 0 ? (
-            <span className="text-sm" style={{ color: "var(--muted)" }}>
-              {target === "top" ? "éliminé" : "maintenu ✓"}
-            </span>
-          ) : pct >= 99.9 ? (
-            <span className="text-sm font-semibold text-green-400">
-              {target === "top" ? "assuré ✓" : "relégué"}
-            </span>
-          ) : (
-            <span className="text-xl font-semibold font-mono" style={{ color: barColor }}>
-              {pct.toFixed(1)}
-              <span className="text-sm font-normal" style={{ color: "var(--muted)" }}>%</span>
+        {/* Tags + % */}
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          {maitre && (
+            <span
+              className="text-xs px-2 py-0.5 rounded-full font-medium"
+              style={{ background: "rgba(61,95,160,0.1)", color: "var(--accent)" }}
+            >
+              Maître de leur destin
             </span>
           )}
+          {derniereChance && (
+            <span
+              className="text-xs px-2 py-0.5 rounded-full font-medium"
+              style={{ background: "rgba(220,38,38,0.08)", color: "rgb(220,38,38)" }}
+            >
+              Dernière chance
+            </span>
+          )}
+          <div className="w-16 text-right">
+            {pct === 0 ? (
+              <span className="text-sm" style={{ color: "var(--muted)" }}>
+                {target === "top" ? "éliminé" : "maintenu ✓"}
+              </span>
+            ) : pct >= 99.9 ? (
+              <span className="text-sm font-semibold text-green-600">
+                {target === "top" ? "assuré ✓" : "relégué"}
+              </span>
+            ) : (
+              <span className="text-xl font-semibold font-mono" style={{ color: barColor }}>
+                {pct.toFixed(1)}
+                <span className="text-sm font-normal" style={{ color: "var(--muted)" }}>%</span>
+              </span>
+            )}
+          </div>
         </div>
       </div>
 

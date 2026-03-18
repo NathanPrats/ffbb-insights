@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0f0f;
-  --foreground: #f0f0f0;
-  --muted: #666;
-  --border: #222;
-  --card: #161616;
-  --accent: #f97316;
+  --background: #F4F6FB;
+  --foreground: #0D1117;
+  --muted: #7A8599;
+  --border: #DDE3EF;
+  --card: #FFFFFF;
+  --accent: #3D5FA0;
+  --accent-hover: #2D4F8E;
 }
 
 @theme inline {
@@ -21,4 +22,37 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Basketball bounce animation */
+@keyframes ball-bounce {
+  0% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.66, 0);
+  }
+  45% {
+    transform: translateY(-36px) scaleX(0.93) scaleY(1.07);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.66, 1);
+  }
+  80% {
+    transform: translateY(0) scaleX(1.14) scaleY(0.86);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.66, 1);
+  }
+  100% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes shadow-scale {
+  0%, 100% { transform: scaleX(1); opacity: 0.2; }
+  45% { transform: scaleX(0.4); opacity: 0.06; }
+}
+
+.ball-bounce {
+  display: inline-block;
+  animation: ball-bounce 0.65s ease-in-out infinite;
+}
+
+.ball-shadow {
+  animation: shadow-scale 0.65s ease-in-out infinite;
 }

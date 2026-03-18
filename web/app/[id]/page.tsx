@@ -48,7 +48,7 @@ export default async function StandingsPage({ params }: Props) {
 
       {/* Nav */}
       <div className="flex gap-2 mb-6 text-sm">
-        <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#000" }}>
+        <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#fff" }}>
           Classement
         </span>
         <Link
@@ -103,9 +103,9 @@ export default async function StandingsPage({ params }: Props) {
                   borderBottom: i < teams.length - 1 ? "1px solid var(--border)" : undefined,
                   background:
                     status === "safe"
-                      ? "rgba(34,197,94,0.04)"
+                      ? "rgba(22,163,74,0.06)"
                       : status === "danger"
-                      ? "rgba(239,68,68,0.04)"
+                      ? "rgba(220,38,38,0.06)"
                       : undefined,
                 }}
               >
@@ -119,11 +119,11 @@ export default async function StandingsPage({ params }: Props) {
                 </td>
                 <td className="py-3 px-4 font-medium">{team.equipe}</td>
                 <td className="py-3 px-3 text-center font-mono font-semibold">{team.pts}</td>
-                <td className="py-3 px-3 text-center font-mono text-green-400">{team.gagnes}</td>
-                <td className="py-3 px-3 text-center font-mono text-red-400">{team.perdus}</td>
+                <td className="py-3 px-3 text-center font-mono text-green-600">{team.gagnes}</td>
+                <td className="py-3 px-3 text-center font-mono text-red-500">{team.perdus}</td>
                 <td
                   className="py-3 px-3 text-center font-mono text-xs"
-                  style={{ color: team.bp - team.bc >= 0 ? "rgb(74,222,128)" : "rgb(248,113,113)" }}
+                  style={{ color: team.bp - team.bc >= 0 ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
                 >
                   {team.bp - team.bc > 0 ? "+" : ""}
                   {team.bp - team.bc}
@@ -149,7 +149,7 @@ export default async function StandingsPage({ params }: Props) {
 
 function StatusDot({ status }: { status: "safe" | "uncertain" | "danger" }) {
   const color =
-    status === "safe" ? "bg-green-500" : status === "danger" ? "bg-red-500" : "bg-yellow-500";
+    status === "safe" ? "bg-green-500" : status === "danger" ? "bg-red-500" : "bg-amber-400";
   return <span className={`inline-block w-1.5 h-1.5 rounded-full ${color}`} />;
 }
 
@@ -163,7 +163,7 @@ function FormDots({ form }: { form: ("W" | "L")[] }) {
           key={i}
           title={r === "W" ? "Victoire" : "Défaite"}
           className={`inline-block w-4 h-4 rounded-sm text-[9px] font-bold flex items-center justify-center ${
-            r === "W" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+            r === "W" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"
           }`}
         >
           {r}
@@ -180,10 +180,10 @@ function DifficultyBadge({ difficulty, remaining }: { difficulty: number; remain
   const label = difficulty > 0.6 ? "difficile" : difficulty > 0.4 ? "moyen" : "facile";
   const color =
     difficulty > 0.6
-      ? "text-red-400"
+      ? "text-red-500"
       : difficulty > 0.4
-      ? "text-yellow-400"
-      : "text-green-400";
+      ? "text-amber-500"
+      : "text-green-600";
 
   return (
     <span className={`text-xs font-mono ${color}`}>
