@@ -1,6 +1,8 @@
 PYTHON     := .venv/bin/python3
 GO         := go
 ANALYSE    := ./cmd/analyse
+API        := ./cmd/api
+API_PORT   ?= 8080
 
 # Valeurs par défaut (DM1 - Pré Régionale Masculine, Poule A)
 PHASE      ?= 200000002872715
@@ -12,7 +14,7 @@ CALENDRIER ?= data/calendrier.json
 # Pipeline URL (ex: make pipeline URL="https://competitions.ffbb.com/.../classement?phase=X&poule=Y")
 URL        ?=
 
-.PHONY: pipeline classement calendrier dm1 build analyse test install help
+.PHONY: pipeline classement calendrier dm1 build build-api dev analyse test install help
 
 ## Pipeline complet depuis une URL FFBB (scraping + analyse)
 pipeline: build
@@ -29,6 +31,14 @@ calendrier:
 ## Compile le binaire Go d'analyse
 build:
 	$(GO) build -o bin/analyse $(ANALYSE)
+
+## Compile le serveur API Go
+build-api:
+	$(GO) build -o bin/api $(API)
+
+## Démarre l'API Go + le frontend Next.js en dev
+dev: build-api
+	./bin/api --port $(API_PORT) & cd web && npm run dev
 
 ## Compile et lance l'analyse sur INPUT (défaut: data/dm1.json)
 analyse: build
@@ -51,7 +61,9 @@ help:
 	@echo "  make dm1                          # Scrape classement → data/dm1.json (valeurs par défaut)"
 	@echo "  make classement PHASE=xxx POULE=yyy OUTPUT=data/dm2.json"
 	@echo "  make calendrier                   # Scrape calendrier → data/calendrier.json"
-	@echo "  make build                        # Compile le binaire Go"
+	@echo "  make build                        # Compile le binaire Go (CLI analyse)"
+	@echo "  make build-api                    # Compile le serveur API Go"
+	@echo "  make dev                          # Démarre API Go + frontend Next.js"
 	@echo "  make analyse                      # Lance l'analyse sur data/dm1.json"
 	@echo "  make analyse INPUT=data/dm2.json  # Lance l'analyse sur un autre fichier"
 	@echo "  make test                         # Lance les tests unitaires"
