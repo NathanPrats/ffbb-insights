@@ -123,9 +123,12 @@ function CompetitionCard({ competition: c }: { competition: Competition }) {
           <Row label="ligue" value={c.ligue} hovered={hovered} />
         )}
         {c.comite && (
-          <Row label="comite" value={c.comite} hovered={hovered} />
+          <Row label="comité" value={c.comite} hovered={hovered} />
         )}
         <Row label="compét." value={c.competition} hovered={hovered} highlight />
+        {c.genre && (
+          <Row label="genre" value={c.genre} hovered={hovered} />
+        )}
       </div>
     </a>
   );

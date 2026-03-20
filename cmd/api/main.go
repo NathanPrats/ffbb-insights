@@ -22,6 +22,7 @@ import (
 type CompetitionConfig struct {
 	ID            string
 	Competition   string
+	Genre         string
 	Ligue         string
 	Comite        string
 	ClassementURL string
@@ -31,38 +32,51 @@ type CompetitionConfig struct {
 var staticCompetitions = []CompetitionConfig{
 	{
 		ID:            "idf-dm3",
-		Competition:   "dm3",
-		Ligue:         "idf",
+		Competition:   "Départemental 3",
+		Genre:         "Masculin",
+		Ligue:         "Île-de-France",
 		Comite:        "0078",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/dm3/classement?phase=200000002873855&poule=200000003020596",
 	},
 	{
 		ID:            "idf-pnm",
-		Competition:   "pnm",
-		Ligue:         "idf",
+		Competition:   "Pré-Nationale",
+		Genre:         "Masculin",
+		Ligue:         "Île-de-France",
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/pnm/classement?phase=200000002872906&poule=200000003018734",
 	},
 	{
 		ID:            "idf-rm2",
-		Competition:   "rm2",
-		Ligue:         "idf",
+		Competition:   "Régional 2",
+		Genre:         "Masculin",
+		Ligue:         "Île-de-France",
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/rm2/classement?phase=200000002872433&poule=200000003017522",
 	},
 	{
 		ID:            "ara-rm3",
-		Competition:   "rm3",
-		Ligue:         "ara",
+		Competition:   "Régional 3",
+		Genre:         "Masculin",
+		Ligue:         "Auvergne-Rhône-Alpes",
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/ara/competitions/rm3/classement?phase=200000002880055&poule=200000003035093",
 	},
 	{
-		ID:            "-nm2",
-		Competition:   "nm2",
+		ID:            "nm2",
+		Competition:   "Nationale 2",
+		Genre:         "Masculin",
 		Ligue:         "",
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/competitions/nm2/classement?phase=200000002872459&poule=200000003017639",
+	},
+	{
+		ID:            "ges-prm",
+		Competition:   "Pré-Régionale",
+		Genre:         "Masculin",
+		Ligue:         "Grand Est",
+		Comite:        "0008",
+		ClassementURL: "https://competitions.ffbb.com/ligues/ges/comites/0008/competitions/prm/classement?phase=200000002872975&poule=200000003018876",
 	},
 }
 
@@ -175,6 +189,7 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 	type Competition struct {
 		ID          string `json:"id"`
 		Competition string `json:"competition"`
+		Genre       string `json:"genre"`
 		Ligue       string `json:"ligue"`
 		Comite      string `json:"comite"`
 	}
@@ -184,6 +199,7 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 		comps = append(comps, Competition{
 			ID:          c.ID,
 			Competition: c.Competition,
+			Genre:       c.Genre,
 			Ligue:       c.Ligue,
 			Comite:      c.Comite,
 		})

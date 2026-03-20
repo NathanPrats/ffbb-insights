@@ -52,6 +52,7 @@ export type Calendrier = {
 export type Competition = {
   id: string;
   competition: string;
+  genre: string;
   ligue: string;
   comite: string;
 };

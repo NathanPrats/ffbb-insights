@@ -110,9 +110,9 @@ func ParseFFBBURL(rawURL string) (CompetitionMeta, error) {
 	classementURL := fmt.Sprintf("%s://%s%s/classement?phase=%s&poule=%s",
 		u.Scheme, u.Host, basePath, phase, poule)
 
-	// URL calendrier : page racine + ?phase=&poule=&jour=today
-	calURL := fmt.Sprintf("%s://%s%s?phase=%s&poule=%s&jour=%s",
-		u.Scheme, u.Host, basePath, phase, poule, time.Now().Format("2006-01-02"))
+	// URL calendrier : page racine sans filtre de journée pour avoir toute la saison
+	calURL := fmt.Sprintf("%s://%s%s?phase=%s&poule=%s",
+		u.Scheme, u.Host, basePath, phase, poule)
 
 	slug := strings.ToLower(ligue + "-" + competition)
 
@@ -448,30 +448,30 @@ func FetchCalendrier(classementURL string, teamFilter map[string]bool) (*standin
 		return nil, fmt.Errorf("aucune rencontre trouvée dans le payload RSC (structure FFBB changée ?)")
 	}
 
+	// Dédupliquer les rencontres par clé (dom, vis, date) pour éviter les doublons
+	// entre journées présentes plusieurs fois dans le payload RSC.
+	type matchKey struct{ dom, vis, date string }
+	seen := make(map[matchKey]bool)
 	var selected []rencontreRaw
-	if len(teamFilter) > 0 {
-		// Compétitions multi-poules : garder le tableau avec le plus de matchs
-		// dont les deux équipes sont dans le filtre.
-		best := []rencontreRaw{}
-		for _, arr := range allArrays {
-			var filtered []rencontreRaw
-			for _, r := range arr {
-				dom := normalizeName(r.Equipe1.Nom)
-				vis := normalizeName(r.Equipe2.Nom)
-				if teamFilter[dom] && teamFilter[vis] {
-					filtered = append(filtered, r)
-				}
+
+	for _, arr := range allArrays {
+		for _, r := range arr {
+			dom := normalizeName(r.Equipe1.Nom)
+			vis := normalizeName(r.Equipe2.Nom)
+			if len(teamFilter) > 0 && (!teamFilter[dom] || !teamFilter[vis]) {
+				continue
 			}
-			if len(filtered) > len(best) {
-				best = filtered
+			k := matchKey{dom, vis, r.DateRencontre}
+			if seen[k] {
+				continue
 			}
+			seen[k] = true
+			selected = append(selected, r)
 		}
-		if len(best) == 0 {
-			return nil, fmt.Errorf("aucune rencontre ne correspond aux équipes du classement")
-		}
-		selected = best
-	} else {
-		selected = allArrays[0]
+	}
+
+	if len(selected) == 0 {
+		return nil, fmt.Errorf("aucune rencontre ne correspond aux équipes du classement")
 	}
 
 	return &standings.Calendrier{
