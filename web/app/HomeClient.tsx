@@ -87,37 +87,78 @@ export default function HomeClient({ competitions }: Props) {
         )}
       </form>
 
-      {/* Existing competitions */}
+      {/* Mosaic */}
       {competitions.length > 0 && (
         <>
-          <p className="text-sm mb-3" style={{ color: "var(--muted)" }}>
-            Compétitions déjà disponibles
+          <p className="text-xs font-medium mb-4 uppercase tracking-wide" style={{ color: "var(--muted)" }}>
+            Compétitions disponibles
           </p>
-          <div className="grid gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {competitions.map((c) => (
-              <a
-                key={c.id}
-                href={`/${c.id}`}
-                className="block rounded-lg px-5 py-4 transition-colors"
-                style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                }}
-              >
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="font-medium">{c.competition}</span>
-                  <span className="text-sm" style={{ color: "var(--muted)" }}>
-                    {c.ligue}
-                  </span>
-                </div>
-                <div className="text-xs mt-1 font-mono" style={{ color: "var(--muted)" }}>
-                  {c.id}
-                </div>
-              </a>
+              <CompetitionCard key={c.id} competition={c} />
             ))}
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+function CompetitionCard({ competition: c }: { competition: Competition }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <a
+      href={`/${c.id}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="block rounded-xl p-4 transition-colors"
+      style={{
+        background: hovered ? "var(--accent)" : "var(--card)",
+        border: "1px solid var(--border)",
+      }}
+    >
+      <div className="space-y-1.5">
+        {c.ligue && (
+          <Row label="ligue" value={c.ligue} hovered={hovered} />
+        )}
+        {c.comite && (
+          <Row label="comite" value={c.comite} hovered={hovered} />
+        )}
+        <Row label="compét." value={c.competition} hovered={hovered} highlight />
+      </div>
+    </a>
+  );
+}
+
+function Row({
+  label,
+  value,
+  hovered,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  hovered: boolean;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <span
+        className="text-xs w-14 shrink-0"
+        style={{ color: hovered ? "rgba(255,255,255,0.6)" : "var(--muted)" }}
+      >
+        {label}
+      </span>
+      <span
+        className="text-sm font-mono font-medium truncate"
+        style={{
+          color: hovered ? "#fff" : highlight ? "var(--foreground)" : "var(--foreground)",
+          fontWeight: highlight ? 600 : 500,
+        }}
+      >
+        {value}
+      </span>
     </div>
   );
 }

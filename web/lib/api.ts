@@ -30,6 +30,7 @@ export type Journee = {
 };
 
 export type Classement = {
+  name: string;
   competition: string;
   ligue: string;
   comite: string;
@@ -52,6 +53,7 @@ export type Competition = {
   id: string;
   competition: string;
   ligue: string;
+  comite: string;
 };
 
 export type ProjectionResult = {

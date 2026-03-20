@@ -159,7 +159,22 @@ var (
 	spanNumRe  = regexp.MustCompile(`<span[^>]*>(\d+)</span>`)
 	teamNameRe = regexp.MustCompile(`<div class="min-w-\[228px\][^"]*">([^<]+)</div>`)
 	divNumRe   = regexp.MustCompile(`<div[^>]*>(\d+)</div>`)
+	titleRe    = regexp.MustCompile(`<title>([^<]+)</title>`)
 )
+
+// extractCompetitionName tente d'extraire le nom lisible de la compétition
+// depuis le <title> de la page (ex: "Départemental Masculin 3 | Île-de-France | FFBB").
+func extractCompetitionName(htmlContent string) string {
+	m := titleRe.FindStringSubmatch(htmlContent)
+	if m == nil {
+		return ""
+	}
+	// Le titre FFBB est typiquement "Nom compétition | Ligue | FFBB"
+	// On garde uniquement la première partie.
+	parts := strings.SplitN(m[1], "|", 2)
+	name := strings.TrimSpace(gohtml.UnescapeString(parts[0]))
+	return name
+}
 
 func extractStandingsFromHTML(htmlContent string) ([]standings.Team, error) {
 	var teams []standings.Team
@@ -401,6 +416,7 @@ func FetchStandings(classementURL string) (*standings.Classement, error) {
 	}
 
 	return &standings.Classement{
+		Name:        extractCompetitionName(htmlContent),
 		Competition: meta.Competition,
 		Ligue:       meta.Ligue,
 		Comite:      meta.Comite,

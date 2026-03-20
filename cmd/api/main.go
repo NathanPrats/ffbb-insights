@@ -23,6 +23,7 @@ type CompetitionConfig struct {
 	ID            string
 	Competition   string
 	Ligue         string
+	Comite        string
 	ClassementURL string
 }
 
@@ -32,30 +33,35 @@ var staticCompetitions = []CompetitionConfig{
 		ID:            "idf-dm3",
 		Competition:   "dm3",
 		Ligue:         "idf",
+		Comite:        "0078",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/dm3/classement?phase=200000002873855&poule=200000003020596",
 	},
 	{
 		ID:            "idf-pnm",
 		Competition:   "pnm",
 		Ligue:         "idf",
+		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/pnm/classement?phase=200000002872906&poule=200000003018734",
 	},
 	{
 		ID:            "idf-rm2",
 		Competition:   "rm2",
 		Ligue:         "idf",
+		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/rm2/classement?phase=200000002872433&poule=200000003017522",
 	},
 	{
 		ID:            "ara-rm3",
 		Competition:   "rm3",
 		Ligue:         "ara",
+		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/ligues/ara/competitions/rm3/classement?phase=200000002880055&poule=200000003035093",
 	},
 	{
 		ID:            "-nm2",
 		Competition:   "nm2",
 		Ligue:         "",
+		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/competitions/nm2/classement?phase=200000002872459&poule=200000003017639",
 	},
 }
@@ -170,6 +176,7 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 		ID          string `json:"id"`
 		Competition string `json:"competition"`
 		Ligue       string `json:"ligue"`
+		Comite      string `json:"comite"`
 	}
 	all := allConfigs()
 	comps := make([]Competition, 0, len(all))
@@ -178,6 +185,7 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 			ID:          c.ID,
 			Competition: c.Competition,
 			Ligue:       c.Ligue,
+			Comite:      c.Comite,
 		})
 	}
 	jsonOK(w, comps)
@@ -228,6 +236,7 @@ func handleScrape(w http.ResponseWriter, r *http.Request) {
 		ID:            id,
 		Competition:   meta.Competition,
 		Ligue:         meta.Ligue,
+		Comite:        meta.Comite,
 		ClassementURL: meta.ClassementURL,
 	}
 	dynamicMu.Unlock()

@@ -21,9 +21,9 @@ export default async function SimulateurPage({ params }: Props) {
     <div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold">{standings.competition}</h1>
+        <h1 className="text-2xl font-semibold">{standings.name || standings.competition}</h1>
         <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>
-          {standings.ligue} · Scraped le {standings.scraped_at}
+          {[standings.ligue, standings.comite].filter(Boolean).join(" · ")} · Scraped le {standings.scraped_at}
         </p>
       </div>
 
