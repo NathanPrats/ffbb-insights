@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Journee, ProjectionResult, Team } from "@/lib/api";
+import { BasketballLoader } from "@/components/BasketballLoader";
 
 type Target = "top" | "bottom";
 type Winner = "domicile" | "visiteur";
@@ -225,9 +226,7 @@ export default function SimulateurClient({ id, journees, teams, totalTeams }: Pr
             }}
           >
             {results === null ? (
-              <div className="py-8 text-center text-sm" style={{ color: "var(--muted)" }}>
-                Chargement…
-              </div>
+              <BasketballLoader label="Calcul en cours…" />
             ) : (
               results.map((r, i) => (
                 <ResultRow

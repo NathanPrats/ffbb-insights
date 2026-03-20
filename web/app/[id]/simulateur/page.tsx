@@ -36,13 +36,6 @@ export default async function SimulateurPage({ params }: Props) {
         >
           Classement
         </Link>
-        <Link
-          href={`/${id}/projections`}
-          className="px-3 py-1 rounded-full transition-colors"
-          style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid var(--border)" }}
-        >
-          Projections
-        </Link>
         <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#fff" }}>
           Simulateur
         </span>
