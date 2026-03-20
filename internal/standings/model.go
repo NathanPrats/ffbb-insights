@@ -14,11 +14,12 @@ type Team struct {
 	Penalites int    `json:"penalites"`
 }
 
-// Classement est la structure racine du fichier JSON produit par le scraper.
+// Classement est la structure racine retournée par le scraper.
 type Classement struct {
-	Competition string `json:"competition"`
-	Ligue       string `json:"ligue"`
-	Comite      string `json:"comite"`
+	Name        string `json:"name"`        // Nom complet ex: "Championnat Départemental Masculin 3"
+	Competition string `json:"competition"` // Slug ex: "dm3"
+	Ligue       string `json:"ligue"`       // ex: "idf"
+	Comite      string `json:"comite"`      // ex: "0078"
 	Phase       string `json:"phase"`
 	Poule       string `json:"poule"`
 	SourceURL   string `json:"source_url"`
