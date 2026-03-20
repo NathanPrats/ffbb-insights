@@ -79,12 +79,18 @@ func findConfig(id string) (CompetitionConfig, bool) {
 }
 
 func allConfigs() []CompetitionConfig {
+	seen := make(map[string]bool, len(staticCompetitions))
 	result := make([]CompetitionConfig, len(staticCompetitions))
 	copy(result, staticCompetitions)
+	for _, c := range staticCompetitions {
+		seen[c.ID] = true
+	}
 	dynamicMu.RLock()
 	defer dynamicMu.RUnlock()
 	for _, c := range dynamicCompetitions {
-		result = append(result, c)
+		if !seen[c.ID] {
+			result = append(result, c)
+		}
 	}
 	return result
 }
