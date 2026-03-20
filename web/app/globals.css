@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F4F6FB;
-  --foreground: #0D1117;
-  --muted: #7A8599;
-  --border: #DDE3EF;
-  --card: #FFFFFF;
-  --accent: #3D5FA0;
-  --accent-hover: #2D4F8E;
+  /* fond sombre pour les boîtes internes (toggles, inner stat boxes) */
+  --background: #f0ecf8;
+  /* texte sombre pour l'intérieur des cartes/tables/modals */
+  --foreground: #1a1f3c;
+  --muted: #756585;
+  --border: #ddd6ec;
+  /* cartes, tables, modals : fond blanc */
+  --card: #ffffff;
+  --accent: #A5273C;
+  --accent-hover: #8B1E30;
 }
 
 @theme inline {
@@ -18,10 +21,12 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #1D2444 0%, #352570 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 /* Basketball bounce animation */
