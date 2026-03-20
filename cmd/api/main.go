@@ -6,22 +6,82 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
+	"ffbb-insights/internal/cache"
+	"ffbb-insights/internal/scraper"
 	"ffbb-insights/internal/standings"
 )
 
-var suffixRe = regexp.MustCompile(` - \d+$`)
+// ── Competition registry ──────────────────────────────────────────────────────
 
-var dataDir string
+// CompetitionConfig est la configuration statique d'une compétition connue.
+// Les URLs contiennent les IDs phase/poule nécessaires au scraping.
+type CompetitionConfig struct {
+	ID            string
+	Competition   string
+	Ligue         string
+	ClassementURL string
+}
+
+// competitions est la liste des compétitions disponibles dans l'application.
+// Pour ajouter une compétition : copier l'URL FFBB de la page classement.
+var competitions = []CompetitionConfig{
+	{
+		ID:            "idf-dm3",
+		Competition:   "dm3",
+		Ligue:         "idf",
+		ClassementURL: "https://competitions.ffbb.com/ligues/idf/comites/0078/competitions/dm3/classement?phase=200000002873855&poule=200000003020596",
+	},
+	{
+		ID:            "idf-pnm",
+		Competition:   "pnm",
+		Ligue:         "idf",
+		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/pnm/classement?phase=200000002872906&poule=200000003018734",
+	},
+	{
+		ID:            "idf-rm2",
+		Competition:   "rm2",
+		Ligue:         "idf",
+		ClassementURL: "https://competitions.ffbb.com/ligues/idf/competitions/rm2/classement?phase=200000002872433&poule=200000003017522",
+	},
+	{
+		ID:            "ara-rm3",
+		Competition:   "rm3",
+		Ligue:         "ara",
+		ClassementURL: "https://competitions.ffbb.com/ligues/ara/competitions/rm3/classement?phase=200000002880055&poule=200000003035093",
+	},
+	{
+		ID:            "-nm2",
+		Competition:   "nm2",
+		Ligue:         "",
+		ClassementURL: "https://competitions.ffbb.com/competitions/nm2/classement?phase=200000002872459&poule=200000003017639",
+	},
+}
+
+func findConfig(id string) (CompetitionConfig, bool) {
+	for _, c := range competitions {
+		if c.ID == id {
+			return c, true
+		}
+	}
+	return CompetitionConfig{}, false
+}
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+
+var dataCache *cache.Cache
+
+var suffixRe = regexp.MustCompile(` - \d+$`)
 
 func main() {
 	port := flag.String("port", "8080", "Port d'écoute")
-	flag.StringVar(&dataDir, "data", "data", "Répertoire des données JSON")
+	ttl := flag.Duration("cache-ttl", time.Hour, "Durée de vie du cache mémoire")
 	flag.Parse()
+
+	dataCache = cache.New(*ttl)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/competitions", handleCompetitions)
@@ -29,45 +89,68 @@ func main() {
 	mux.HandleFunc("GET /api/competitions/{id}/calendar", handleCalendar)
 	mux.HandleFunc("GET /api/competitions/{id}/projections", handleProjections)
 	mux.HandleFunc("POST /api/competitions/{id}/simulate", handleSimulate)
+	mux.HandleFunc("POST /api/competitions/{id}/refresh", handleRefresh)
 
 	handler := corsMiddleware(mux)
 
-	log.Printf("API listening on :%s (data: %s)", *port, dataDir)
+	log.Printf("API listening on :%s (cache TTL: %s)", *port, *ttl)
 	if err := http.ListenAndServe(":"+*port, handler); err != nil {
 		log.Fatal(err)
 	}
 }
 
-// --- Handlers ---
+// ── Data access ───────────────────────────────────────────────────────────────
 
-func handleCompetitions(w http.ResponseWriter, r *http.Request) {
-	entries, err := os.ReadDir(dataDir)
-	if err != nil {
-		httpError(w, fmt.Sprintf("cannot read data dir: %v", err), http.StatusInternalServerError)
-		return
+// getOrFetch retourne les données d'une compétition depuis le cache,
+// ou les scrape si le cache est vide/expiré.
+func getOrFetch(id string) (*standings.Classement, *standings.Calendrier, error) {
+	if entry, ok := dataCache.Get(id); ok {
+		return entry.Classement, entry.Calendrier, nil
 	}
 
+	config, ok := findConfig(id)
+	if !ok {
+		return nil, nil, fmt.Errorf("compétition %q inconnue", id)
+	}
+
+	log.Printf("[scrape] %s — classement", id)
+	cl, err := scraper.FetchStandings(config.ClassementURL)
+	if err != nil {
+		return nil, nil, fmt.Errorf("scrape classement %s: %w", id, err)
+	}
+
+	// Construire le filtre d'équipes pour les compétitions multi-poules
+	teamFilter := make(map[string]bool, len(cl.Teams))
+	for _, t := range cl.Teams {
+		teamFilter[suffixRe.ReplaceAllString(t.Equipe, "")] = true
+	}
+
+	log.Printf("[scrape] %s — calendrier", id)
+	cal, err := scraper.FetchCalendrier(config.ClassementURL, teamFilter)
+	if err != nil {
+		// Le calendrier est optionnel (standings fonctionne sans)
+		log.Printf("[warn] calendrier %s: %v", id, err)
+		cal = nil
+	}
+
+	dataCache.Set(id, cl, cal)
+	return cl, cal, nil
+}
+
+// ── Handlers ──────────────────────────────────────────────────────────────────
+
+func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 	type Competition struct {
 		ID          string `json:"id"`
 		Competition string `json:"competition"`
 		Ligue       string `json:"ligue"`
-		ScrapedAt   string `json:"scraped_at"`
 	}
-
-	var comps []Competition
-	for _, e := range entries {
-		if !e.IsDir() {
-			continue
-		}
-		cl, err := loadStandings(e.Name())
-		if err != nil {
-			continue
-		}
+	comps := make([]Competition, 0, len(competitions))
+	for _, c := range competitions {
 		comps = append(comps, Competition{
-			ID:          e.Name(),
-			Competition: cl.Competition,
-			Ligue:       cl.Ligue,
-			ScrapedAt:   cl.ScrapedAt,
+			ID:          c.ID,
+			Competition: c.Competition,
+			Ligue:       c.Ligue,
 		})
 	}
 	jsonOK(w, comps)
@@ -75,12 +158,11 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 
 func handleStandings(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
-	cl, err := loadStandings(id)
+	cl, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	cal, _ := loadCalendrier(id) // optionnel
 
 	type Response struct {
 		*standings.Classement
@@ -99,9 +181,13 @@ func handleStandings(w http.ResponseWriter, r *http.Request) {
 
 func handleCalendar(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
-	cal, err := loadCalendrier(id)
+	_, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	if cal == nil {
+		httpError(w, "calendrier indisponible", http.StatusNotFound)
 		return
 	}
 	jsonOK(w, cal)
@@ -111,14 +197,13 @@ func handleProjections(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	top, bottom := parseTopBottom(r)
 
-	cl, err := loadStandings(id)
+	cl, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	cal, err := loadCalendrier(id)
-	if err != nil {
-		httpError(w, "calendrier introuvable: "+err.Error(), http.StatusNotFound)
+	if cal == nil {
+		httpError(w, "calendrier indisponible pour les projections", http.StatusNotFound)
 		return
 	}
 
@@ -148,23 +233,17 @@ func handleSimulate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cl, err := loadStandings(id)
+	cl, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	cal, err := loadCalendrier(id)
-	if err != nil {
-		httpError(w, "calendrier introuvable: "+err.Error(), http.StatusNotFound)
+	if cal == nil {
+		httpError(w, "calendrier indisponible pour la simulation", http.StatusNotFound)
 		return
 	}
 
-	// Appliquer les overrides : transformer les matchs forcés en matchs joués
 	allMatches := applyOverrides(cal.AllMatches(), req.Overrides)
-
-	// Ajuster le classement de base avec les résultats forcés
-	// (SimulateChampionship initialise ses états depuis teams — sans ce correctif,
-	// le vainqueur forcé ne gagnerait pas ses +2 pts dans la simulation)
 	adjustedTeams := applyOverridesToTeams(cl.Teams, req.Overrides)
 
 	targets := req.TargetPositions
@@ -176,15 +255,28 @@ func handleSimulate(w http.ResponseWriter, r *http.Request) {
 	jsonOK(w, results)
 }
 
-// --- Helpers ---
+// handleRefresh invalide le cache pour une compétition et force un re-scrape immédiat.
+func handleRefresh(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if _, ok := findConfig(id); !ok {
+		httpError(w, fmt.Sprintf("compétition %q inconnue", id), http.StatusNotFound)
+		return
+	}
+	dataCache.Invalidate(id)
+	log.Printf("[refresh] %s — cache invalidé", id)
 
-func loadStandings(id string) (*standings.Classement, error) {
-	return standings.Load(filepath.Join(dataDir, id, "classement.json"))
+	cl, _, err := getOrFetch(id)
+	if err != nil {
+		httpError(w, "scrape échoué: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	jsonOK(w, map[string]string{
+		"status":     "ok",
+		"scraped_at": cl.ScrapedAt,
+	})
 }
 
-func loadCalendrier(id string) (*standings.Calendrier, error) {
-	return standings.LoadCalendrier(filepath.Join(dataDir, id, "calendrier.json"))
-}
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 func parseTopBottom(r *http.Request) (top, bottom int) {
 	top = 1
@@ -212,13 +304,10 @@ func buildTargets(n, top, bottom int) []int {
 	return targets
 }
 
-// applyOverridesToTeams retourne une copie du classement avec les pts/stats mis à jour
-// pour chaque match forcé. Sans ça, SimulateChampionship ignorerait les +2 pts du vainqueur.
 func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []standings.Team {
 	adjusted := make([]standings.Team, len(teams))
 	copy(adjusted, teams)
 
-	// Index nom normalisé → indice (même normalisation que projection.go)
 	nameToIdx := make(map[string]int, len(adjusted))
 	for i, t := range adjusted {
 		nameToIdx[normalize(suffixRe.ReplaceAllString(t.Equipe, ""))] = i
@@ -231,7 +320,6 @@ func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []
 			continue
 		}
 
-		// Scores fixes (identiques à applyOverrides)
 		domScore, visScore := 80, 70
 		if o.Winner == "visiteur" {
 			domScore, visScore = 70, 80
@@ -257,7 +345,6 @@ func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []
 	return adjusted
 }
 
-// applyOverrides marque les matchs forcés comme joués avec le vainqueur spécifié.
 func applyOverrides(matches []standings.Match, overrides []MatchOverride) []standings.Match {
 	type key struct{ dom, vis string }
 	forced := make(map[key]string, len(overrides))
