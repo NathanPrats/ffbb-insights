@@ -1,5 +1,4 @@
-bin/analyse
+bin/
 .venv/
 __pycache__/
 .claude/
-data/calendrier.json
