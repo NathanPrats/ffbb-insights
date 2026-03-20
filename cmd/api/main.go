@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"ffbb-insights/internal/cache"
@@ -17,8 +18,7 @@ import (
 
 // ── Competition registry ──────────────────────────────────────────────────────
 
-// CompetitionConfig est la configuration statique d'une compétition connue.
-// Les URLs contiennent les IDs phase/poule nécessaires au scraping.
+// CompetitionConfig est la configuration d'une compétition connue.
 type CompetitionConfig struct {
 	ID            string
 	Competition   string
@@ -26,9 +26,8 @@ type CompetitionConfig struct {
 	ClassementURL string
 }
 
-// competitions est la liste des compétitions disponibles dans l'application.
-// Pour ajouter une compétition : copier l'URL FFBB de la page classement.
-var competitions = []CompetitionConfig{
+// staticCompetitions est la liste des compétitions préconfigurées.
+var staticCompetitions = []CompetitionConfig{
 	{
 		ID:            "idf-dm3",
 		Competition:   "dm3",
@@ -61,13 +60,33 @@ var competitions = []CompetitionConfig{
 	},
 }
 
+// dynamicCompetitions stocke les compétitions ajoutées à la volée via /scrape.
+var (
+	dynamicMu           sync.RWMutex
+	dynamicCompetitions = map[string]CompetitionConfig{}
+)
+
 func findConfig(id string) (CompetitionConfig, bool) {
-	for _, c := range competitions {
+	for _, c := range staticCompetitions {
 		if c.ID == id {
 			return c, true
 		}
 	}
-	return CompetitionConfig{}, false
+	dynamicMu.RLock()
+	defer dynamicMu.RUnlock()
+	c, ok := dynamicCompetitions[id]
+	return c, ok
+}
+
+func allConfigs() []CompetitionConfig {
+	result := make([]CompetitionConfig, len(staticCompetitions))
+	copy(result, staticCompetitions)
+	dynamicMu.RLock()
+	defer dynamicMu.RUnlock()
+	for _, c := range dynamicCompetitions {
+		result = append(result, c)
+	}
+	return result
 }
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
@@ -85,6 +104,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/competitions", handleCompetitions)
+	mux.HandleFunc("POST /api/competitions/scrape", handleScrape)
 	mux.HandleFunc("GET /api/competitions/{id}/standings", handleStandings)
 	mux.HandleFunc("GET /api/competitions/{id}/calendar", handleCalendar)
 	mux.HandleFunc("GET /api/competitions/{id}/projections", handleProjections)
@@ -145,8 +165,9 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 		Competition string `json:"competition"`
 		Ligue       string `json:"ligue"`
 	}
-	comps := make([]Competition, 0, len(competitions))
-	for _, c := range competitions {
+	all := allConfigs()
+	comps := make([]Competition, 0, len(all))
+	for _, c := range all {
 		comps = append(comps, Competition{
 			ID:          c.ID,
 			Competition: c.Competition,
@@ -154,6 +175,63 @@ func handleCompetitions(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 	jsonOK(w, comps)
+}
+
+// handleScrape accepte une URL FFBB libre, scrape la compétition correspondante,
+// l'ajoute au registry dynamique et retourne son ID.
+func handleScrape(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		URL string `json:"url"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.URL == "" {
+		httpError(w, "body JSON attendu : {\"url\": \"https://competitions.ffbb.com/...\"}", http.StatusBadRequest)
+		return
+	}
+
+	meta, err := scraper.ParseFFBBURL(body.URL)
+	if err != nil {
+		httpError(w, "URL FFBB invalide : "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	id := meta.Slug
+	log.Printf("[scrape] %s — demande depuis l'interface", id)
+
+	cl, err := scraper.FetchStandings(meta.ClassementURL)
+	if err != nil {
+		httpError(w, "scrape classement échoué : "+err.Error(), http.StatusBadGateway)
+		return
+	}
+
+	teamFilter := make(map[string]bool, len(cl.Teams))
+	for _, t := range cl.Teams {
+		teamFilter[suffixRe.ReplaceAllString(t.Equipe, "")] = true
+	}
+
+	cal, err := scraper.FetchCalendrier(meta.ClassementURL, teamFilter)
+	if err != nil {
+		log.Printf("[warn] calendrier %s: %v", id, err)
+		cal = nil
+	}
+
+	dataCache.Set(id, cl, cal)
+
+	// Enregistrer dans le registry dynamique pour les requêtes suivantes
+	dynamicMu.Lock()
+	dynamicCompetitions[id] = CompetitionConfig{
+		ID:            id,
+		Competition:   meta.Competition,
+		Ligue:         meta.Ligue,
+		ClassementURL: meta.ClassementURL,
+	}
+	dynamicMu.Unlock()
+
+	jsonOK(w, map[string]string{
+		"id":          id,
+		"competition": meta.Competition,
+		"ligue":       meta.Ligue,
+		"scraped_at":  cl.ScrapedAt,
+	})
 }
 
 func handleStandings(w http.ResponseWriter, r *http.Request) {

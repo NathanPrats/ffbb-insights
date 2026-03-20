@@ -52,7 +52,6 @@ export type Competition = {
   id: string;
   competition: string;
   ligue: string;
-  scraped_at: string;
 };
 
 export type ProjectionResult = {
