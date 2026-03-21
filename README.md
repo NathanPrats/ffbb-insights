@@ -1,89 +1,60 @@
 # ffbb-insights
 
-Outils d'analyse des classements de la Fédération Française de Basketball (FFBB) — Île-de-France.
+Outils d'analyse des classements de la Fédération Française de Basketball (FFBB).
+
+**Live** : [ffbb-insights-vercel.vercel.app](https://ffbb-insights-vercel.vercel.app)
+**API** : [ffbb-insights.onrender.com](https://ffbb-insights.onrender.com)
 
 ## Structure
 
 ```
 ffbb-insights/
-├── scraper.py          # Scraper Python (FFBB → JSON)
-├── Makefile            # Orchestration des commandes
-├── go.mod
-├── data/
-│   └── dm1.json        # Classement PRM Poule A (généré)
-├── cmd/
-│   └── analyse/
-│       └── main.go     # CLI d'analyse Go
-└── internal/
-    └── standings/
-        ├── model.go    # Structs + méthodes (Diff, WinRate)
-        ├── loader.go   # Chargement du JSON
-        └── analysis.go # Fonctions d'analyse (TopN, BestOffense, …)
+├── cmd/api/main.go       # API Go (HTTP server)
+├── internal/
+│   ├── scraper/          # Scraping FFBB
+│   ├── standings/        # Modèles + simulation
+│   └── cache/            # Cache mémoire
+├── web/                  # Frontend Next.js
+│   ├── app/              # Pages (App Router)
+│   ├── components/       # Composants React
+│   └── lib/              # Utilitaires
+└── Makefile
 ```
 
-## Prérequis
+## Développement local
 
-- Python 3.9+ avec `pip install requests`
+### Prérequis
+
 - Go 1.22+
+- Node.js 18+
 
-## Utilisation
-
-### Scraper
-
-```bash
-# Génère data/dm1.json (valeurs par défaut : PRM Poule A)
-make dm1
-
-# Poule / phase custom
-make scrape PHASE=<id_phase> POULE=<id_poule>
-
-# Fichier de sortie custom
-make scrape PHASE=xxx POULE=yyy OUTPUT=data/dm2.json
-```
-
-### Analyse Go
+### Lancer l'API
 
 ```bash
-# Compile + analyse data/dm1.json
-make analyse
-
-# Analyse un autre fichier
-make analyse INPUT=data/dm2.json
-
-# Compiler seulement
-make build
+make run
+# API disponible sur http://localhost:8080
 ```
 
-### Aide
+### Lancer le frontend
 
 ```bash
-make help
+cd web && npm install && npm run dev
+# Frontend disponible sur http://localhost:3000
 ```
 
-## Format JSON produit
+## API
 
-```json
-{
-  "competition": "Pré Régionale Masculine (PRM)",
-  "ligue": "Île-de-France",
-  "comite": "0078",
-  "phase": "200000002872715",
-  "poule": "200000003018348",
-  "source_url": "...",
-  "scraped_at": "2026-03-16",
-  "classement": [
-    {
-      "rang": 1,
-      "equipe": "ENTENTE LE CHESNAY VERSAILLES 78 BASKET - 2",
-      "pts": 29,
-      "joues": 16,
-      "gagnes": 13,
-      "perdus": 3,
-      "nuls": 0,
-      "bp": 1208,
-      "bc": 1054,
-      "penalites": 0
-    }
-  ]
-}
-```
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/api/competitions` | Liste des compétitions |
+| `POST` | `/api/competitions/scrape` | Ajouter une compétition via URL FFBB |
+| `GET` | `/api/competitions/{id}/standings` | Classement |
+| `GET` | `/api/competitions/{id}/calendar` | Calendrier |
+| `GET` | `/api/competitions/{id}/projections` | Projections de fin de saison |
+| `POST` | `/api/competitions/{id}/simulate` | Simulation de scénarios |
+| `POST` | `/api/competitions/{id}/refresh` | Forcer un re-scrape |
+
+## Déploiement
+
+- **Frontend** : Vercel — Root Directory `web`, variable d'env `NEXT_PUBLIC_API_URL=https://ffbb-insights.onrender.com`
+- **API** : Render — Root Directory `cmd/api`, Start Command `./app -port $PORT`
