@@ -159,21 +159,78 @@ var (
 	spanNumRe  = regexp.MustCompile(`<span[^>]*>(\d+)</span>`)
 	teamNameRe = regexp.MustCompile(`<div class="min-w-\[228px\][^"]*">([^<]+)</div>`)
 	divNumRe   = regexp.MustCompile(`<div[^>]*>(\d+)</div>`)
-	titleRe    = regexp.MustCompile(`<title>([^<]+)</title>`)
 )
 
-// extractCompetitionName tente d'extraire le nom lisible de la compétition
-// depuis le <title> de la page (ex: "Départemental Masculin 3 | Île-de-France | FFBB").
-func extractCompetitionName(htmlContent string) string {
-	m := titleRe.FindStringSubmatch(htmlContent)
-	if m == nil {
-		return ""
+// ligueNames mappe les codes de ligue FFBB vers leur nom officiel complet.
+var ligueNames = map[string]string{
+	"ara":  "Auvergne-Rhône-Alpes",
+	"bfc":  "Bourgogne-Franche-Comté",
+	"bre":  "Bretagne",
+	"cvl":  "Centre-Val de Loire",
+	"cor":  "Corse",
+	"ges":  "Grand Est",
+	"hdf":  "Hauts-de-France",
+	"idf":  "Île-de-France",
+	"nor":  "Normandie",
+	"naq":  "Nouvelle-Aquitaine",
+	"occ":  "Occitanie",
+	"pdl":  "Pays de la Loire",
+	"pac":  "Provence-Alpes-Côte d'Azur",
+	"gua":  "Guadeloupe",
+	"mar":  "Martinique",
+	"guy":  "Guyane",
+	"reu":  "La Réunion",
+	"may":  "Mayotte",
+}
+
+// compLabelRe extrait le label de la compétition depuis le payload RSC FFBB.
+// Ex: {"label":"Pré régionale féminine","id":"0078 - PRF",...}
+var compLabelRe = regexp.MustCompile(`"label":"([^"]+)","id":"[^"]*"`)
+
+// extractCompetitionMeta extrait le nom complet de la compétition et le genre
+// depuis les chunks RSC de la page FFBB.
+func extractCompetitionMeta(htmlContent string) (name, genre string) {
+	for _, chunk := range extractRSCChunks(htmlContent) {
+		if m := compLabelRe.FindStringSubmatch(chunk); m != nil {
+			raw := strings.TrimSpace(gohtml.UnescapeString(m[1]))
+			if raw == "" {
+				continue
+			}
+			name = capitalize(raw)
+			lower := strings.ToLower(raw)
+			switch {
+			case strings.Contains(lower, "féminin"):
+				genre = "Féminin"
+			case strings.Contains(lower, "masculin"):
+				genre = "Masculin"
+			}
+			return
+		}
 	}
-	// Le titre FFBB est typiquement "Nom compétition | Ligue | FFBB"
-	// On garde uniquement la première partie.
-	parts := strings.SplitN(m[1], "|", 2)
-	name := strings.TrimSpace(gohtml.UnescapeString(parts[0]))
-	return name
+	return
+}
+
+// capitalize met la première lettre en majuscule et le reste en minuscules normalisées.
+func capitalize(s string) string {
+	if s == "" {
+		return s
+	}
+	runes := []rune(s)
+	first := strings.ToUpper(string(runes[0]))
+	rest := string(runes[1:])
+	return first + rest
+}
+
+// competitionWithoutGenre retire le mot de genre du nom de la compétition.
+// Ex: "Pré régionale féminine" → "Pré régionale", "Départemental masculin 3" → "Départemental 3".
+func competitionWithoutGenre(name string) string {
+	replacer := strings.NewReplacer(
+		" féminine", "", " féminin", "",
+		" Féminine", "", " Féminin", "",
+		" masculine", "", " masculin", "",
+		" Masculine", "", " Masculin", "",
+	)
+	return strings.TrimSpace(replacer.Replace(name))
 }
 
 func extractStandingsFromHTML(htmlContent string) ([]standings.Team, error) {
@@ -415,10 +472,17 @@ func FetchStandings(classementURL string) (*standings.Classement, error) {
 		return nil, fmt.Errorf("parse classement: %w", err)
 	}
 
+	name, genre := extractCompetitionMeta(htmlContent)
+	ligue := ligueNames[strings.ToLower(meta.Ligue)]
+	if ligue == "" {
+		ligue = meta.Ligue // fallback au slug si le code est inconnu
+	}
+
 	return &standings.Classement{
-		Name:        extractCompetitionName(htmlContent),
-		Competition: meta.Competition,
-		Ligue:       meta.Ligue,
+		Name:        name,
+		Competition: competitionWithoutGenre(name),
+		Genre:       genre,
+		Ligue:       ligue,
 		Comite:      meta.Comite,
 		Phase:       meta.Phase,
 		Poule:       meta.Poule,

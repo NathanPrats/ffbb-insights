@@ -1,0 +1,83 @@
+{
+  "competition": "dm2",
+  "ligue": "sud",
+  "comite": "0013",
+  "phase": "200000002881911",
+  "poule": "200000003038461",
+  "source_url": "https://competitions.ffbb.com/ligues/sud/comites/0013/competitions/dm2/classement?phase=200000002881911&poule=200000003038461",
+  "scraped_at": "2026-03-19",
+  "classement": [
+    {
+      "rang": 1,
+      "equipe": "O CABRIES CALAS - 3",
+      "pts": 11,
+      "joues": 6,
+      "gagnes": 4,
+      "perdus": 2,
+      "nuls": 0,
+      "bp": 373,
+      "bc": 381,
+      "penalites": 0
+    },
+    {
+      "rang": 2,
+      "equipe": "CRAU BC - 1",
+      "pts": 10,
+      "joues": 6,
+      "gagnes": 4,
+      "perdus": 2,
+      "nuls": 0,
+      "bp": 331,
+      "bc": 318,
+      "penalites": 0
+    },
+    {
+      "rang": 3,
+      "equipe": "BASKET CLUB PENNOIS",
+      "pts": 10,
+      "joues": 6,
+      "gagnes": 4,
+      "perdus": 2,
+      "nuls": 0,
+      "bp": 346,
+      "bc": 311,
+      "penalites": 0
+    },
+    {
+      "rang": 4,
+      "equipe": "BASKET CLUB DE L'ETOILE",
+      "pts": 10,
+      "joues": 6,
+      "gagnes": 4,
+      "perdus": 2,
+      "nuls": 0,
+      "bp": 421,
+      "bc": 394,
+      "penalites": 0
+    },
+    {
+      "rang": 5,
+      "equipe": "CJL ST CHAMAS AIL BASKET - 1",
+      "pts": 8,
+      "joues": 6,
+      "gagnes": 1,
+      "perdus": 5,
+      "nuls": 0,
+      "bp": 407,
+      "bc": 426,
+      "penalites": 0
+    },
+    {
+      "rang": 6,
+      "equipe": "PAYS SALONAIS BASKET 13 (PSB 13) - 3",
+      "pts": 6,
+      "joues": 6,
+      "gagnes": 1,
+      "perdus": 4,
+      "nuls": 0,
+      "bp": 336,
+      "bc": 384,
+      "penalites": 0
+    }
+  ]
+}

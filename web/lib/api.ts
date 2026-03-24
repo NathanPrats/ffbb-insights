@@ -142,6 +142,19 @@ export function remainingDifficulty(
   return avg;
 }
 
+export async function scrapeCompetition(url: string): Promise<{ id: string }> {
+  const res = await fetch("/api/competitions/scrape", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "Erreur inconnue");
+    throw new Error(text);
+  }
+  return res.json();
+}
+
 /** Statut d'une équipe selon sa position. */
 export function teamStatus(rang: number, total: number): "safe" | "uncertain" | "danger" {
   const promotionZone = 2;

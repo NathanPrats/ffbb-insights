@@ -1,0 +1,287 @@
+{
+  "phase": "200000002881911",
+  "poule": "200000003038461",
+  "scraped_at": "2026-03-19",
+  "journees": [
+    {
+      "date": "2026-01-30",
+      "matchs": [
+        {
+          "heure": "00:00",
+          "domicile": "CRAU BC",
+          "visiteur": "BASKET CLUB PENNOIS",
+          "score_dom": 53,
+          "score_vis": 50,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "O CABRIES CALAS",
+          "visiteur": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "score_dom": 76,
+          "score_vis": 59,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "visiteur": "CJL ST CHAMAS AIL BASKET",
+          "score_dom": 83,
+          "score_vis": 68,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "BASKET CLUB DE L'ETOILE",
+          "visiteur": "BASKET CLUB PENNOIS",
+          "score_dom": 48,
+          "score_vis": 45,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "BASKET CLUB PENNOIS",
+          "visiteur": "CRAU BC",
+          "score_dom": 55,
+          "score_vis": 53,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "CJL ST CHAMAS AIL BASKET",
+          "visiteur": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "score_dom": 95,
+          "score_vis": 64,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "BASKET CLUB PENNOIS",
+          "visiteur": "BASKET CLUB DE L'ETOILE",
+          "score_dom": 65,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "visiteur": "O CABRIES CALAS",
+          "score_dom": 57,
+          "score_vis": 58,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "O CABRIES CALAS",
+          "visiteur": "CJL ST CHAMAS AIL BASKET",
+          "score_dom": 74,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "BASKET CLUB DE L'ETOILE",
+          "visiteur": "CRAU BC",
+          "score_dom": 89,
+          "score_vis": 82,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "CJL ST CHAMAS AIL BASKET",
+          "visiteur": "O CABRIES CALAS",
+          "score_dom": 53,
+          "score_vis": 57,
+          "joue": true
+        },
+        {
+          "heure": "00:00",
+          "domicile": "CRAU BC",
+          "visiteur": "BASKET CLUB DE L'ETOILE",
+          "score_dom": 68,
+          "score_vis": 52,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-07",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "CJL ST CHAMAS AIL BASKET",
+          "visiteur": "BASKET CLUB PENNOIS",
+          "score_dom": 52,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB DE L'ETOILE",
+          "visiteur": "O CABRIES CALAS",
+          "score_dom": 87,
+          "score_vis": 61,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "visiteur": "CRAU BC",
+          "score_dom": 0,
+          "score_vis": 0,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-14",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB DE L'ETOILE",
+          "visiteur": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "score_dom": 87,
+          "score_vis": 73,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CRAU BC",
+          "visiteur": "CJL ST CHAMAS AIL BASKET",
+          "score_dom": 75,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB PENNOIS",
+          "visiteur": "O CABRIES CALAS",
+          "score_dom": 58,
+          "score_vis": 47,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-21",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB PENNOIS",
+          "visiteur": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CJL ST CHAMAS AIL BASKET",
+          "visiteur": "BASKET CLUB DE L'ETOILE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "O CABRIES CALAS",
+          "visiteur": "CRAU BC",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB PENNOIS",
+          "visiteur": "CJL ST CHAMAS AIL BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-04",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "CRAU BC",
+          "visiteur": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "O CABRIES CALAS",
+          "visiteur": "BASKET CLUB DE L'ETOILE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-02",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "visiteur": "BASKET CLUB DE L'ETOILE",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "O CABRIES CALAS",
+          "visiteur": "BASKET CLUB PENNOIS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "CJL ST CHAMAS AIL BASKET",
+          "visiteur": "CRAU BC",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "matchs": [
+        {
+          "heure": "20:00",
+          "domicile": "CRAU BC",
+          "visiteur": "O CABRIES CALAS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "PAYS SALONAIS BASKET 13 (PSB 13)",
+          "visiteur": "BASKET CLUB PENNOIS",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "20:00",
+          "domicile": "BASKET CLUB DE L'ETOILE",
+          "visiteur": "CJL ST CHAMAS AIL BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    }
+  ]
+}

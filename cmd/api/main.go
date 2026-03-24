@@ -70,14 +70,6 @@ var staticCompetitions = []CompetitionConfig{
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/competitions/nm2/classement?phase=200000002872459&poule=200000003017639",
 	},
-	{
-		ID:            "ges-prm",
-		Competition:   "Pré-Régionale",
-		Genre:         "Masculin",
-		Ligue:         "Grand Est",
-		Comite:        "0008",
-		ClassementURL: "https://competitions.ffbb.com/ligues/ges/comites/0008/competitions/prm/classement?phase=200000002872975&poule=200000003018876",
-	},
 }
 
 // dynamicCompetitions stocke les compétitions ajoutées à la volée via /scrape.
@@ -250,8 +242,9 @@ func handleScrape(w http.ResponseWriter, r *http.Request) {
 	dynamicMu.Lock()
 	dynamicCompetitions[id] = CompetitionConfig{
 		ID:            id,
-		Competition:   meta.Competition,
-		Ligue:         meta.Ligue,
+		Competition:   cl.Competition,
+		Genre:         cl.Genre,
+		Ligue:         cl.Ligue,
 		Comite:        meta.Comite,
 		ClassementURL: meta.ClassementURL,
 	}
@@ -331,6 +324,7 @@ type MatchOverride struct {
 	Domicile string `json:"domicile"`
 	Visiteur string `json:"visiteur"`
 	Winner   string `json:"winner"` // "domicile" | "visiteur"
+	Margin   int    `json:"margin"` // écart de points, 0 → défaut 10
 }
 
 func handleSimulate(w http.ResponseWriter, r *http.Request) {
@@ -429,9 +423,13 @@ func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []
 			continue
 		}
 
-		domScore, visScore := 80, 70
+		margin := o.Margin
+		if margin <= 0 {
+			margin = 10
+		}
+		domScore, visScore := 70+margin, 70
 		if o.Winner == "visiteur" {
-			domScore, visScore = 70, 80
+			domScore, visScore = 70, 70+margin
 		}
 
 		adjusted[domIdx].Joues++
@@ -456,9 +454,9 @@ func applyOverridesToTeams(teams []standings.Team, overrides []MatchOverride) []
 
 func applyOverrides(matches []standings.Match, overrides []MatchOverride) []standings.Match {
 	type key struct{ dom, vis string }
-	forced := make(map[key]string, len(overrides))
+	forced := make(map[key]MatchOverride, len(overrides))
 	for _, o := range overrides {
-		forced[key{normalize(o.Domicile), normalize(o.Visiteur)}] = o.Winner
+		forced[key{normalize(o.Domicile), normalize(o.Visiteur)}] = o
 	}
 
 	result := make([]standings.Match, len(matches))
@@ -468,13 +466,17 @@ func applyOverrides(matches []standings.Match, overrides []MatchOverride) []stan
 		if m.Joue {
 			continue
 		}
-		winner, ok := forced[key{normalize(m.Domicile), normalize(m.Visiteur)}]
+		o, ok := forced[key{normalize(m.Domicile), normalize(m.Visiteur)}]
 		if !ok {
 			continue
 		}
-		domScore, visScore := 80, 70
-		if winner == "visiteur" {
-			domScore, visScore = 70, 80
+		margin := o.Margin
+		if margin <= 0 {
+			margin = 10
+		}
+		domScore, visScore := 70+margin, 70
+		if o.Winner == "visiteur" {
+			domScore, visScore = 70, 70+margin
 		}
 		result[i].Joue = true
 		result[i].ScoreDom = &domScore

@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             borderBottom: "1px solid rgba(186, 172, 191, 0.12)",
           }}
         >
-          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
+          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3 w-fit group">
               <img
                 src="/logo-2.jpg"
@@ -60,6 +60,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 FFBB Insights
               </span>
             </a>
+            <div className="flex items-center gap-1">
+              <span
+                className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full mr-2"
+                style={{ background: "rgba(165,39,60,0.2)", color: "rgba(165,39,60,0.9)", border: "1px solid rgba(165,39,60,0.3)" }}
+              >
+                Beta
+              </span>
+              <a
+                href="/a-propos"
+                className="text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-80"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+              >
+                À propos
+              </a>
+            </div>
           </div>
         </nav>
 
