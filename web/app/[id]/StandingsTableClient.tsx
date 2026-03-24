@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import type { ProjectionResult, Match, Team } from "@/lib/api";
+import { useEffect, useRef, useState } from "react";
+import type { Journee, ProjectionResult, Match, Team } from "@/lib/api";
 
 type Target = "top" | "bottom";
+type Winner = "domicile" | "visiteur";
+type Overrides = Record<string, Winner>;
 
 export type EnrichedTeam = {
   team: Team;
@@ -18,6 +20,7 @@ type Props = {
   enriched: EnrichedTeam[];
   totalTeams: number;
   remainingMatches: Match[];
+  journees: Journee[];
 };
 
 type ModalData = { team: Team; result: ProjectionResult } | null;
@@ -25,13 +28,15 @@ type TagInfo = { emoji: string; label: string; description: string } | null;
 
 const norm = (name: string) => name.replace(/ - \d+$/, "").toLowerCase().trim();
 
-export default function StandingsTableClient({ id, enriched, totalTeams, remainingMatches }: Props) {
+export default function StandingsTableClient({ id, enriched, totalTeams, remainingMatches, journees }: Props) {
   const [target, setTarget] = useState<Target>("top");
   const [n, setN] = useState(2);
   const [results, setResults] = useState<ProjectionResult[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<ModalData>(null);
   const [tagInfo, setTagInfo] = useState<TagInfo>(null);
+  const [overrides, setOverrides] = useState<Overrides>({});
+  const [simulModalOpen, setSimulModalOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const maxN = Math.min(4, Math.floor(totalTeams / 2));
@@ -40,13 +45,57 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
     if (abortRef.current) abortRef.current.abort();
     abortRef.current = new AbortController();
     setLoading(true);
-    const params = target === "top" ? `top=${n}` : `bottom=${n}`;
-    fetch(`/api/competitions/${id}/projections?${params}`, { signal: abortRef.current.signal })
-      .then((r) => r.json())
-      .then((data: ProjectionResult[]) => setResults(data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [id, target, n]);
+
+    const hasOverrides = Object.keys(overrides).length > 0;
+
+    if (hasOverrides) {
+      const targetPositions =
+        target === "top"
+          ? Array.from({ length: n }, (_, i) => i + 1)
+          : Array.from({ length: n }, (_, i) => totalTeams - n + 1 + i);
+      const overridesList = Object.entries(overrides).map(([key, winner]) => {
+        const [domicile, visiteur] = key.split("__");
+        return { domicile, visiteur, winner };
+      });
+      fetch(`/api/competitions/${id}/simulate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ overrides: overridesList, target_positions: targetPositions }),
+        signal: abortRef.current.signal,
+      })
+        .then((r) => r.json())
+        .then((data: ProjectionResult[]) => setResults(data))
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    } else {
+      const params = target === "top" ? `top=${n}` : `bottom=${n}`;
+      fetch(`/api/competitions/${id}/projections?${params}`, { signal: abortRef.current.signal })
+        .then((r) => r.json())
+        .then((data: ProjectionResult[]) => setResults(data))
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [id, target, n, overrides]);
+
+  function toggleOverride(domicile: string, visiteur: string, winner: Winner) {
+    const key = `${domicile}__${visiteur}`;
+    setOverrides((prev) => {
+      if (prev[key] === winner) {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      }
+      return { ...prev, [key]: winner };
+    });
+  }
+
+  function removeOverride(key: string) {
+    setOverrides((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
 
   const projMap = new Map<string, ProjectionResult>();
   if (results) {
@@ -86,7 +135,6 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
   ): { emoji: string; label: string; description: string }[] {
     const tags: { emoji: string; label: string; description: string }[] = [];
 
-    // Forme
     const last3 = form.slice(-3);
     const last5 = form.slice(-5);
     if (form.length >= 5 && last5.every((r) => r === "W")) {
@@ -100,13 +148,11 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       tags.push({ emoji: "📉", label: "Passage à vide", description: "3 défaites consécutives sur les 3 derniers matchs." });
     }
 
-    // Sur la ligne (1 place de la frontière)
     const boundary = target === "top" ? n : totalTeams - n + 1;
     if (rang === boundary || rang === boundary + (target === "top" ? 1 : -1)) {
       tags.push({ emoji: "⚖️", label: "Sur la ligne", description: `Cette équipe est à la frontière de la zone (place ${boundary}).` });
     }
 
-    // Projection
     if (maitre) {
       tags.push({ emoji: "👑", label: "Maître de leur destin", description: "En gagnant tous leurs matchs restants, cette équipe est assurée d'atteindre la zone cible, quoi que fassent les adversaires." });
     }
@@ -129,9 +175,71 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
   }
 
   const sorted = [...enriched].sort((a, b) => a.team.rang - b.team.rang);
+  const forcedCount = Object.keys(overrides).length;
 
   return (
     <div>
+      {/* Simuler button */}
+      <div className="flex flex-wrap items-center gap-3 mb-5">
+        <button
+          onClick={() => setSimulModalOpen(true)}
+          className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all"
+          style={{
+            background: "var(--accent)",
+            color: "#fff",
+            boxShadow: "0 0 24px rgba(165,39,60,0.4)",
+          }}
+        >
+          🔮 Simuler
+        </button>
+        {forcedCount > 0 && (
+          <button
+            onClick={() => setOverrides({})}
+            className="text-xs px-3 py-1.5 rounded-lg transition-colors"
+            style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid var(--border)" }}
+          >
+            Réinitialiser ({forcedCount})
+          </button>
+        )}
+      </div>
+
+      {/* Override chips */}
+      {forcedCount > 0 && (
+        <div className="mb-5">
+          <p className="text-xs font-semibold mb-2 uppercase tracking-widest" style={{ color: "var(--muted)" }}>
+            Résultats simulés :
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(overrides).map(([key, winner]) => {
+              const [domicile, visiteur] = key.split("__");
+              const winnerName = winner === "domicile" ? domicile : visiteur;
+              const loserName = winner === "domicile" ? visiteur : domicile;
+              return (
+                <span
+                  key={key}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
+                  style={{
+                    background: "rgba(165,39,60,0.18)",
+                    color: "var(--accent)",
+                    border: "1px solid rgba(165,39,60,0.45)",
+                  }}
+                >
+                  <span className="font-semibold">{winnerName}</span>
+                  <span style={{ opacity: 0.5 }}>›</span>
+                  <span style={{ opacity: 0.7 }}>{loserName}</span>
+                  <button
+                    onClick={() => removeOverride(key)}
+                    className="opacity-50 hover:opacity-100 leading-none text-sm ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Legend */}
       <div className="flex gap-5 text-xs mb-4" style={{ color: "var(--muted)" }}>
         <span className="flex items-center gap-1.5">
@@ -148,7 +256,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       </div>
 
       {/* Table */}
-      <div className="rounded-lg overflow-x-auto" style={{ border: "1px solid var(--border)" }}>
+      <div className="rounded-lg overflow-x-auto" style={{ border: "1px solid var(--border)", background: "var(--card)" }}>
         <table className="w-full text-sm">
           <thead>
             <tr
@@ -168,12 +276,14 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
               <th className="py-3 px-2 text-center font-medium">Forme</th>
               <th className="py-3 px-4 text-center font-medium">Calendrier</th>
 
-              {/* Probabilité : label en haut, toggle en dessous */}
               <th className="px-5 text-center font-medium" style={{ verticalAlign: "top" }}>
                 <div className="flex flex-col items-center gap-1.5 pb-2 pt-2.5">
                   <span>
                     Probabilité{" "}
                     {loading && <span style={{ color: "var(--accent)" }}>·</span>}
+                    {forcedCount > 0 && !loading && (
+                      <span style={{ color: "var(--accent)" }}> 🔮</span>
+                    )}
                   </span>
                   <div
                     className="flex rounded-lg p-0.5 gap-0.5"
@@ -197,7 +307,6 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
                 </div>
               </th>
 
-              {/* Colonne tags : "Places concernées" + sélecteur à la ligne */}
               <th className="px-3 text-left font-medium" style={{ verticalAlign: "top" }}>
                 <div className="flex flex-col items-start gap-1.5 pb-2 pt-2.5">
                   <span className="whitespace-nowrap">Places concernées</span>
@@ -305,6 +414,16 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       <p className="text-xs mt-4" style={{ color: "var(--muted)" }}>
         Forme : 5 derniers matchs · Calendrier : difficulté des adversaires restants · 10M simulations H2H puis différentiel
       </p>
+
+      {/* Simul modal */}
+      {simulModalOpen && (
+        <SimulModal
+          journees={journees}
+          overrides={overrides}
+          onToggle={toggleOverride}
+          onClose={() => setSimulModalOpen(false)}
+        />
+      )}
 
       {/* Modal scénarios */}
       {modal && (
@@ -436,6 +555,179 @@ function ProbaCell({
   );
 }
 
+function SimulModal({
+  journees,
+  overrides,
+  onToggle,
+  onClose,
+}: {
+  journees: Journee[];
+  overrides: Overrides;
+  onToggle: (domicile: string, visiteur: string, winner: Winner) => void;
+  onClose: () => void;
+}) {
+  const forcedCount = Object.keys(overrides).length;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.5)" }}
+      onClick={onClose}
+    >
+      <div
+        className="rounded-xl w-full mx-4 shadow-xl flex flex-col"
+        style={{
+          background: "var(--card)",
+          border: "1px solid var(--border)",
+          maxWidth: 520,
+          maxHeight: "85vh",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-5 py-4 shrink-0"
+          style={{ borderBottom: "1px solid var(--border)" }}
+        >
+          <div>
+            <h3 className="font-semibold text-base">🔮 Simuler les matchs restants</h3>
+            {forcedCount > 0 ? (
+              <p className="text-xs mt-0.5" style={{ color: "var(--accent)" }}>
+                {forcedCount} match{forcedCount > 1 ? "s" : ""} forcé{forcedCount > 1 ? "s" : ""}
+              </p>
+            ) : (
+              <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+                Cliquez sur DOM ou VIS pour forcer un résultat
+              </p>
+            )}
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-sm"
+            style={{ color: "var(--muted)", background: "var(--background)", border: "1px solid var(--border)" }}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Scrollable matches */}
+        <div className="overflow-y-auto flex-1 px-5 py-4 space-y-5">
+          {journees.length === 0 ? (
+            <p className="text-sm text-center py-4" style={{ color: "var(--muted)" }}>
+              Tous les matchs ont été joués.
+            </p>
+          ) : (
+            journees.map((j) => {
+              const remaining = j.matchs.filter((m) => !m.joue);
+              if (remaining.length === 0) return null;
+              return (
+                <div key={j.date}>
+                  <div className="text-xs font-mono mb-2" style={{ color: "var(--muted)" }}>
+                    {formatDate(j.date)}
+                  </div>
+                  <div
+                    className="rounded-lg overflow-hidden"
+                    style={{ border: "1px solid var(--border)", background: "var(--background)" }}
+                  >
+                    {remaining.map((m, i) => {
+                      const key = `${m.domicile}__${m.visiteur}`;
+                      const current = overrides[key];
+                      return (
+                        <div
+                          key={key}
+                          className="flex items-center gap-3 px-4 py-3"
+                          style={{
+                            borderBottom: i < remaining.length - 1 ? "1px solid var(--border)" : undefined,
+                            background: current ? "rgba(165,39,60,0.04)" : undefined,
+                          }}
+                        >
+                          <span
+                            className="flex-1 text-sm text-right truncate"
+                            style={{
+                              color: current === "domicile" ? "var(--foreground)" : "var(--muted)",
+                              fontWeight: current === "domicile" ? 600 : 400,
+                            }}
+                          >
+                            {m.domicile}
+                          </span>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <ToggleBtn
+                              label="DOM"
+                              active={current === "domicile"}
+                              onClick={() => onToggle(m.domicile, m.visiteur, "domicile")}
+                            />
+                            <span className="text-xs w-4 text-center" style={{ color: "var(--muted)" }}>
+                              {current ? "·" : "vs"}
+                            </span>
+                            <ToggleBtn
+                              label="VIS"
+                              active={current === "visiteur"}
+                              onClick={() => onToggle(m.domicile, m.visiteur, "visiteur")}
+                            />
+                          </div>
+                          <span
+                            className="flex-1 text-sm truncate"
+                            style={{
+                              color: current === "visiteur" ? "var(--foreground)" : "var(--muted)",
+                              fontWeight: current === "visiteur" ? 600 : 400,
+                            }}
+                          >
+                            {m.visiteur}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-4 shrink-0" style={{ borderTop: "1px solid var(--border)" }}>
+          <button
+            onClick={onClose}
+            className="w-full py-2.5 rounded-xl text-sm font-semibold"
+            style={{ background: "var(--accent)", color: "#fff" }}
+          >
+            Appliquer
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToggleBtn({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-2 py-1 rounded text-xs font-mono font-medium transition-colors"
+      style={
+        active
+          ? { background: "var(--accent)", color: "#fff" }
+          : { background: "var(--background)", color: "var(--muted)", border: "1px solid var(--border)" }
+      }
+    >
+      {label}
+    </button>
+  );
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+}
+
 function ScenariosModal({
   team,
   result,
@@ -540,3 +832,4 @@ function TagInfoModal({
     </div>
   );
 }
+

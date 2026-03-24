@@ -5,7 +5,6 @@ import {
   remainingDifficulty,
   teamStatus,
 } from "@/lib/api";
-import Link from "next/link";
 import StandingsTableClient from "./StandingsTableClient";
 
 type Props = { params: Promise<{ id: string }> };
@@ -19,12 +18,14 @@ export default async function StandingsPage({ params }: Props) {
   ]);
 
   const teams = standings.classement;
-  const journees = calendrier?.journees ?? [];
   const remaining = standings.remaining_matches ?? [];
+  const journeesRestantes = (calendrier?.journees ?? []).filter((j) =>
+    j.matchs.some((m) => !m.joue)
+  );
 
   const enriched = teams.map((team) => ({
     team,
-    form: recentForm(team.equipe, journees),
+    form: recentForm(team.equipe, journeesRestantes),
     difficulty: remainingDifficulty(team.equipe, remaining, teams),
     status: teamStatus(team.rang, teams.length),
     remainingCount: remaining.filter(
@@ -44,25 +45,12 @@ export default async function StandingsPage({ params }: Props) {
         </p>
       </div>
 
-      {/* Nav */}
-      <div className="flex gap-2 mb-6 text-sm">
-        <span className="px-3 py-1 rounded-full font-medium" style={{ background: "var(--accent)", color: "#fff" }}>
-          Classement
-        </span>
-        <Link
-          href={`/${id}/simulateur`}
-          className="px-3 py-1 rounded-full transition-colors"
-          style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid var(--border)" }}
-        >
-          Simulateur
-        </Link>
-      </div>
-
       <StandingsTableClient
         id={id}
         enriched={enriched}
         totalTeams={teams.length}
         remainingMatches={remaining}
+        journees={journeesRestantes}
       />
     </div>
   );

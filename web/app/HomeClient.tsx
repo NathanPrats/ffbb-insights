@@ -65,11 +65,11 @@ export default function HomeClient({ competitions }: Props) {
           className="text-base max-w-md leading-relaxed"
           style={{ color: "rgba(255,255,255,0.85)" }}
         >
-          Analysez n&apos;importe quelle poule FFBB — classement, matchs restants et{" "}
-          <span style={{ color: "#e06070", fontWeight: 600 }}>
-            probabilités de promotion / relégation
-          </span>{" "}
-          par simulation Monte Carlo.
+          <span style={{ color: "#e06070", fontWeight: 600 }}>Analysez votre poule FFBB</span>{" "}
+          — classement, matchs restants et probabilités de{" "}
+          <span style={{ color: "#e06070", fontWeight: 600 }}>montée</span> et{" "}
+          <span style={{ color: "#e06070", fontWeight: 600 }}>descente</span>{" "}
+          en simulation !
         </p>
       </div>
 
@@ -136,7 +136,7 @@ export default function HomeClient({ competitions }: Props) {
             className="text-xs font-semibold mb-4 uppercase tracking-widest"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
-            Compétitions disponibles
+            Compétitions déjà chargées :
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {competitions.map((c) => (

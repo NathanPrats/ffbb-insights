@@ -121,7 +121,7 @@ export default function SimulateurClient({ id, journees, teams, totalTeams }: Pr
           <button
             onClick={() => setOverrides({})}
             className="text-xs px-3 py-1.5 rounded-lg transition-colors"
-            style={{ color: "var(--muted)", border: "1px solid var(--border)" }}
+            style={{ background: "var(--accent)", color: "#fff", border: "1px solid var(--accent)" }}
           >
             Réinitialiser ({forcedCount})
           </button>
@@ -142,7 +142,7 @@ export default function SimulateurClient({ id, journees, teams, totalTeams }: Pr
                 </div>
                 <div
                   className="rounded-lg overflow-hidden"
-                  style={{ border: "1px solid var(--border)" }}
+                  style={{ border: "1px solid var(--border)", background: "var(--card)" }}
                 >
                   {remaining.map((m, i) => {
                     const key = `${m.domicile}__${m.visiteur}`;
@@ -221,6 +221,7 @@ export default function SimulateurClient({ id, journees, teams, totalTeams }: Pr
             className="rounded-lg overflow-hidden"
             style={{
               border: "1px solid var(--border)",
+              background: "var(--card)",
               opacity: loading ? 0.6 : 1,
               transition: "opacity 0.2s",
             }}

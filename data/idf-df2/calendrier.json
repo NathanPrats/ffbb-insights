@@ -1,0 +1,582 @@
+{
+  "phase": "200000002873856",
+  "poule": "200000003020602",
+  "scraped_at": "2026-03-19",
+  "journees": [
+    {
+      "date": "2025-09-21",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 57,
+          "score_vis": 49,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-09-27",
+      "matchs": [
+        {
+          "heure": "18:00",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": 10,
+          "score_vis": 101,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-05",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 31,
+          "score_vis": 66,
+          "joue": true
+        },
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "LES MUREAUX BC",
+          "score_dom": 62,
+          "score_vis": 39,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-10-12",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": 88,
+          "score_vis": 4,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": 46,
+          "score_vis": 34,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-09",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": 20,
+          "score_vis": 0,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 22,
+          "score_vis": 68,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-16",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": 71,
+          "score_vis": 27,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": 77,
+          "score_vis": 31,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-23",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": 26,
+          "score_vis": 72,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": 34,
+          "score_vis": 20,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-11-30",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": 51,
+          "score_vis": 24,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 47,
+          "score_vis": 54,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-06",
+      "matchs": [
+        {
+          "heure": "18:00",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 19,
+          "score_vis": 42,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-07",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": 33,
+          "score_vis": 40,
+          "joue": true
+        },
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": 26,
+          "score_vis": 100,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-13",
+      "matchs": [
+        {
+          "heure": "18:00",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": 24,
+          "score_vis": 103,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2025-12-14",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": 42,
+          "score_vis": 34,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": 66,
+          "score_vis": 18,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-01-18",
+      "matchs": [
+        {
+          "heure": "17:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "LES MUREAUX BC",
+          "score_dom": 56,
+          "score_vis": 52,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-01-24",
+      "matchs": [
+        {
+          "heure": "18:00",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-01-25",
+      "matchs": [
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": 33,
+          "score_vis": 56,
+          "joue": true
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": 37,
+          "score_vis": 52,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "LES MUREAUX BC",
+          "score_dom": 69,
+          "score_vis": 56,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": 96,
+          "score_vis": 11,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": 112,
+          "score_vis": 13,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-08",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": 81,
+          "score_vis": 20,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": 46,
+          "score_vis": 40,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-02-15",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": 47,
+          "score_vis": 44,
+          "joue": true
+        },
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": 57,
+          "score_vis": 67,
+          "joue": true
+        },
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-15",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "13:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": 56,
+          "score_vis": 9,
+          "joue": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "matchs": [
+        {
+          "heure": "18:00",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-29",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "LES MUREAUX BC",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-03-31",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "AS MESNIL LE ROI",
+          "visiteur": "ASM CHAMBOURCY",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-12",
+      "matchs": [
+        {
+          "heure": "15:30",
+          "domicile": "ASM CHAMBOURCY",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "LES MUREAUX BC",
+          "visiteur": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "17:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "US CONFLANS STE HONORINE B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-16",
+      "matchs": [
+        {
+          "heure": "20:30",
+          "domicile": "ANDRESY CHANTELOUP MAURECOURT B",
+          "visiteur": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-04-19",
+      "matchs": [
+        {
+          "heure": "16:30",
+          "domicile": "CLUB ATHLETIQUE LIMAY (C.A.L) - A.L.J BASKET",
+          "visiteur": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    },
+    {
+      "date": "2026-05-10",
+      "matchs": [
+        {
+          "heure": "09:30",
+          "domicile": "IE - CTC BOUCLE DE SEINE - MONTESSON BASKET CLUB",
+          "visiteur": "ANDRESY CHANTELOUP MAURECOURT B",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "ENTENTE AUBERGENVILLE GARGENVILLE SF",
+          "visiteur": "LES MUREAUX BC",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        },
+        {
+          "heure": "15:30",
+          "domicile": "US CONFLANS STE HONORINE B",
+          "visiteur": "AS MESNIL LE ROI",
+          "score_dom": null,
+          "score_vis": null,
+          "joue": false
+        }
+      ]
+    }
+  ]
+}
