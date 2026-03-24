@@ -720,7 +720,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       </div>
 
       <p className="text-xs mt-4" style={{ color: "var(--muted)" }}>
-        Forme : 5 derniers matchs · Calendrier : difficulté des adversaires restants · 10M simulations H2H puis différentiel
+        Forme : 5 derniers matchs · Calendrier : difficulté des adversaires restants · 200K simulations H2H puis différentiel
       </p>
 
       {/* Simul modal */}
