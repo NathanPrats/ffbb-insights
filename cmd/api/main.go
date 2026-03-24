@@ -299,6 +299,12 @@ func handleProjections(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	top, bottom := parseTopBottom(r)
 
+	projKey := fmt.Sprintf("%s:top=%d:bottom=%d", id, top, bottom)
+	if cached, ok := dataCache.GetProjections(projKey); ok {
+		jsonOK(w, cached)
+		return
+	}
+
 	cl, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
@@ -312,6 +318,7 @@ func handleProjections(w http.ResponseWriter, r *http.Request) {
 	n := len(cl.Teams)
 	targets := buildTargets(n, top, bottom)
 	results := standings.SimulateChampionship(cl.Teams, cal.AllMatches(), targets)
+	dataCache.SetProjections(projKey, results)
 	jsonOK(w, results)
 }
 

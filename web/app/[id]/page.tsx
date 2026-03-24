@@ -12,10 +12,23 @@ type Props = { params: Promise<{ id: string }> };
 export default async function StandingsPage({ params }: Props) {
   const { id } = await params;
 
-  const [standings, calendrier] = await Promise.all([
-    fetchStandings(id),
-    fetchCalendrier(id).catch(() => null),
-  ]);
+  let standings;
+  try {
+    standings = await fetchStandings(id);
+  } catch {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <p style={{ color: "var(--muted)" }} className="text-sm">
+          Impossible de charger le classement. L'API est peut-être en cours de démarrage.
+        </p>
+        <a href={`/${id}`} className="text-sm underline" style={{ color: "var(--accent)" }}>
+          Réessayer
+        </a>
+      </div>
+    );
+  }
+
+  const calendrier = await fetchCalendrier(id).catch(() => null);
 
   const teams = standings.classement;
   const remaining = standings.remaining_matches ?? [];
