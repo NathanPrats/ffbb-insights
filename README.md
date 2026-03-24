@@ -1,11 +1,22 @@
 # ffbb-insights
 
+> **Projet fan en bêta** — fait par un passionné de basketball, dans l'objectif d'aider les joueurs, coachs et supporters à mieux suivre leur championnat. N'hésitez pas à [proposer de nouvelles fonctionnalités](https://github.com/NathanPrats/ffbb-insights/issues) !
+
 Tableau de bord d'analyse des compétitions de basketball de la Fédération Française de Basketball (FFBB).
 
-Le projet scrappe en temps réel les classements et calendriers depuis le site officiel `competitions.ffbb.com`, et les expose via une API Go. Un frontend Next.js permet de visualiser les classements, simuler des scénarios de fin de saison (qui peut encore monter ? descendre ?) et calculer des projections statistiques.
+Le projet scrappe en temps réel les classements et calendriers depuis le site officiel `competitions.ffbb.com`, et les expose via une API Go. Un frontend Next.js permet de visualiser les classements, simuler des scénarios de fin de saison et calculer des projections statistiques.
 
 **Live** : [ffbb-insights-vercel.vercel.app](https://ffbb-insights-vercel.vercel.app)
 **API** : [ffbb-insights.onrender.com](https://ffbb-insights.onrender.com)
+**Contact** : [nathan.prats.pro@gmail.com](mailto:nathan.prats.pro@gmail.com) · [LinkedIn](https://www.linkedin.com/in/nathan-prats/)
+
+## Fonctionnalités
+
+- **Classement enrichi** — probabilités de montée/relégation via simulation Monte Carlo (10M itérations)
+- **Simulateur de scénarios** — forcer des résultats et voir l'impact sur le classement en temps réel, avec choix d'écart de points
+- **Partage d'image** — générer une carte 1080×1080 à partager sur les réseaux sociaux
+- **Indicateurs** — forme récente, difficulté du calendrier restant, "maître de leur destin"
+- **Multi-compétitions** — ajout de n'importe quel championnat FFBB via son URL
 
 ## Architecture
 
@@ -18,13 +29,14 @@ Le projet est un monorepo composé de deux parties indépendantes :
 ffbb-insights/
 ├── cmd/api/main.go       # Point d'entrée de l'API
 ├── internal/
-│   ├── scraper/          # Scraping HTML → structs Go
+│   ├── scraper/          # Scraping HTML + RSC payload → structs Go
 │   ├── standings/        # Modèles, simulation Monte Carlo
 │   └── cache/            # Cache mémoire TTL
 ├── web/                  # Frontend Next.js
 │   ├── app/              # Pages (App Router)
-│   ├── components/       # Composants React
-│   └── lib/              # Utilitaires fetch
+│   │   ├── [id]/         # Page classement + simulateur
+│   │   └── a-propos/     # Page À propos
+│   └── lib/              # Utilitaires API
 └── Makefile
 ```
 
@@ -35,18 +47,20 @@ ffbb-insights/
 - Go 1.22+
 - Node.js 18+
 
-### Lancer l'API
+### Lancer les deux en parallèle
 
 ```bash
-make run
-# API disponible sur http://localhost:8080
+make dev
 ```
 
-### Lancer le frontend
+### Séparément
 
 ```bash
+# API (port 8080)
+make run
+
+# Frontend (port 3000)
 cd web && npm install && npm run dev
-# Frontend disponible sur http://localhost:3000
 ```
 
 ## API
@@ -58,7 +72,7 @@ cd web && npm install && npm run dev
 | `GET` | `/api/competitions/{id}/standings` | Classement |
 | `GET` | `/api/competitions/{id}/calendar` | Calendrier |
 | `GET` | `/api/competitions/{id}/projections` | Projections de fin de saison |
-| `POST` | `/api/competitions/{id}/simulate` | Simulation de scénarios |
+| `POST` | `/api/competitions/{id}/simulate` | Simulation avec résultats forcés |
 | `POST` | `/api/competitions/{id}/refresh` | Forcer un re-scrape |
 
 ## Déploiement

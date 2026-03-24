@@ -63,6 +63,197 @@ type Props = {
 type ModalData = { team: Team; result: ProjectionResult } | null;
 type TagInfo = { emoji: string; label: string; description: string } | null;
 
+type ShareImageData = {
+  teamName: string;
+  pct: number;
+  overrides: Overrides;
+  target: Target;
+  competitionName: string;
+};
+
+async function generateShareImage(data: ShareImageData): Promise<string> {
+  const W = 1080, H = 1080;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+
+  const FONT = "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif";
+  const WHITE = "#ffffff";
+  const cx = W / 2;
+  const isTop = data.target === "top";
+
+  // Background: logo image
+  await new Promise<void>((resolve) => {
+    const img = new window.Image();
+    img.onload = () => {
+      const scale = Math.max(W / img.width, H / img.height);
+      const sw = img.width * scale;
+      const sh = img.height * scale;
+      ctx.drawImage(img, (W - sw) / 2, (H - sh) / 2, sw, sh);
+      resolve();
+    };
+    img.onerror = () => {
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, "#1a0a0f");
+      bg.addColorStop(1, "#0a0808");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+      resolve();
+    };
+    img.src = "/logo-1.jpg";
+  });
+
+  // Dark overlay
+  const overlay = ctx.createLinearGradient(0, 0, 0, H);
+  overlay.addColorStop(0, "rgba(6,3,12,0.55)");
+  overlay.addColorStop(0.4, "rgba(6,3,12,0.72)");
+  overlay.addColorStop(0.7, "rgba(6,3,12,0.85)");
+  overlay.addColorStop(1, "rgba(6,3,12,0.93)");
+  ctx.fillStyle = overlay;
+  ctx.fillRect(0, 0, W, H);
+
+  // Header
+  ctx.font = `600 22px ${FONT}`;
+  ctx.fillStyle = "rgba(255,255,255,0.35)";
+  ctx.textAlign = "left";
+  ctx.fillText("ffbb insights", 60, 68);
+
+  ctx.font = `400 20px ${FONT}`;
+  ctx.fillStyle = "rgba(255,255,255,0.35)";
+  ctx.textAlign = "right";
+  let compName = data.competitionName;
+  while (ctx.measureText(compName).width > W - 280 && compName.length > 0) compName = compName.slice(0, -1);
+  if (compName !== data.competitionName) compName += "…";
+  ctx.fillText(compName, W - 60, 68);
+
+  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(60, 86);
+  ctx.lineTo(W - 60, 86);
+  ctx.stroke();
+
+  // Team name
+  const TOP = 545; // contenu commence à ~50% de l'image
+  ctx.font = `700 52px ${FONT}`;
+  ctx.fillStyle = WHITE;
+  ctx.textAlign = "center";
+  let teamDisplay = data.teamName.replace(/ - \d+$/, "");
+  while (ctx.measureText(teamDisplay).width > W - 80 && teamDisplay.length > 0) teamDisplay = teamDisplay.slice(0, -1);
+  if (teamDisplay !== data.teamName.replace(/ - \d+$/, "")) teamDisplay += "…";
+  ctx.fillText(teamDisplay, cx, TOP);
+
+  // Main content: percentage or status word
+  const certColor = isTop ? "#4ade80" : "#f87171";
+  const pctColor = isTop
+    ? data.pct >= 60 ? "#4ade80" : data.pct >= 25 ? "#fbbf24" : "#fb923c"
+    : data.pct >= 60 ? "#f87171" : data.pct >= 25 ? "#fbbf24" : "#4ade80";
+
+  if (data.pct >= 99.9) {
+    ctx.font = `800 108px ${FONT}`;
+    ctx.fillStyle = certColor;
+    ctx.textAlign = "center";
+    ctx.fillText(isTop ? "ASSURÉ" : "RELÉGUÉ", cx, TOP + 100);
+    ctx.font = `500 34px ${FONT}`;
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fillText(isTop ? "de monter ✓" : "impossible à éviter", cx, TOP + 148);
+  } else if (data.pct === 0) {
+    ctx.font = `800 100px ${FONT}`;
+    ctx.fillStyle = certColor;
+    ctx.textAlign = "center";
+    ctx.fillText(isTop ? "ÉLIMINÉ" : "MAINTIEN", cx, TOP + 100);
+    ctx.font = `500 34px ${FONT}`;
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fillText(isTop ? "ne peut plus monter" : "assuré de rester ✓", cx, TOP + 148);
+  } else {
+    ctx.font = `800 130px ${FONT}`;
+    ctx.fillStyle = pctColor;
+    ctx.textAlign = "center";
+    ctx.fillText(`${data.pct.toFixed(0)}%`, cx, TOP + 115);
+    ctx.font = `500 34px ${FONT}`;
+    ctx.fillStyle = "rgba(255,255,255,0.65)";
+    ctx.fillText(isTop ? "de chances de monter" : "de chances de descendre", cx, TOP + 165);
+  }
+
+  // Overrides
+  const overrideEntries = Object.entries(data.overrides);
+  if (overrideEntries.length > 0) {
+    let y = TOP + 245;
+
+    ctx.font = `500 22px ${FONT}`;
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.textAlign = "center";
+    ctx.fillText("Si :", cx, y);
+    y += 40;
+
+    for (const [key, { winner, margin }] of overrideEntries.slice(0, 4)) {
+      const [dom, vis] = key.split("__");
+      const winnerName = winner === "domicile" ? dom : vis;
+      const loserName = winner === "domicile" ? vis : dom;
+
+      ctx.font = `600 22px ${FONT}`;
+      const ww = ctx.measureText(winnerName).width;
+      ctx.font = `400 22px ${FONT}`;
+      const bw = ctx.measureText(" bat ").width;
+      const lw = ctx.measureText(loserName).width;
+      ctx.font = `500 17px ${FONT}`;
+      const mw = ctx.measureText(` +${margin}`).width;
+      let xPos = cx - (ww + bw + lw + mw) / 2;
+
+      // Accent bar
+      ctx.fillStyle = "#a5273c";
+      ctx.fillRect(xPos - 12, y - 15, 3, 20);
+
+      ctx.textAlign = "left";
+      ctx.font = `600 22px ${FONT}`;
+      ctx.fillStyle = WHITE;
+      ctx.fillText(winnerName, xPos, y);
+      xPos += ww;
+
+      ctx.font = `400 22px ${FONT}`;
+      ctx.fillStyle = "rgba(255,255,255,0.45)";
+      ctx.fillText(" bat ", xPos, y);
+      xPos += bw;
+
+      ctx.font = `400 22px ${FONT}`;
+      ctx.fillStyle = "rgba(255,255,255,0.6)";
+      ctx.fillText(loserName, xPos, y);
+      xPos += lw;
+
+      ctx.font = `500 17px ${FONT}`;
+      ctx.fillStyle = "rgba(165,39,60,0.85)";
+      ctx.fillText(` +${margin}`, xPos, y);
+
+      y += 34;
+    }
+
+    if (overrideEntries.length > 4) {
+      ctx.font = `400 17px ${FONT}`;
+      ctx.fillStyle = "rgba(255,255,255,0.3)";
+      ctx.textAlign = "center";
+      ctx.fillText(`+ ${overrideEntries.length - 4} autre(s)…`, cx, y);
+    }
+  }
+
+  // Footer
+  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(60, H - 54);
+  ctx.lineTo(W - 60, H - 54);
+  ctx.stroke();
+
+  ctx.font = `400 16px ${FONT}`;
+  ctx.fillStyle = "rgba(255,255,255,0.22)";
+  ctx.textAlign = "left";
+  ctx.fillText("ffbb-insights.vercel.app", 60, H - 24);
+  ctx.textAlign = "right";
+  ctx.fillText(new Date().toLocaleDateString("fr-FR"), W - 60, H - 24);
+
+  return canvas.toDataURL("image/png");
+}
+
 const norm = (name: string) => name.replace(/ - \d+$/, "").toLowerCase().trim();
 
 export default function StandingsTableClient({ id, enriched, totalTeams, remainingMatches, journees, header }: Props) {
@@ -74,6 +265,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
   const [tagInfo, setTagInfo] = useState<TagInfo>(null);
   const [overrides, setOverrides] = useState<Overrides>({});
   const [simulModalOpen, setSimulModalOpen] = useState(false);
+  const [shareImageUrl, setShareImageUrl] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   const maxN = Math.min(4, Math.floor(totalTeams / 2));
@@ -139,6 +331,17 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       delete next[key];
       return next;
     });
+  }
+
+  async function handleShare(team: Team, result: ProjectionResult) {
+    const url = await generateShareImage({
+      teamName: team.equipe,
+      pct: result.WinPct,
+      overrides,
+      target,
+      competitionName: header.name,
+    });
+    setShareImageUrl(url);
   }
 
   const projMap = new Map<string, ProjectionResult>();
@@ -492,6 +695,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
                       target={target}
                       loading={loading}
                       onOpenModal={result ? () => setModal({ team, result }) : undefined}
+                      onShare={result ? () => handleShare(team, result) : undefined}
                     />
                   </td>
                   <td className="py-2 px-2">
@@ -544,6 +748,11 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
       {/* Modal tag info */}
       {tagInfo && (
         <TagInfoModal info={tagInfo} onClose={() => setTagInfo(null)} />
+      )}
+
+      {/* Share modal */}
+      {shareImageUrl && (
+        <ShareModal imageUrl={shareImageUrl} onClose={() => setShareImageUrl(null)} />
       )}
     </div>
   );
@@ -605,11 +814,13 @@ function ProbaCell({
   target,
   loading,
   onOpenModal,
+  onShare,
 }: {
   result: ProjectionResult | undefined;
   target: Target;
   loading: boolean;
   onOpenModal?: () => void;
+  onShare?: () => void;
 }) {
   if (loading || !result) {
     return (
@@ -630,15 +841,25 @@ function ProbaCell({
   return (
     <div className="flex flex-col items-center gap-0.5">
       {pct === 0 ? (
-        <span className="text-xs" style={{ color: "var(--muted)" }}>
-          {target === "top" ? "éliminé" : "maintenu ✓"}
+        <span className="flex items-center gap-1">
+          <span className="text-xs" style={{ color: "var(--muted)" }}>
+            {target === "top" ? "éliminé" : "maintenu ✓"}
+          </span>
+          {onShare && (
+            <button onClick={onShare} title="Partager" className="opacity-30 hover:opacity-80 text-[10px] leading-none transition-opacity" style={{ color: "var(--muted)" }}>↗</button>
+          )}
         </span>
       ) : pct >= 99.9 ? (
-        <span
-          className="text-xs font-semibold"
-          style={{ color: target === "top" ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
-        >
-          {target === "top" ? "assuré ✓" : "relégué"}
+        <span className="flex items-center gap-1">
+          <span
+            className="text-xs font-semibold"
+            style={{ color: target === "top" ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
+          >
+            {target === "top" ? "assuré ✓" : "relégué"}
+          </span>
+          {onShare && (
+            <button onClick={onShare} title="Partager" className="opacity-40 hover:opacity-90 text-[10px] leading-none transition-opacity" style={{ color: target === "top" ? "rgb(22,163,74)" : "rgb(220,38,38)" }}>↗</button>
+          )}
         </span>
       ) : (
         <>
@@ -657,6 +878,19 @@ function ProbaCell({
                 }}
               >
                 +
+              </button>
+            )}
+            {onShare && (
+              <button
+                onClick={onShare}
+                title="Partager ce résultat"
+                className="w-4 h-4 rounded-full text-[10px] leading-none transition-opacity hover:opacity-100 flex items-center justify-center opacity-40"
+                style={{
+                  background: "var(--border)",
+                  color: "var(--muted)",
+                }}
+              >
+                ↗
               </button>
             )}
           </span>
@@ -934,6 +1168,80 @@ function ScenariosModal({
         >
           Fermer
         </button>
+      </div>
+    </div>
+  );
+}
+
+function ShareModal({ imageUrl, onClose }: { imageUrl: string; onClose: () => void }) {
+  const [copied, setCopied] = useState(false);
+
+  function handleDownload() {
+    const a = document.createElement("a");
+    a.href = imageUrl;
+    a.download = "ffbb-insights.png";
+    a.click();
+  }
+
+  async function handleCopy() {
+    try {
+      const res = await fetch(imageUrl);
+      const blob = await res.blob();
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      handleDownload();
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.7)" }}
+      onClick={onClose}
+    >
+      <div
+        className="rounded-xl overflow-hidden shadow-2xl mx-4 flex flex-col"
+        style={{ background: "var(--card)", border: "1px solid var(--border)", maxWidth: 620, width: "100%" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          className="flex items-center justify-between px-5 py-4 shrink-0"
+          style={{ borderBottom: "1px solid var(--border)" }}
+        >
+          <h3 className="font-semibold text-base">Partager ce résultat</h3>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-sm"
+            style={{ color: "var(--muted)", background: "var(--background)", border: "1px solid var(--border)" }}
+          >
+            ✕
+          </button>
+        </div>
+        <div className="p-4">
+          <img src={imageUrl} alt="Résultat simulé" className="w-full rounded-lg" style={{ border: "1px solid var(--border)" }} />
+        </div>
+        <div className="flex gap-3 px-5 pb-5">
+          <button
+            onClick={handleDownload}
+            className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
+            style={{ background: "var(--accent)", color: "#fff" }}
+          >
+            Télécharger
+          </button>
+          <button
+            onClick={handleCopy}
+            className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+            style={{
+              background: copied ? "rgba(22,163,74,0.15)" : "var(--background)",
+              color: copied ? "rgb(22,163,74)" : "var(--foreground)",
+              border: "1px solid var(--border)",
+            }}
+          >
+            {copied ? "Copié ✓" : "Copier l'image"}
+          </button>
+        </div>
       </div>
     </div>
   );
