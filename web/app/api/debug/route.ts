@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchStandings, fetchCompetitions } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,27 @@ export async function GET() {
   } catch (err) {
     result.standings_error = String(err);
     result.standings_ms = Date.now() - start2;
+  }
+
+  // Test via lib/api.ts (même code que les server components)
+  const start3 = Date.now();
+  try {
+    const comps = await fetchCompetitions();
+    result.lib_competitions_count = comps.length;
+    result.lib_competitions_ms = Date.now() - start3;
+  } catch (err) {
+    result.lib_competitions_error = String(err);
+    result.lib_competitions_ms = Date.now() - start3;
+  }
+
+  const start4 = Date.now();
+  try {
+    const s = await fetchStandings("idf-dm3");
+    result.lib_standings_teams = s.classement?.length ?? "classement undefined";
+    result.lib_standings_ms = Date.now() - start4;
+  } catch (err) {
+    result.lib_standings_error = String(err);
+    result.lib_standings_ms = Date.now() - start4;
   }
 
   return NextResponse.json(result, { status: 200 });
