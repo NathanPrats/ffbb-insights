@@ -286,7 +286,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
         const [domicile, visiteur] = key.split("__");
         return { domicile, visiteur, winner, margin };
       });
-      fetch(`/api/competitions/${id}/simulate`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8080"}/api/competitions/${id}/simulate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ overrides: overridesList, target_positions: targetPositions }),
@@ -298,7 +298,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
         .finally(() => setLoading(false));
     } else {
       const params = target === "top" ? `top=${n}` : `bottom=${n}`;
-      fetch(`/api/competitions/${id}/projections?${params}`, { signal: abortRef.current.signal })
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8080"}/api/competitions/${id}/projections?${params}`, { signal: abortRef.current.signal })
         .then((r) => r.json())
         .then((data: ProjectionResult[]) => setResults(data))
         .catch(() => {})

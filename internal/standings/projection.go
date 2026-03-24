@@ -10,7 +10,7 @@ import (
 )
 
 // NSimulations est le nombre de simulations Monte Carlo.
-const NSimulations = 10_000_000
+const NSimulations = 200_000
 
 // MaxTeams est la taille maximale des tableaux de simulation.
 // Couvre toutes les compétitions FFBB (les poules dépassent rarement 20 équipes).
