@@ -30,5 +30,21 @@ export async function GET() {
     result.fetch_ms = Date.now() - start;
   }
 
+  // Test fetch vers /api/competitions/idf-dm3/standings
+  const standingsUrl = `${apiBase === "(non défini)" ? "http://localhost:8080" : apiBase}/api/competitions/idf-dm3/standings`;
+  result.standings_url = standingsUrl;
+
+  const start2 = Date.now();
+  try {
+    const res2 = await fetch(standingsUrl, { cache: "no-store" });
+    result.standings_status = res2.status;
+    result.standings_ok = res2.ok;
+    result.standings_ms = Date.now() - start2;
+    if (!res2.ok) result.standings_error_body = await res2.text();
+  } catch (err) {
+    result.standings_error = String(err);
+    result.standings_ms = Date.now() - start2;
+  }
+
   return NextResponse.json(result, { status: 200 });
 }
