@@ -131,9 +131,42 @@ func main() {
 
 	handler := corsMiddleware(mux)
 
+	// Préchauffage du cache en arrière-plan au démarrage
+	go warmupCache()
+
 	log.Printf("API listening on :%s (cache TTL: %s)", *port, *ttl)
 	if err := http.ListenAndServe(":"+*port, handler); err != nil {
 		log.Fatal(err)
+	}
+}
+
+// ── Warmup ────────────────────────────────────────────────────────────────────
+
+// warmupCache scrape et précalcule les projections pour toutes les compétitions statiques.
+func warmupCache() {
+	for _, c := range staticCompetitions {
+		id := c.ID
+		log.Printf("[warmup] %s — début", id)
+		cl, cal, err := getOrFetch(id)
+		if err != nil {
+			log.Printf("[warmup] %s — scrape échoué: %v", id, err)
+			continue
+		}
+		if cal == nil {
+			log.Printf("[warmup] %s — calendrier indisponible, projections ignorées", id)
+			continue
+		}
+		// Précalculer top=1 et bottom=2 (les cas les plus courants)
+		for _, params := range []struct{ top, bottom int }{{1, 0}, {0, 2}} {
+			key := fmt.Sprintf("%s:top=%d:bottom=%d", id, params.top, params.bottom)
+			if _, ok := dataCache.GetProjections(key); ok {
+				continue
+			}
+			targets := buildTargets(len(cl.Teams), params.top, params.bottom)
+			results := standings.SimulateChampionship(cl.Teams, cal.AllMatches(), targets)
+			dataCache.SetProjections(key, results)
+		}
+		log.Printf("[warmup] %s — OK", id)
 	}
 }
 
@@ -299,6 +332,12 @@ func handleProjections(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	top, bottom := parseTopBottom(r)
 
+	projKey := fmt.Sprintf("%s:top=%d:bottom=%d", id, top, bottom)
+	if cached, ok := dataCache.GetProjections(projKey); ok {
+		jsonOK(w, cached)
+		return
+	}
+
 	cl, cal, err := getOrFetch(id)
 	if err != nil {
 		httpError(w, err.Error(), http.StatusNotFound)
@@ -312,6 +351,7 @@ func handleProjections(w http.ResponseWriter, r *http.Request) {
 	n := len(cl.Teams)
 	targets := buildTargets(n, top, bottom)
 	results := standings.SimulateChampionship(cl.Teams, cal.AllMatches(), targets)
+	dataCache.SetProjections(projKey, results)
 	jsonOK(w, results)
 }
 
