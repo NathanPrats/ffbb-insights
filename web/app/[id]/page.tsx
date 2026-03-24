@@ -35,22 +35,24 @@ export default async function StandingsPage({ params }: Props) {
     ).length,
   }));
 
+  const scrapedAt = standings.scraped_at
+    ? new Date(standings.scraped_at).toLocaleDateString("fr-FR")
+    : null;
+
   return (
     <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold">{standings.name || standings.competition}</h1>
-        <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>
-          {[standings.ligue, standings.comite].filter(Boolean).join(" · ")} · Scraped le {standings.scraped_at}
-        </p>
-      </div>
-
       <StandingsTableClient
         id={id}
         enriched={enriched}
         totalTeams={teams.length}
         remainingMatches={remaining}
         journees={journeesRestantes}
+        header={{
+          name: standings.name || standings.competition,
+          ligue: standings.ligue,
+          comite: standings.comite,
+          scrapedAt,
+        }}
       />
     </div>
   );

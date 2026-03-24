@@ -5,7 +5,38 @@ import type { Journee, ProjectionResult, Match, Team } from "@/lib/api";
 
 type Target = "top" | "bottom";
 type Winner = "domicile" | "visiteur";
-type Overrides = Record<string, Winner>;
+type OverrideEntry = { winner: Winner; margin: number };
+type Overrides = Record<string, OverrideEntry>;
+
+type AdjStats = { pts: number; gagnes: number; perdus: number; bp: number; bc: number };
+
+const MARGIN_PRESETS = [5, 10, 15, 20, 30];
+const DEFAULT_MARGIN = 10;
+
+function computeAdjustments(overrides: Overrides): Map<string, AdjStats> {
+  const adj = new Map<string, AdjStats>();
+  const get = (k: string): AdjStats =>
+    adj.get(k) ?? { pts: 0, gagnes: 0, perdus: 0, bp: 0, bc: 0 };
+
+  for (const [key, { winner, margin }] of Object.entries(overrides)) {
+    const [dom, vis] = key.split("__");
+    const winScore = 70 + margin;
+    const loseScore = 70;
+    const dk = norm(dom);
+    const vk = norm(vis);
+    const d = get(dk);
+    const v = get(vk);
+
+    if (winner === "domicile") {
+      adj.set(dk, { pts: d.pts + 2, gagnes: d.gagnes + 1, perdus: d.perdus, bp: d.bp + winScore, bc: d.bc + loseScore });
+      adj.set(vk, { pts: v.pts, gagnes: v.gagnes, perdus: v.perdus + 1, bp: v.bp + loseScore, bc: v.bc + winScore });
+    } else {
+      adj.set(dk, { pts: d.pts, gagnes: d.gagnes, perdus: d.perdus + 1, bp: d.bp + loseScore, bc: d.bc + winScore });
+      adj.set(vk, { pts: v.pts + 2, gagnes: v.gagnes + 1, perdus: v.perdus, bp: v.bp + winScore, bc: v.bc + loseScore });
+    }
+  }
+  return adj;
+}
 
 export type EnrichedTeam = {
   team: Team;
@@ -21,6 +52,12 @@ type Props = {
   totalTeams: number;
   remainingMatches: Match[];
   journees: Journee[];
+  header: {
+    name: string;
+    ligue: string;
+    comite: string;
+    scrapedAt: string | null;
+  };
 };
 
 type ModalData = { team: Team; result: ProjectionResult } | null;
@@ -28,7 +65,7 @@ type TagInfo = { emoji: string; label: string; description: string } | null;
 
 const norm = (name: string) => name.replace(/ - \d+$/, "").toLowerCase().trim();
 
-export default function StandingsTableClient({ id, enriched, totalTeams, remainingMatches, journees }: Props) {
+export default function StandingsTableClient({ id, enriched, totalTeams, remainingMatches, journees, header }: Props) {
   const [target, setTarget] = useState<Target>("top");
   const [n, setN] = useState(2);
   const [results, setResults] = useState<ProjectionResult[] | null>(null);
@@ -53,9 +90,9 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
         target === "top"
           ? Array.from({ length: n }, (_, i) => i + 1)
           : Array.from({ length: n }, (_, i) => totalTeams - n + 1 + i);
-      const overridesList = Object.entries(overrides).map(([key, winner]) => {
+      const overridesList = Object.entries(overrides).map(([key, { winner, margin }]) => {
         const [domicile, visiteur] = key.split("__");
-        return { domicile, visiteur, winner };
+        return { domicile, visiteur, winner, margin };
       });
       fetch(`/api/competitions/${id}/simulate`, {
         method: "POST",
@@ -80,12 +117,19 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
   function toggleOverride(domicile: string, visiteur: string, winner: Winner) {
     const key = `${domicile}__${visiteur}`;
     setOverrides((prev) => {
-      if (prev[key] === winner) {
+      if (prev[key]?.winner === winner) {
         const next = { ...prev };
         delete next[key];
         return next;
       }
-      return { ...prev, [key]: winner };
+      return { ...prev, [key]: { winner, margin: prev[key]?.margin ?? DEFAULT_MARGIN } };
+    });
+  }
+
+  function setOverrideMargin(key: string, margin: number) {
+    setOverrides((prev) => {
+      if (!prev[key]) return prev;
+      return { ...prev, [key]: { ...prev[key], margin } };
     });
   }
 
@@ -174,33 +218,67 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
     return "uncertain";
   }
 
-  const sorted = [...enriched].sort((a, b) => a.team.rang - b.team.rang);
   const forcedCount = Object.keys(overrides).length;
+  const adjustments = computeAdjustments(overrides);
+
+  const sorted = [...enriched].sort((a, b) => {
+    if (forcedCount > 0) {
+      const adjA = adjustments.get(norm(a.team.equipe));
+      const adjB = adjustments.get(norm(b.team.equipe));
+      const ptsA = a.team.pts + (adjA?.pts ?? 0);
+      const ptsB = b.team.pts + (adjB?.pts ?? 0);
+      if (ptsA !== ptsB) return ptsB - ptsA;
+      const diffA = (a.team.bp + (adjA?.bp ?? 0)) - (a.team.bc + (adjA?.bc ?? 0));
+      const diffB = (b.team.bp + (adjB?.bp ?? 0)) - (b.team.bc + (adjB?.bc ?? 0));
+      return diffB - diffA;
+    }
+    return a.team.rang - b.team.rang;
+  });
 
   return (
     <div>
-      {/* Simuler button */}
-      <div className="flex flex-wrap items-center gap-3 mb-5">
-        <button
-          onClick={() => setSimulModalOpen(true)}
-          className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all"
-          style={{
-            background: "var(--accent)",
-            color: "#fff",
-            boxShadow: "0 0 24px rgba(165,39,60,0.4)",
-          }}
-        >
-          🔮 Simuler
-        </button>
-        {forcedCount > 0 && (
-          <button
-            onClick={() => setOverrides({})}
-            className="text-xs px-3 py-1.5 rounded-lg transition-colors"
-            style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid var(--border)" }}
-          >
-            Réinitialiser ({forcedCount})
-          </button>
-        )}
+      {/* Header */}
+      <div className="mb-8">
+        <p className="text-xs font-medium uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.45)" }}>
+          Compétition sélectionnée
+        </p>
+        <div className="flex items-start gap-6">
+          <div className="flex-1">
+            <p className="text-sm mb-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+              {[header.ligue, header.comite].filter(Boolean).join(" · ")}
+            </p>
+            <h1 className="text-2xl font-semibold" style={{ color: "#fff" }}>
+              {header.name}
+            </h1>
+            {header.scrapedAt && (
+              <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
+                Classement le {header.scrapedAt}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col items-end gap-2 shrink-0">
+            <button
+              onClick={() => setSimulModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+              style={{
+                background: "var(--accent)",
+                color: "#fff",
+                boxShadow: "0 0 24px rgba(165,39,60,0.4)",
+              }}
+            >
+              🔮 Simuler
+            </button>
+            {forcedCount > 0 && (
+              <button
+                onClick={() => setOverrides({})}
+                className="text-xs px-3 py-1.5 rounded-lg transition-colors"
+                style={{ background: "var(--card)", color: "var(--muted)", border: "1px solid var(--border)" }}
+              >
+                Réinitialiser ({forcedCount})
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Override chips */}
@@ -210,7 +288,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
             Résultats simulés :
           </p>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(overrides).map(([key, winner]) => {
+            {Object.entries(overrides).map(([key, { winner, margin }]) => {
               const [domicile, visiteur] = key.split("__");
               const winnerName = winner === "domicile" ? domicile : visiteur;
               const loserName = winner === "domicile" ? visiteur : domicile;
@@ -227,6 +305,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
                   <span className="font-semibold">{winnerName}</span>
                   <span style={{ opacity: 0.5 }}>›</span>
                   <span style={{ opacity: 0.7 }}>{loserName}</span>
+                  <span style={{ opacity: 0.6 }}>+{margin}</span>
                   <button
                     onClick={() => removeOverride(key)}
                     className="opacity-50 hover:opacity-100 leading-none text-sm ml-0.5"
@@ -337,12 +416,21 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
             {sorted.map(({ team, form, difficulty, remainingCount }, i) => {
               const result = projMap.get(norm(team.equipe));
               const teamName = norm(team.equipe);
-              const status = dynamicStatus(team.rang);
+              const adj = adjustments.get(teamName);
+              const newRang = i + 1;
+              const rankDiff = forcedCount > 0 ? team.rang - newRang : 0;
+              const status = dynamicStatus(newRang);
               const maitre = result ? maitreDeSonDestin(teamName, result) : false;
               const derniereChance = result
                 ? result.TotalScenarios > 0 && result.EstimatedScenarios === 1
                 : false;
-              const tags = computeTags(form, team.rang, maitre, derniereChance);
+              const tags = computeTags(form, newRang, maitre, derniereChance);
+
+              const adjPts = team.pts + (adj?.pts ?? 0);
+              const adjGagnes = team.gagnes + (adj?.gagnes ?? 0);
+              const adjPerdus = team.perdus + (adj?.perdus ?? 0);
+              const adjDiff = (team.bp + (adj?.bp ?? 0)) - (team.bc + (adj?.bc ?? 0));
+              const origDiff = team.bp - team.bc;
 
               return (
                 <tr
@@ -358,23 +446,39 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
                   }}
                 >
                   <td className="py-3 px-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <StatusDot status={status} />
                       <span className="font-mono text-xs" style={{ color: "var(--muted)" }}>
-                        {team.rang}
+                        {newRang}
                       </span>
+                      {rankDiff > 0 && (
+                        <span className="text-[10px] font-bold text-green-500">↑{rankDiff}</span>
+                      )}
+                      {rankDiff < 0 && (
+                        <span className="text-[10px] font-bold text-red-500">↓{Math.abs(rankDiff)}</span>
+                      )}
                     </div>
                   </td>
                   <td className="py-3 px-4 font-medium max-w-[160px] truncate">{team.equipe}</td>
-                  <td className="py-3 px-3 text-center font-mono font-semibold">{team.pts}</td>
-                  <td className="py-3 px-3 text-center font-mono text-green-600">{team.gagnes}</td>
-                  <td className="py-3 px-3 text-center font-mono text-red-500">{team.perdus}</td>
+                  <td className="py-3 px-3 text-center font-mono font-semibold">
+                    {adjPts}
+                    {adj?.pts ? <Delta v={adj.pts} /> : null}
+                  </td>
+                  <td className="py-3 px-3 text-center font-mono text-green-600">
+                    {adjGagnes}
+                    {adj?.gagnes ? <Delta v={adj.gagnes} /> : null}
+                  </td>
+                  <td className="py-3 px-3 text-center font-mono text-red-500">
+                    {adjPerdus}
+                    {adj?.perdus ? <Delta v={adj.perdus} neg /> : null}
+                  </td>
                   <td
                     className="py-3 px-3 text-center font-mono text-xs"
-                    style={{ color: team.bp - team.bc >= 0 ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
+                    style={{ color: adjDiff >= 0 ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
                   >
-                    {team.bp - team.bc > 0 ? "+" : ""}
-                    {team.bp - team.bc}
+                    {adjDiff > 0 ? "+" : ""}
+                    {adjDiff}
+                    {adj && adjDiff !== origDiff ? <Delta v={adjDiff - origDiff} /> : null}
                   </td>
                   <td className="py-3 px-2">
                     <FormDots form={form} />
@@ -421,6 +525,7 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
           journees={journees}
           overrides={overrides}
           onToggle={toggleOverride}
+          onSetMargin={setOverrideMargin}
           onClose={() => setSimulModalOpen(false)}
         />
       )}
@@ -445,6 +550,18 @@ export default function StandingsTableClient({ id, enriched, totalTeams, remaini
 }
 
 // --- Sub-components ---
+
+function Delta({ v, neg }: { v: number; neg?: boolean }) {
+  const positive = neg ? v < 0 : v > 0;
+  return (
+    <span
+      className="text-[10px] font-normal ml-0.5"
+      style={{ color: positive ? "rgb(22,163,74)" : "rgb(220,38,38)" }}
+    >
+      {v > 0 ? `+${v}` : v}
+    </span>
+  );
+}
 
 function StatusDot({ status }: { status: "safe" | "uncertain" | "danger" }) {
   const color =
@@ -559,11 +676,13 @@ function SimulModal({
   journees,
   overrides,
   onToggle,
+  onSetMargin,
   onClose,
 }: {
   journees: Journee[];
   overrides: Overrides;
   onToggle: (domicile: string, visiteur: string, winner: Winner) => void;
+  onSetMargin: (key: string, margin: number) => void;
   onClose: () => void;
 }) {
   const forcedCount = Object.keys(overrides).length;
@@ -635,45 +754,65 @@ function SimulModal({
                       return (
                         <div
                           key={key}
-                          className="flex items-center gap-3 px-4 py-3"
                           style={{
                             borderBottom: i < remaining.length - 1 ? "1px solid var(--border)" : undefined,
                             background: current ? "rgba(165,39,60,0.04)" : undefined,
                           }}
                         >
-                          <span
-                            className="flex-1 text-sm text-right truncate"
-                            style={{
-                              color: current === "domicile" ? "var(--foreground)" : "var(--muted)",
-                              fontWeight: current === "domicile" ? 600 : 400,
-                            }}
-                          >
-                            {m.domicile}
-                          </span>
-                          <div className="flex items-center gap-1 shrink-0">
-                            <ToggleBtn
-                              label="DOM"
-                              active={current === "domicile"}
-                              onClick={() => onToggle(m.domicile, m.visiteur, "domicile")}
-                            />
-                            <span className="text-xs w-4 text-center" style={{ color: "var(--muted)" }}>
-                              {current ? "·" : "vs"}
+                          <div className="flex items-center gap-3 px-4 py-3">
+                            <span
+                              className="flex-1 text-sm text-right truncate"
+                              style={{
+                                color: current?.winner === "domicile" ? "var(--foreground)" : "var(--muted)",
+                                fontWeight: current?.winner === "domicile" ? 600 : 400,
+                              }}
+                            >
+                              {m.domicile}
                             </span>
-                            <ToggleBtn
-                              label="VIS"
-                              active={current === "visiteur"}
-                              onClick={() => onToggle(m.domicile, m.visiteur, "visiteur")}
-                            />
+                            <div className="flex items-center gap-1 shrink-0">
+                              <ToggleBtn
+                                label="DOM"
+                                active={current?.winner === "domicile"}
+                                onClick={() => onToggle(m.domicile, m.visiteur, "domicile")}
+                              />
+                              <span className="text-xs w-4 text-center" style={{ color: "var(--muted)" }}>
+                                {current ? "·" : "vs"}
+                              </span>
+                              <ToggleBtn
+                                label="VIS"
+                                active={current?.winner === "visiteur"}
+                                onClick={() => onToggle(m.domicile, m.visiteur, "visiteur")}
+                              />
+                            </div>
+                            <span
+                              className="flex-1 text-sm truncate"
+                              style={{
+                                color: current?.winner === "visiteur" ? "var(--foreground)" : "var(--muted)",
+                                fontWeight: current?.winner === "visiteur" ? 600 : 400,
+                              }}
+                            >
+                              {m.visiteur}
+                            </span>
                           </div>
-                          <span
-                            className="flex-1 text-sm truncate"
-                            style={{
-                              color: current === "visiteur" ? "var(--foreground)" : "var(--muted)",
-                              fontWeight: current === "visiteur" ? 600 : 400,
-                            }}
-                          >
-                            {m.visiteur}
-                          </span>
+                          {current && (
+                            <div className="flex items-center gap-1.5 px-4 pb-2.5">
+                              <span className="text-[11px] mr-1" style={{ color: "var(--muted)" }}>Écart :</span>
+                              {MARGIN_PRESETS.map((p) => (
+                                <button
+                                  key={p}
+                                  onClick={() => onSetMargin(key, p)}
+                                  className="px-2 py-0.5 rounded text-[11px] font-mono font-medium transition-colors"
+                                  style={
+                                    current.margin === p
+                                      ? { background: "var(--accent)", color: "#fff" }
+                                      : { background: "var(--background)", color: "var(--muted)", border: "1px solid var(--border)" }
+                                  }
+                                >
+                                  +{p}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       );
                     })}
