@@ -17,18 +17,26 @@ type Entry struct {
 	FetchedAt  time.Time
 }
 
+// ProjEntry contient les résultats de projection mis en cache.
+type ProjEntry struct {
+	Results   []standings.ProjectionResult
+	FetchedAt time.Time
+}
+
 // Cache est un cache mémoire thread-safe avec TTL.
 type Cache struct {
-	mu      sync.RWMutex
-	entries map[string]Entry
-	ttl     time.Duration
+	mu          sync.RWMutex
+	entries     map[string]Entry
+	projEntries map[string]ProjEntry
+	ttl         time.Duration
 }
 
 // New crée un cache avec la durée de vie donnée par entrée.
 func New(ttl time.Duration) *Cache {
 	return &Cache{
-		entries: make(map[string]Entry),
-		ttl:     ttl,
+		entries:     make(map[string]Entry),
+		projEntries: make(map[string]ProjEntry),
+		ttl:         ttl,
 	}
 }
 
@@ -54,9 +62,33 @@ func (c *Cache) Set(id string, cl *standings.Classement, cal *standings.Calendri
 	}
 }
 
+// GetProjections retourne les projections mises en cache pour une clé donnée.
+func (c *Cache) GetProjections(key string) ([]standings.ProjectionResult, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	e, ok := c.projEntries[key]
+	if !ok || time.Since(e.FetchedAt) > c.ttl {
+		return nil, false
+	}
+	return e.Results, true
+}
+
+// SetProjections stocke les résultats de projection dans le cache.
+func (c *Cache) SetProjections(key string, results []standings.ProjectionResult) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.projEntries[key] = ProjEntry{Results: results, FetchedAt: time.Now()}
+}
+
 // Invalidate supprime une entrée du cache, forçant un re-scrape au prochain accès.
 func (c *Cache) Invalidate(id string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	delete(c.entries, id)
+	// Invalider aussi toutes les projections de cette compétition
+	for k := range c.projEntries {
+		if len(k) >= len(id) && k[:len(id)] == id {
+			delete(c.projEntries, k)
+		}
+	}
 }
