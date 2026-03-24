@@ -85,6 +85,7 @@ func (c *Cache) Invalidate(id string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	delete(c.entries, id)
+	// Invalider aussi toutes les projections de cette compétition
 	for k := range c.projEntries {
 		if len(k) >= len(id) && k[:len(id)] == id {
 			delete(c.projEntries, k)
