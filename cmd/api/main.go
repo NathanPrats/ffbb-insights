@@ -70,14 +70,6 @@ var staticCompetitions = []CompetitionConfig{
 		Comite:        "",
 		ClassementURL: "https://competitions.ffbb.com/competitions/nm2/classement?phase=200000002872459&poule=200000003017639",
 	},
-	{
-		ID:            "ges-prm",
-		Competition:   "Pré-Régionale",
-		Genre:         "Masculin",
-		Ligue:         "Grand Est",
-		Comite:        "0008",
-		ClassementURL: "https://competitions.ffbb.com/ligues/ges/comites/0008/competitions/prm/classement?phase=200000002872975&poule=200000003018876",
-	},
 }
 
 // dynamicCompetitions stocke les compétitions ajoutées à la volée via /scrape.
