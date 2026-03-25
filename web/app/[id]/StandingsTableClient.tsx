@@ -101,7 +101,7 @@ async function generateShareImage(data: ShareImageData): Promise<string> {
       ctx.fillRect(0, 0, W, H);
       resolve();
     };
-    img.src = "/logo-1.jpg";
+    img.src = "/nXyuC.jpg";
   });
 
   // Dark overlay
