@@ -62,7 +62,7 @@ export default function AboutPage() {
         {/* Legal disclaimer */}
         <section
           className="rounded-xl p-6"
-          style={{ background: "rgba(53,37,112,0.15)", border: "1px solid rgba(53,37,112,0.4)" }}
+          style={{ background: "var(--card)", border: "1px solid var(--border)" }}
         >
           <h2 className="text-lg font-semibold mb-3" style={{ color: "var(--foreground)" }}>
             ⚖️ Mentions légales

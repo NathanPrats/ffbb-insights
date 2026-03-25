@@ -50,8 +50,8 @@ export default function HomeClient({ competitions }: Props) {
       {/* Hero — logo seul, pas de titre texte */}
       <div className="flex flex-col items-center text-center mb-12 pt-4">
         <img
-          src="/logo-2.jpg"
-          alt="FFBB Simulation"
+          src="/nXyuC.jpg"
+          alt="Basketball Simulation"
           style={{
             width: 180,
             height: 180,
@@ -65,7 +65,7 @@ export default function HomeClient({ competitions }: Props) {
           className="text-base max-w-md leading-relaxed"
           style={{ color: "rgba(255,255,255,0.85)" }}
         >
-          <span style={{ color: "#e06070", fontWeight: 600 }}>Analysez votre poule FFBB</span>{" "}
+          <span style={{ color: "#e06070", fontWeight: 600 }}>Analysez votre poule</span>{" "}
           — classement, matchs restants et probabilités de{" "}
           <span style={{ color: "#e06070", fontWeight: 600 }}>montée</span> et{" "}
           <span style={{ color: "#e06070", fontWeight: 600 }}>descente</span>{" "}
