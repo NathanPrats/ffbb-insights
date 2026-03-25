@@ -1,4 +1,4 @@
-# Backlog ffbb-insights
+# Backlog basketball-simulation
 
 ## En cours
 
