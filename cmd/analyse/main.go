@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	"ffbb-insights/internal/standings"
+	"basketball-simulation/internal/standings"
 )
 
 func main() {

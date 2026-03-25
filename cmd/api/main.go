@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"ffbb-insights/internal/cache"
-	"ffbb-insights/internal/scraper"
-	"ffbb-insights/internal/standings"
+	"basketball-simulation/internal/cache"
+	"basketball-simulation/internal/scraper"
+	"basketball-simulation/internal/standings"
 )
 
 // ── Competition registry ──────────────────────────────────────────────────────

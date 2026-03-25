@@ -1,3 +1,3 @@
-module ffbb-insights
+module basketball-simulation
 
 go 1.22

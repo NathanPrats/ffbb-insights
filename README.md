@@ -1,14 +1,16 @@
-# ffbb-insights
+# Basketball Simulation
 
-> **Projet fan en bêta** — fait par un passionné de basketball, dans l'objectif d'aider les joueurs, coachs et supporters à mieux suivre leur championnat. N'hésitez pas à [proposer de nouvelles fonctionnalités](https://github.com/NathanPrats/ffbb-insights/issues) !
+> **Projet fan en bêta** — fait par un passionné de basketball, dans l'objectif d'aider les joueurs, coachs et supporters à mieux suivre leur championnat. N'hésitez pas à [proposer de nouvelles fonctionnalités](https://github.com/NathanPrats/basketball-simulation/issues) !
 
 Tableau de bord d'analyse des compétitions de basketball de la Fédération Française de Basketball (FFBB).
 
 Le projet scrappe en temps réel les classements et calendriers depuis le site officiel `competitions.ffbb.com`, et les expose via une API Go. Un frontend Next.js permet de visualiser les classements, simuler des scénarios de fin de saison et calculer des projections statistiques.
 
-**Live** : [ffbb-insights-vercel.vercel.app](https://ffbb-insights-vercel.vercel.app)
-**API** : [ffbb-insights.onrender.com](https://ffbb-insights.onrender.com)
+**Live** : [basketball-simulation.vercel.app](https://basketball-simulation.vercel.app)
+**API** : [basketball-simulation.onrender.com](https://basketball-simulation.onrender.com)
 **Contact** : [nathan.prats.pro@gmail.com](mailto:nathan.prats.pro@gmail.com) · [LinkedIn](https://www.linkedin.com/in/nathan-prats/)
+
+> **Avertissement** : Ce projet est un outil fan **non officiel**, sans affiliation avec la FFBB. La FFBB reste propriétaire de ses données, contenus et marques déposées. Les données affichées ne sont pas stockées : elles sont récupérées en temps réel depuis `competitions.ffbb.com` et mises en cache 1 heure maximum. Le scraper respecte le `Crawl-delay: 1` indiqué dans le `robots.txt` du site.
 
 ## Fonctionnalités
 
@@ -26,7 +28,7 @@ Le projet est un monorepo composé de deux parties indépendantes :
 - **`web/`** — frontend Next.js qui consomme l'API via un proxy rewrite
 
 ```
-ffbb-insights/
+basketball-simulation/
 ├── cmd/api/main.go       # Point d'entrée de l'API
 ├── internal/
 │   ├── scraper/          # Scraping HTML + RSC payload → structs Go
@@ -77,5 +79,9 @@ cd web && npm install && npm run dev
 
 ## Déploiement
 
-- **Frontend** : Vercel — Root Directory `web`, variable d'env `NEXT_PUBLIC_API_URL=https://ffbb-insights.onrender.com`
+- **Frontend** : Vercel — Root Directory `web`, variable d'env `NEXT_PUBLIC_API_URL=https://basketball-simulation.onrender.com`
 - **API** : Render — Root Directory `cmd/api`, Start Command `./app -port $PORT`
+
+## Licence
+
+Ce projet est publié sous licence [MIT](LICENSE). Les données affichées appartiennent à la FFBB.

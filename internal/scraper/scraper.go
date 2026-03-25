@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"ffbb-insights/internal/standings"
+	"basketball-simulation/internal/standings"
 )
 
 // ── HTTP ──────────────────────────────────────────────────────────────────────
@@ -51,6 +51,8 @@ func fetchHTML(rawURL string) (string, error) {
 			break
 		}
 	}
+	// Respect du Crawl-delay: 1 indiqué dans robots.txt de competitions.ffbb.com
+	time.Sleep(time.Second)
 	return sb.String(), nil
 }
 

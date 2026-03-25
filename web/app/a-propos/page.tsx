@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "À propos — FFBB Insights",
-  description: "FFBB Insights est un projet fan open-source pour analyser et simuler les championnats de basketball FFBB.",
+  title: "À propos — Basketball Simulation",
+  description: "Basketball Simulation est un projet fan open-source pour analyser et simuler les championnats de basketball.",
 };
 
 export default function AboutPage() {
@@ -20,10 +20,10 @@ export default function AboutPage() {
           </span>
         </div>
         <h1 className="text-3xl font-bold mb-3" style={{ color: "#fff" }}>
-          À propos de FFBB Insights
+          À propos de Basketball Simulation
         </h1>
         <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
-          Un outil d'analyse fait par un fan, pour les fans de basketball FFBB.
+          Un outil d'analyse fait par un fan, pour les fans de basketball.
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export default function AboutPage() {
             🏀 C'est quoi ?
           </h2>
           <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--muted)" }}>
-            FFBB Insights scrappe en temps réel les classements et calendriers depuis{" "}
+            Basketball Simulation scrappe en temps réel les classements et calendriers depuis{" "}
             <span style={{ color: "var(--foreground)" }}>competitions.ffbb.com</span> et les enrichit
             avec des analyses que le site officiel ne propose pas.
           </p>
@@ -57,6 +57,39 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        {/* Legal disclaimer */}
+        <section
+          className="rounded-xl p-6"
+          style={{ background: "rgba(53,37,112,0.15)", border: "1px solid rgba(53,37,112,0.4)" }}
+        >
+          <h2 className="text-lg font-semibold mb-3" style={{ color: "var(--foreground)" }}>
+            ⚖️ Mentions légales
+          </h2>
+          <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--muted)" }}>
+            Ce projet est un outil <strong style={{ color: "var(--foreground)" }}>fan non officiel</strong>, sans affiliation avec la Fédération Française de Basketball (FFBB).
+            La FFBB reste propriétaire de ses données, contenus et marques.
+          </p>
+          <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--muted)" }}>
+            Les données affichées sont issues du site public{" "}
+            <span style={{ color: "var(--foreground)" }}>competitions.ffbb.com</span>.
+            Elles ne sont pas stockées : chaque affichage déclenche une requête en temps réel,
+            mise en cache 1 heure maximum. Le scraper respecte le délai de crawl indiqué dans le
+            fichier robots.txt du site.
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+            Le code source de ce projet est publié sous licence{" "}
+            <a
+              href="https://github.com/NathanPrats/basketball-simulation/blob/main/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--foreground)" }}
+            >
+              MIT
+            </a>
+            .
+          </p>
         </section>
 
         {/* Beta disclaimer */}
@@ -91,7 +124,7 @@ export default function AboutPage() {
             sont les bienvenues.
           </p>
           <a
-            href="https://github.com/NathanPrats/ffbb-insights/issues"
+            href="https://github.com/NathanPrats/basketball-simulation/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
@@ -140,7 +173,7 @@ export default function AboutPage() {
               LinkedIn
             </a>
             <a
-              href="https://github.com/NathanPrats/ffbb-insights"
+              href="https://github.com/NathanPrats/basketball-simulation"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"

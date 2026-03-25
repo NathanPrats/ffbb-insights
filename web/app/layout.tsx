@@ -6,8 +6,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FFBB Insights",
-  description: "Projections et analyses pour les championnats FFBB",
+  title: "Basketball Simulation",
+  description: "Projections et analyses pour les championnats de basketball",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3 w-fit group">
               <img
-                src="/logo-2.jpg"
-                alt="FFBB Simulation"
+                src="/nXyuC.jpg"
+                alt="Basketball Simulation"
                 style={{
                   width: 36,
                   height: 36,
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 className="font-semibold tracking-tight text-sm"
                 style={{ color: "#FEFEFE" }}
               >
-                FFBB Insights
+                Basketball Simulation
               </span>
             </a>
             <div className="flex items-center gap-1">

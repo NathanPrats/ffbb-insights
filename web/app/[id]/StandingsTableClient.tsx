@@ -101,7 +101,7 @@ async function generateShareImage(data: ShareImageData): Promise<string> {
       ctx.fillRect(0, 0, W, H);
       resolve();
     };
-    img.src = "/logo-1.jpg";
+    img.src = "/nXyuC.jpg";
   });
 
   // Dark overlay
@@ -117,7 +117,7 @@ async function generateShareImage(data: ShareImageData): Promise<string> {
   ctx.font = `600 22px ${FONT}`;
   ctx.fillStyle = "rgba(255,255,255,0.35)";
   ctx.textAlign = "left";
-  ctx.fillText("ffbb insights", 60, 68);
+  ctx.fillText("Basketball Simulation", 60, 68);
 
   ctx.font = `400 20px ${FONT}`;
   ctx.fillStyle = "rgba(255,255,255,0.35)";
@@ -247,7 +247,7 @@ async function generateShareImage(data: ShareImageData): Promise<string> {
   ctx.font = `400 16px ${FONT}`;
   ctx.fillStyle = "rgba(255,255,255,0.22)";
   ctx.textAlign = "left";
-  ctx.fillText("ffbb-insights.vercel.app", 60, H - 24);
+  ctx.fillText("basketball-simulation.vercel.app", 60, H - 24);
   ctx.textAlign = "right";
   ctx.fillText(new Date().toLocaleDateString("fr-FR"), W - 60, H - 24);
 
@@ -1179,7 +1179,7 @@ function ShareModal({ imageUrl, onClose }: { imageUrl: string; onClose: () => vo
   function handleDownload() {
     const a = document.createElement("a");
     a.href = imageUrl;
-    a.download = "ffbb-insights.png";
+    a.download = "basketball-simulation.png";
     a.click();
   }
 

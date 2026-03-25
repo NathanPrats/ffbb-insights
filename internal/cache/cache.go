@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"ffbb-insights/internal/standings"
+	"basketball-simulation/internal/standings"
 )
 
 // Entry contient les données d'une compétition et leur horodatage.
