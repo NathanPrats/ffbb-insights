@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3 w-fit group">
               <img
-                src="/logo-2.jpg"
-                alt="FFBB Simulation"
+                src="/nXyuC.jpg"
+                alt="Basketball Simulation"
                 style={{
                   width: 36,
                   height: 36,
